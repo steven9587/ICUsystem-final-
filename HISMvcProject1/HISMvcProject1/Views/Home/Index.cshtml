@@ -4,67 +4,160 @@
 
 @section head
 {
+
 }
 
 @section body
 {
+   <div class="row">
+    <div class="Full_column">
+        <canvas id="full" width="600" height="600" style=" border:5px solid"></canvas>
+    </div>
+    <div class="helloworld">
+        <div class="type_group">
+            <div>
+                <label for="book_name" class="required">管路位置: </label>
+                <input id="PipelineLocation" name="PipelineLocation" type="text" class="k-textbox"
+                       style="width: 100%;" required validationMessage="位置" />
+            </div>
+
+            <div class="form-group" style="margin-bottom:20px">
+                <label class="col-md-2 control-label">管路名稱: </label>
+                <div class="col-md-10">
+                    <select id="PipelineName" name="pipelineName" required validationMessage="請選擇管路名稱"></select>
+                    <div>
+                        <span class="k-invalid-msg" data-for="pipelineName"></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label for="bought_datepicker" class="required">放置日期:</label>
+                <input type="text" data-role='datepicker' id="start_datepicker" name="start_datepicker"
+                       data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
+                <span data-for='start_datepicker' class='k-invalid-msg'></span>
+            </div>
+            <div>
+                <label for="bought_datepicker" class="required">到期日期:</label>
+                <input type="text" data-role='datepicker' id="expiry_datepicker" name="expiry_datepicker"
+                       data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
+                <span data-for='expiry_datepicker' class='k-invalid-msg'></span>
+            </div>
+
+            
+            管路口徑:
+            <input type="number" name="caliber" value="0" min="1" max="15">mm<br><br>
+            管路埋入公分數:
+            <input type="number" name="caliber" value="0" min="1" max="15">mm<br><br>
+            <div class="form-group" style="margin-bottom:20px">
+                <label class="control-label col-md-2 required">備註：</label>
+                <div class="col-md-10">
+                    <textarea id="PipeLineNote" name="Note" onkeyup="WordsDeal();" cols="80" rows="8" required validationMessage="請輸入內容簡介"></textarea>
+                    <div>
+                        <span class="k-invalid-msg" data-for="Note"></span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-10">
+                <input type="button" value="Insert" onclick="add()" class="btn" style="background-color: #99b2db; color:#194284" />
+                <input type="button" value="Edit" onclick="location.href = ''" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                <input type="button" value="Save" onclick="location.href = ''" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                <input type="button" value="Delete" onclick="location.href = ''" class="btn" style="background-color: #CCDDFF; color:#194284" />
+               
+            </div>
+        </div>
+    </div>
+</div>
+
 }
 
 @section featured {
   <div class="featured">
     <div class="content-wrapper">
-      <hgroup class="title">
-        <h1>@ViewBag.Title.</h1>
-        <h2>@ViewBag.Message</h2>
-      </hgroup>
-      <p>
-        To learn more about ASP.NET MVC visit
-        <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-        The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-        If you have any questions about ASP.NET MVC visit
-        <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-      </p>
+       
     </div>
   </div>
 }
 
-<h3>Telerik UI for ASP.NET MVC PanelBar</h3>
-<br />
+<script>
+   
+    $(document).ready(function () {
 
-@(Html.Kendo().PanelBar()
-.Name("IntroPanelBar")
-.Items(items =>
-{
-  items.Add()
-        .Text("Getting Started")
-        .Selected(true)
-        .Expanded(true)
-        .Content(@<text>
-          <p style="padding:0 1em">
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and that gives you full control over markup
-            for enjoyable, agile development. ASP.NET MVC includes many features that enable
-            fast, TDD-friendly development for creating sophisticated applications that use
-            the latest web standards.
-            <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-          </p>
-        </text>);
-  items.Add()
-      .Text("Add NuGet packages and jump-start your coding")
-      .Content(@<text>
-        <p style="padding:0 1em">
-          NuGet makes it easy to install and update free libraries and tools.
-          <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-        </p>
-      </text>);
-items.Add()
-  .Text("Find Web Hosting")
-  .Content(@<text>
-    <p style="padding:0 1em">
-      You can easily find a web hosting company that offers the right mix of features
-      and price for your applications.
-      <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </p>
-  </text>);
-})
-)
+        $("#start_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            max: new Date(),
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+        $("#expiry_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            max: new Date(),
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+
+
+    });
+    $("#PipelineName").kendoDropDownList({
+        //dataTextField: "Text",
+        //dataValueField: "Value",
+        optionLabel: "請選擇",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "GetPipeLineDropDownList",
+                    type: "post",
+                    dataType: "json"
+                }
+            }
+        }
+    });
+    var locatoinX = [];
+    var locatoinY = [];
+    var intubation = false;
+    //讀取資料庫資訊塞進陣列裡面
+    var locationPointer = locatoinX.length;
+    var img = new Image();
+    img.src = "https://i.imgur.com/lQx1bV0.jpg";
+    window.onload = function () {
+        var lc = document.getElementById("full");
+        var lctx = lc.getContext("2d");
+        lctx.drawImage(img, 0, 0, 600, 600);
+        lc.onclick = function () {
+            if (intubation) {
+                var x = event.clientX;
+                var y = event.clientY;
+                locatoinX[locationPointer] = x;
+                locatoinY[locationPointer] = y;
+                locationPointer = locationPointer + 1;
+            }
+            for (var i = 0; i < locationPointer; i++) {
+                lctx.beginPath();
+                lctx.arc(locatoinX[i] - 15, locatoinY[i] - 15, 5, 0, 2 * Math.PI);
+                lctx.fill();
+            }
+        };
+    }
+
+    function add() {
+        intubation = true;
+        var mydateInput = document.getElementById("date");
+        var date = new Date();
+        var dateString = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+        mydateInput.value = dateString;
+    }
+
+    function save() {
+        intubation = false;
+    }
+    function WordsDeal() {
+        var curLength = $("#book_note").val().length;
+        if (curLength > 1000) {
+            var num = $("#book_note").val().substr(0, 1000);
+            $("#book_note").val(num);
+            alert("超過字數限制(1000字)，多出的字將被移除！");
+        }
+    }
+</script>

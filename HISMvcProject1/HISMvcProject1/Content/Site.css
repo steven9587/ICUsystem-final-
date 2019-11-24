@@ -1,4 +1,11 @@
-﻿html
+﻿/* Common styles */
+html, body, .body-content
+{
+  height: 100%;
+  box-sizing: border-box;
+}
+
+html
 {
   background-color: #e2e2e2;
   margin: 0;
@@ -11,7 +18,7 @@ body
   xxxxxborder-top: solid 10px #000;
   color: #333;
   font-size: medium; /* .85em; */
-  font-family: "新細明體", Verdana, Helvetica, Sans-Serif; /* "Segoe UI", Verdana, Helvetica, Sans-Serif; */
+  font-family: "儷黑 Pro", "LiHei Pro", "微軟正黑體", "新細明體", Verdana, Helvetica, Sans-Serif; /* "Segoe UI", Verdana, Helvetica, Sans-Serif; */
   margin: 0;
   padding: 0;
 }
@@ -28,7 +35,7 @@ a
   a:link, a:visited,
   a:active, a:hover
   {
-    color: #333;
+    xxxxxcolor: #333; /* collision with k-primary, etc. */
   }
 
   a:hover
@@ -371,6 +378,7 @@ article
   width: 70%;
 }
 
+/* 停用(不使用)
 aside
 {
   float: right;
@@ -388,6 +396,7 @@ aside
       background: url("../Images/bullet.png") no-repeat 0 50%;
       padding: 2px 0 2px 20px;
     }
+*/
 
 .label
 {
@@ -502,6 +511,7 @@ label
   xxxxxdisplay: block;
   font-size: medium; /* 1.2em; */
   font-weight: 500; /* 600 */
+  margin: 0px; /* bootstrap margin 5px */
 }
 
   label.checkbox
@@ -517,7 +527,7 @@ input, textarea
   background: #fff;
   color: #333;
   font-size: medium; /* 1.2em; */
-  font-family: "新細明體", Verdana, Helvetica, Sans-Serif;
+  font-family: "微軟正黑體", "新細明體", Verdana, Helvetica, Sans-Serif;
   margin: 0px; /* 5px 0 6px 0; */
   padding: 0px 4px 0px 4px; /* 5px; */
   width: 100px; /* 300px */
@@ -545,13 +555,13 @@ input[type="submit"],
 input[type="button"],
 button
 {
-  background-color: #d3dce0;
-  border: 1px solid #787878;
+  xxxxxbackground-color: #d3dce0;
+  xxxxxborder: 1px solid #787878;
   cursor: pointer;
   font-size: medium; /* 1.2em; */
-  font-weight: 600;
-  padding: 7px;
-  margin-right: 8px;
+  xxxxxfont-weight: 600;
+  xxxxxpadding: 7px;
+  xxxxxmargin-right: 8px;
   width: auto;
 }
 

@@ -1,5 +1,5 @@
 ﻿/*
-   custom.jquery.css - 2015-01-25
+   custom.jquery.css?date=20171205-1000
    
      Custom jQuery-relative style.
 */
@@ -22,6 +22,12 @@ input.ui-button
 {
   font-weight: normal;
   color: black;
+}
+
+/* disabled */
+.ui-state-disabled
+{
+  opacity: 1; /* 0.25 原始透明度過大造成字體色彩過淡 */
 }
 
 /* grid */

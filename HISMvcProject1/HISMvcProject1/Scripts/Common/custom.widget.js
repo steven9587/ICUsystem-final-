@@ -1,5 +1,5 @@
 ﻿  /*
-     custom.widget.js - 2015-02-02
+     custom.widget.js?date=20180724-1400
      
        Custom widget method using jQuery.
        
@@ -254,9 +254,20 @@
   //
   // 示範 :
   //
+  //  clearNotifyMessage();
+  //
+  function clearNotifyMessage()
+  {
+    // 清除顯示提示
+    $(".notify-message").hide(); // 隱藏前次提示
+  }
+
+  //
+  // 示範 :
+  //
   //  notifyMessage("your message");
   //
-  function notifyMessage(title)
+  function notifyMessage(title, options)
   {
     // 顯示提示(自動隱藏)
     // *應用於簡單提示內容(如 'XXX 已儲存' 等)
@@ -266,16 +277,55 @@
     //  http://jqueryui.com/tooltip/#video-player
     //  修改 : class: ui-corner-bottom -> ui-corner-all, position: center top -> center, 樣式直接套用.
     var html, msg = title;
-    var notification = "position: absolute; display: inline-block; font-size: 1.5em; padding: .5em; box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.5);"; // 提示樣式(同 jQuery UI 示範)
+    var delay = 2500;
+    var notification = "background-color: #d9edf7; color: #31708f; border-radius: 4px; position: absolute; display: inline-block; font-size: 1.2em; padding: .5em; box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.5); z-index: 2500;"; // 提示樣式(同 jQuery UI 示範)
+    var css;
+    //
+    options = options || {}; // 防呆
+    options = $.extend({ delay: 2500, fast: false, slow: false }, options);
+    delay = (isInteger(options.delay)) ? options.delay : 2500;
+    if (options.fast)
+      delay = 500;
+    // 空白提示表示清除前次提示
+    if (isEmpty(title))
+    {
+      clearNotifyMessage();
+      return;
+    }
+    //
+    css =
+    {
+      //"background-color": "#d9edf7",
+      "background-color": "black",
+      //"color": "#31708f",
+      "color": "white",
+      "border-color": "#bce8f1;",
+      "border-radius": "4px",
+      "position": "absolute",
+      "display": "inline-block",
+      "font-size": "1.2em",
+      "padding": ".5em",
+      "box-shadow": "2px 2px 5px -2px rgba(0, 0, 0, 0.5)",
+      "z-index": "5000"
+    };
+    notification = "";
+    $(".notify-message").hide(); // 隱藏前次提示
     //
     html = "<div style='" + notification + "'>";
+    html = $(html);
     $(html).appendTo(document.body)
            .text(msg)
-           .addClass("notification ui-state-default ui-corner-all")
+           .addClass("notify-message") //.addClass("notification ui-state-default ui-corner-all")
+           .css(css)
            .position({ my: "center", at: "center", of: window })
            .show({ effect: "blind" })
-           .delay(2500)
+           .delay(delay)
            .hide({ effect: "blind", duration: "slow" }, function() { $(this).remove(); });
+    // 移除訊息元素, 發現 hide() 執行 remove() 但無作用, 因此額外使用 timeout 執行
+    setTimeout(function()
+    {
+      $(html).remove();
+    }, delay);
   }
 
   var __id_MessageDialog = "_MessageDialog_B51F5F35_D340_4ab7_AFD9_0FF3896B3A32"; // guid

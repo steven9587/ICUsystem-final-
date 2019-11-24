@@ -38,5 +38,14 @@ namespace HISMvcProject1.Controllers
 
             return View();
         }
+        [HttpPost]
+        public JsonResult GetPipeLineDropDownList()
+        {
+            List<string> tempData = new List<string>();
+            tempData.Add("RD");
+            tempData.Add("ICP");
+            tempData.Add("PENrose");
+            return Json(tempData);
+        }
     }
 }

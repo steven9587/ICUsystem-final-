@@ -1,17 +1,44 @@
-@*
+ï»¿@*
   Int32 Editor Template
 
-    ¶Èµ{¦¡ÀÉ®×¦WºÙ Int32.cshtml ¤£¦P, µ{¦¡½X¦P Integer.cshtml.
+    æ–°å¢ Int32 Editor Template, å› ç‚º Integer.cshtml å³ä½¿ Entity æ¬„ä½å‹æ…‹ç‚º int ä½†ä»å¿…é ˆé¡å¤–æŒ‡å®š templateName = UIHintConst.UIHINT_Integer,
+    å› ç‚º ASP.NET MVC å°‡å°‹æ‰¾èˆ‡è³‡æ–™å‹æ…‹åŒåçš„ EditorTemplate :
 
-    ·s¼W Int32 Editor Template, ¦]¬°§Y¨Ï Entity Äæ¦ì«¬ºA¬° int ¦ı¤´¥²¶·ÃB¥~«ü©w templateName = "Integer" :
+      EditorFor(..., UIHintConst.UIHINT_Integer, ...);
 
-      EditorFor(..., "Integer", ...);
+    *åƒ…ç¨‹å¼æª”æ¡ˆåç¨± Int32.cshtml ä¸åŒ, ç¨‹å¼ç¢¼åŒ Integer.cshtml.
 *@
 
 @model int?
 
-@(Html.Kendo().IntegerTextBoxFor(m => m)
-      .HtmlAttributes(new { style = "xxxxxwidth:100%" })
-      .Min(int.MinValue)
-      .Max(int.MaxValue)
-)
+@using HIS.Mvc
+@using HIS.Mvc.UI
+@using HIS.Systems
+
+@{
+  string sAutoComplete = "off";
+  bool bDisabled = false, bReadOnly = false, bRequired = false;
+  //
+  if (this.ViewData.ContainsKey("autocomplete"))
+  {
+    sAutoComplete = this.ViewData["autocomplete"].ToString();
+  }
+  bDisabled = this.ViewData.ParseDisabled(); // æ˜¯å¦åœç”¨
+  bReadOnly = this.ViewData.ParseReadOnly(); // æ˜¯å¦å”¯è®€
+  bRequired = this.ViewData.ParseRequired(); // æ˜¯å¦å¿…è¦
+}
+
+@{
+  Dictionary<string, object> HtmlAttributes = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+  //
+  HtmlAttributes.Add("autocomplete", sAutoComplete);
+  HtmlAttributes.AddBool("disabled", "disabled", bDisabled);
+  HtmlAttributes.AddBool("readonly", "readonly", bReadOnly);
+  HtmlAttributes.AddBool("required", "", bRequired && !bDisabled && !bReadOnly);
+  this.ViewData.AppendTo(HtmlAttributes); // additionalViewData (åƒ…å°å¯«èµ·å§‹å‘½åè€…)
+  //
+  @(Html.Kendo().IntegerTextBoxFor(m => m)
+    .Min(int.MinValue)
+    .Max(int.MaxValue)
+    .HtmlAttributes(HtmlAttributes))
+}
