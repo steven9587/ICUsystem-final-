@@ -123,19 +123,20 @@
     img.src = "https://i.imgur.com/lQx1bV0.jpg";
     window.onload = function () {
         var lc = document.getElementById("full");
+        var rect = lc.getBoundingClientRect();
         var lctx = lc.getContext("2d");
         lctx.drawImage(img, 0, 0, 600, 600);
         lc.onclick = function () {
             if (intubation) {
                 var x = event.clientX;
                 var y = event.clientY;
-                locatoinX[locationPointer] = x;
-                locatoinY[locationPointer] = y;
+                locatoinX[locationPointer] = x - rect.left;
+                locatoinY[locationPointer] = y - rect.top;
                 locationPointer = locationPointer + 1;
             }
             for (var i = 0; i < locationPointer; i++) {
                 lctx.beginPath();
-                lctx.arc(locatoinX[i] - 15, locatoinY[i] - 15, 5, 0, 2 * Math.PI);
+                lctx.arc(locatoinX[i]-5 , locatoinY[i]-5 , 5, 0, 2 * Math.PI);
                 lctx.fill();
             }
         };
