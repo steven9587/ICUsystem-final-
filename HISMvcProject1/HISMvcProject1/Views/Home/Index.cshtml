@@ -48,7 +48,7 @@
                     <input id="inbodycm" name="Inbodycm" style="width: 100%;" type="text" min="1" max="100" value="1" required data-max-msg="Enter cm between 1 and 34" />
                     <span class="k-invalid-msg" data-for="Inbodycm"></span>
                 </div>
-                <div class="form-group" style="margin-bottom:10px">
+                <div class="form-group" style="margin-bottom:50px">
                     <label for="caliber" class="required">備註：</label>
                     <textarea id="pipelineNote" name="PipeLineNote" style="width: 100%;" onkeyup="WordsDeal();" cols="100" rows="2" required validationMessage="請輸入內容簡介"></textarea>
                     <div>
@@ -68,16 +68,12 @@
 }
 
 @section featured {
-    <div class="featured">
-        <div class="content-wrapper">
-
-        </div>
-    </div>
+    
 }
 
 <script>
 
-    $(document).ready(function () {
+    $(function () {
 
         $("#start_datepicker").kendoDatePicker({
             value: new Date(),
@@ -93,25 +89,25 @@
             dateInput: true,
             format: "yyyy-MM-dd"
         });
-
-
-    });
-    $("#pipelineName").kendoDropDownList({
-        //dataTextField: "Text",
-        //dataValueField: "Value",
-        optionLabel: "請選擇",
-        dataSource: {
-            transport: {
-                read: {
-                    url: "GetPipeLineDropDownList",
-                    type: "post",
-                    dataType: "json"
+        $("#pipelineName").kendoDropDownList({
+            //dataTextField: "Text",
+            //dataValueField: "Value",
+            optionLabel: "請選擇",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "GetPipeLineDropDownList",
+                        type: "post",
+                        dataType: "json"
+                    }
                 }
             }
-        }
+        });
+        $("#caliber").kendoNumericTextBox();
+        $("#inbodycm").kendoNumericTextBox();
+
     });
-    $("#caliber").kendoNumericTextBox();
-    $("#inbodycm").kendoNumericTextBox();
+   
     function WordsDeal() {
         var curLength = $("#pipelineNote").val().length;
         if (curLength > 1000) {
