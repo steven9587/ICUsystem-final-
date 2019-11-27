@@ -13,15 +13,9 @@
         <div class="login_column">
             <input id='username' type='text' placeholder="user">
             <input id='password' type='text' placeholder='password'>
-            <button id='loginbutton' >Login</button>
-            <div id='loginresult'></div>
-
+            <input type="button" value="LOGIN" onclick="login()" class="btn" style="background-color: #99b2db; color:#194284" />
         </div>
-       
     </div>
-   
-   
-
 }
 
 @section featured {
@@ -30,10 +24,8 @@
 
 <script>
 
-    function loginClick() {
-
+    function login() {
         kendo.alert("This is a Kendo UI Alert message.");
-        
         var username = $("#username").val();
         var password = $("#password").val();
         var loginUrl = 'http://myurl.co.uk/appqueries/login.php?username=' + username + '&password=' + password;
@@ -45,9 +37,9 @@
             success: function (data) {
                 handleLoginResult(data);
             }
-            
+
         });
-        
+
     }
 
     $(document).on("click", "#loginbutton", loginClick);
@@ -61,7 +53,4 @@
             $("#loginresult").html(message);
         }
     }
-
-    
-
 </script>
