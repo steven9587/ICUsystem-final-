@@ -25,6 +25,8 @@ namespace HISMvcProject1.Controllers
             return View();
         }
 
+
+
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
@@ -38,6 +40,25 @@ namespace HISMvcProject1.Controllers
 
             return View();
         }
+        //
+
+  
+        public ActionResult Main()
+        {
+            ViewBag.Message = "Welcome to ASP.NET MVC!";
+
+            return View();
+        }
+
+        public ActionResult Search()
+        {
+            ViewBag.Message = "Welcome to ASP.NET MVC!";
+
+            return View();
+        }
+
+        //
+
         [HttpPost]
         public JsonResult GetPipeLineDropDownList()
         {

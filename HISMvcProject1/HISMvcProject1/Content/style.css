@@ -1,4 +1,43 @@
 /* Three image containers (use 25% for four, and 50% for two, etc) */
+.login_row::after {
+    content: "";
+    clear: both;
+    display: table;
+    width: 100%;
+}
+
+.login_column {
+    float: right;
+    padding: 5px;
+}
+
+.search_row::after {
+    content: "";
+    clear: both;
+    display: table;
+    width: 100%;
+}
+
+.search_column {
+    float: right;
+    padding: 5px;
+    width: 33.3%;
+}
+
+.search_column_b {
+    float: right;
+    padding: 5px;
+}
+
+.grid_box {
+    width: 96%;
+    height: 600px;
+    padding: 5px;
+    margin:0px auto;
+    background-color:rgba(179, 185, 255, 0.43)
+}
+
+
 .row::after {
     content: "";
     clear: both;
@@ -10,27 +49,26 @@
 .helloworld {
     width: 300px;
     height: 600px;
-    border:5px solid;
+    border: 5px solid;
     float: left;
     padding: 5px;
 }
 
 
 .Full_column {
-	float: left;
-	padding: 5px;
+    float: left;
+    padding: 5px;
 }
 
 .type_group button {
-  background-color: lightblue; /* Green background */
-  color: lightyellow; /* White text */
-  padding: 10px 24px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  width: 100%; /* Set a width if needed */
-  display: block; /* Make the buttons appear below each other */
+    background-color: lightblue; /* Green background */
+    color: lightyellow; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    width: 100%; /* Set a width if needed */
+    display: block; /* Make the buttons appear below each other */
 }
 
-.type_group button:hover {
-  background-color: gray;
-}
-
+    .type_group button:hover {
+        background-color: gray;
+    }
