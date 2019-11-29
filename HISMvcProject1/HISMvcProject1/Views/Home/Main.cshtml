@@ -63,7 +63,7 @@
                 <div class="col-md-10">
                     <input type="button" value="Insert" onclick="add()" class="btn" style="background-color: #99b2db; color:#194284" />
                     <input type="button" value="Save" onclick="location.href = ''" class="btn" style="background-color: #CCDDFF; color:#194284" />
-                    <input type="button" value="Delete" onclick="location.href = ''" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                    <input type="button" value="Delete" onclick="Delete()" class="btn" style="background-color: #CCDDFF; color:#194284" />
                 </div>
             </div>
         </div>
@@ -139,7 +139,7 @@
 
     var locatoinX = [];
     var locatoinY = [];
-    var intubation = false;
+    var intubation = 0;
     //讀取資料庫資訊塞進陣列裡面
     var locationPointer = locatoinX.length;
     var img = new Image();
@@ -150,13 +150,25 @@
         var lctx = lc.getContext("2d");
         lctx.drawImage(img, 0, 0, 600, 600);
         lc.onclick = function () {
-            if (intubation) {
+            if (intubation ==1) {
                 var x = event.clientX;
                 var y = event.clientY;
                 locatoinX[locationPointer] = x - rect.left;
                 locatoinY[locationPointer] = y - rect.top;
                 locationPointer = locationPointer + 1;
             }
+            if (intubation==2) {
+                for (var i = 0; i < locationPointer; i++) {
+                    if(event.clientX >= locatoinX[i]-5 && event.clientX <= locatoinX[i]+10 && event.clientY>= locatoinY[i]+35 && event.clientY<= locatoinY[i]+50){
+                        locatoinX.splice(i,1);
+                        locatoinY.splice(i,1);
+                        locationPointer = locationPointer - 1;
+
+                    }
+                }
+
+            }
+            lctx.drawImage(img, 0, 0, 600, 600);
             for (var i = 0; i < locationPointer; i++) {
                 lctx.beginPath();
                 lctx.arc(locatoinX[i] - 5, locatoinY[i] - 5, 5, 0, 2 * Math.PI);
@@ -171,6 +183,16 @@
         var date = new Date();
         var dateString = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
         mydateInput.value = dateString;
+    }
+    function Delete(){
+        intubation=2;
+        var x = event.clientX;
+        var y = event.clientY;
+        locatoinX[locationPointer] = x;
+        locatoinY[locationPointer] = y;
+        
+
+
     }
 
     function save() {
