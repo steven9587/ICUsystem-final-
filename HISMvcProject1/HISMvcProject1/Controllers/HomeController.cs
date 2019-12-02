@@ -58,6 +58,13 @@ namespace HISMvcProject1.Controllers
             return View();
         }
 
+        public ActionResult Switch()
+        {
+            ViewBag.Message = "Welcome to ASP.NET MVC!";
+
+            return View();
+        }
+
         //
 
         [HttpPost]
