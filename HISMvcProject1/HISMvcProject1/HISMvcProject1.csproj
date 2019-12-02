@@ -500,7 +500,6 @@
     <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
     <Content Include="Views\Shared\_LayoutBase.cshtml" />
     <Content Include="Views\Shared\HISRowDataLayout.cshtml" />
-    <Content Include="Views\Menu\Index.cshtml" />
     <Content Include="Views\Shared\_Systems.cshtml" />
     <Content Include="Views\Shared\HISChildLayout.cshtml" />
     <Content Include="Views\Shared\HISGridDataLayout.cshtml" />
