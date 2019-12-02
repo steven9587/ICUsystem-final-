@@ -82,20 +82,20 @@
         $("#start_datepicker").kendoDatePicker({
             value: new Date(),
             min: "1900-01-01",
-            max: new Date(),
+
             dateInput: true,
             format: "yyyy-MM-dd"
         });
         $("#expiry_datepicker").kendoDatePicker({
             value: new Date(),
             min: "1900-01-01",
-            max: new Date(),
+
             dateInput: true,
             format: "yyyy-MM-dd"
         });
         $("#pipelineName").kendoDropDownList({
-            //dataTextField: "Text",
-            //dataValueField: "Value",
+            dataTextField: "Text",
+            dataValueField: "Value",
             optionLabel: "請選擇",
             dataSource: {
                 transport: {
