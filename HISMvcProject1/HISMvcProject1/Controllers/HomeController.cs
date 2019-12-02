@@ -69,6 +69,10 @@ namespace HISMvcProject1.Controllers
             tempData.Add("PENrose");
             return Json(tempData);
         }
+        /// <summary>
+        /// 下拉選單
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult GetTubePartNameDropDownList()
         {
