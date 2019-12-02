@@ -20,7 +20,7 @@ namespace HISMvcProject1.Models
         }
 
         /// <summary>
-        /// 取得圖書類別
+        /// TubePartName
         /// </summary>
         /// <returns></returns>
         public List<SelectListItem> GetTubePartName()
@@ -39,6 +39,10 @@ namespace HISMvcProject1.Models
             }
             return this.MapCodeName(dt);
         }
+        /// <summary>
+        /// TubePartNameMap
+        /// </summary>
+        /// <returns></returns>
         private List<SelectListItem> MapCodeName(DataTable dt)
         {
             List<SelectListItem> result = new List<SelectListItem>();
@@ -52,5 +56,42 @@ namespace HISMvcProject1.Models
             }
             return result;
         }
+
+        /// <summary>
+        /// PipeLine
+        /// </summary>
+        /// <returns></returns>
+        public List<SelectListItem> GetPipeLine()
+        {
+            DataTable dt = new DataTable();
+            string sql = @" SELECT Tube_Name_ID as TubeID,Tube_Name as TubeName FROM tube_info;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return this.MapTubeName(dt);
+        }
+        /// <summary>
+        /// PipeLineMap
+        /// </summary>
+        /// <returns></returns>
+        private List<SelectListItem> MapTubeName(DataTable dt)
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(new SelectListItem()
+                {
+                    Text = row["TubeName"].ToString(),
+                    Value = row["TubeID"].ToString()
+                });
+            }
+            return result;
+        }
+
     }
 }
