@@ -82,14 +82,12 @@
         $("#start_datepicker").kendoDatePicker({
             value: new Date(),
             min: "1900-01-01",
-
             dateInput: true,
             format: "yyyy-MM-dd"
         });
         $("#expiry_datepicker").kendoDatePicker({
             value: new Date(),
             min: "1900-01-01",
-
             dateInput: true,
             format: "yyyy-MM-dd"
         });
@@ -171,8 +169,13 @@
             lctx.drawImage(img, 0, 0, 600, 600);
             for (var i = 0; i < locationPointer; i++) {
                 lctx.beginPath();
-                lctx.arc(locatoinX[i] - 5, locatoinY[i] - 5, 5, 0, 2 * Math.PI);
+                //lctx.arc(locatoinX[i] - 5, locatoinY[i] - 5, 5, 0, 2 * Math.PI);
+                lctx.fillStyle = "rgb(0,255,0)";
+                lctx.lineWidth = "3";
+                lctx.strokeStyle = 'black';
+                lctx.rect(locatoinX[i]-10, locatoinY[i]-10, 10, 10);
                 lctx.fill();
+                lctx.stroke();
             }
         };
     }
@@ -190,9 +193,6 @@
         var y = event.clientY;
         locatoinX[locationPointer] = x;
         locatoinY[locationPointer] = y;
-        
-
-
     }
 
     function save() {
