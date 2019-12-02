@@ -1,0 +1,144 @@
+﻿
+@{
+    ViewBag.Title = "Switch";
+}
+
+
+@section head
+{
+}
+
+@section body
+{
+   
+
+<div>
+    <div class="left">
+        <div class="patient_info">
+
+            <label for="patient_name">病人姓名 : </label><br>
+            <input type="patient_name" class="form-control" id="patient_name" placeholder="威爾森"><br>
+
+            <label for="patient_id_no">身分證字號 : </label><br>
+            <input type="patient_id_no" class="form-control" id="patient_id_no" placeholder="E000000000"><br>
+
+            <label for="patient_birthday">出生年月日 : </label><br>
+            <input type="patient_birthday" class="form-control" id="patient_birthday" placeholder="2019-11-01"><br>
+
+            <label for="his_no">病歷號 : </label><br>
+            <input type="his_no" class="form-control" id="his_no" placeholder="0123456789"><br>
+
+            <label for="in_ICU_date">入ICU日 : </label><br>
+            <input type="in_ICU_date" class="form-control" id="in_ICU_date" placeholder="2019-12-01"><br>
+
+            <label for="in_adm_date">入院日 : </label><br>
+            <input type="in_adm_date" class="form-control" id="in_adm_date" placeholder="2019-12-02"><br>
+
+            <label for="height_weight">身高、體重 : </label><br>
+            <input type="height_weight" class="form-control" id="height_weight" placeholder="81cm 0.8kg"><br>
+
+            <label for="bed_no">床號 : </label><br>
+            <input type="bed_no" class="form-control" id="bed_no" placeholder="no.220"><br>
+
+            <label for="dr_no">主治醫師 : </label><br>
+            <input type="dr_no" class="form-control" id="dr_no" placeholder="Dr.Avacado"><br>
+             
+        </div>
+        <div class="shift">
+            <textarea style="resize:none;  overflow-y: scroll;" cols="45" rows="10">嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷</textarea><br><br>
+            <button type="button" id="shift_send">Send</button>
+        </div>
+    </div>
+    <div class="middle">
+        <div class="dr_order">
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+            <li>Meow Meow Meow Meow Meow Meow</li>
+        </div>
+        <div class="inspection">
+            <table>
+                <tr>
+                    <th>檢查項目日期</th>
+                    <th>12/27</th>
+                    <th>12/17</th>
+                    <th>10/18</th>
+                    <th>09/27</th>
+                    <th>06/30</th>
+                    <th>05/13</th>
+                </tr>
+                <tr>
+                    <td>檢查項目</td>
+                    <td>AAAAAAAAAAA</td>
+                    <td>BBBBBBBBBBB</td>
+                    <td>CCCCCCCCCCC</td>
+                    <td>DDDDDDDDDDD</td>
+                    <td>EEEEEEEEEEE</td>
+                    <td>FFFFFFFFFFF</td>
+                </tr>
+                <tr>
+                    <td>檢查項目</td>
+                    <td>AAAAAAAAAAA</td>
+                    <td>BBBBBBBBBBB</td>
+                    <td>CCCCCCCCCCC</td>
+                    <td>DDDDDDDDDDD</td>
+                    <td>EEEEEEEEEEE</td>
+                    <td>FFFFFFFFFFF</td>
+                </tr>
+                <tr>
+                    <td>檢查項目</td>
+                    <td>AAAAAAAAAAA</td>
+                    <td>BBBBBBBBBBB</td>
+                    <td>CCCCCCCCCCC</td>
+                    <td>DDDDDDDDDDD</td>
+                    <td>EEEEEEEEEEE</td>
+                    <td>FFFFFFFFFFF</td>
+                </tr>
+                <tr>
+                    <td>檢查項目</td>
+                    <td>AAAAAAAAAAA</td>
+                    <td>BBBBBBBBBBB</td>
+                    <td>CCCCCCCCCCC</td>
+                    <td>DDDDDDDDDDD</td>
+                    <td>EEEEEEEEEEE</td>
+                    <td>FFFFFFFFFFF</td>
+                </tr>
+                <tr>
+                    <td>檢查項目</td>
+                    <td>AAAAAAAAAAA</td>
+                    <td>BBBBBBBBBBB</td>
+                    <td>CCCCCCCCCCC</td>
+                    <td>DDDDDDDDDDD</td>
+                    <td>EEEEEEEEEEE</td>
+                    <td>FFFFFFFFFFF</td>
+                </tr>
+                <tr>
+                    <td>檢查項目</td>
+                    <td>AAAAAAAAAAA</td>
+                    <td>BBBBBBBBBBB</td>
+                    <td>CCCCCCCCCCC</td>
+                    <td>DDDDDDDDDDD</td>
+                    <td>EEEEEEEEEEE</td>
+                    <td>FFFFFFFFFFF</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="andy">
+    </div>
+    <div class="tpr_io">
+    </div>
+
+</div>
+
+}

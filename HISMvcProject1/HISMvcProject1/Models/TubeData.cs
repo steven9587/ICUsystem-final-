@@ -10,17 +10,64 @@ namespace HISMvcProject1.Models
     public class TubeData
     {
         /// <summary>
-        /// 圖書類別
+        /// 管路位置
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("管路位置")]
         public string TubePartName { get; set; }
 
-        /// <summary>
-        /// 圖書類別ID
-        /// </summary>
-        [DisplayName("管路位置")]
+        [DisplayName("管路位置ID")]
         [Required(ErrorMessage = "此欄位必填")]
         public string TubePartID { get; set; }
+
+        /// <summary>
+        /// 管路名稱
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("管路名稱")]
+        public string TubeName { get; set; }
+
+        [DisplayName("管路名稱ID")]
+        [Required(ErrorMessage = "此欄位必填")]
+        public string TubeNameID { get; set; }
+
+        /// <summary>
+        /// 放置日期
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("放置日期")]
+        [Required(ErrorMessage = "此欄位必填")]
+        public string SysDate { get; set; }
+
+        /// <summary>
+        /// 到期日期
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("到期日期")]
+        [Required(ErrorMessage = "此欄位必填")]
+        public string ExpDate { get; set; }
+
+        /// <summary>
+        /// 管路口徑
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("管路口徑")]
+        [Required(ErrorMessage = "此欄位必填")]
+        public string Caliber { get; set; }
+
+        /// <summary>
+        /// 放入公分數
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("放入公分數")]
+        [Required(ErrorMessage = "此欄位必填")]
+        public string InBodyCm { get; set; }
+
+        /// <summary>
+        /// 備註
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("備註")]
+        public string TubeNote { get; set; }
     }
 }

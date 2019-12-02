@@ -531,6 +531,7 @@
     <Content Include="Scripts\kendo\2017.2.621\messages\kendo.messages.zh-TW.min.js.map" />
     <Content Include="Views\Home\Main.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Home\Switch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />
