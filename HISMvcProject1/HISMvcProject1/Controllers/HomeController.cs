@@ -18,6 +18,7 @@ namespace HISMvcProject1.Controllers
 {
     public class HomeController : Controller
     {
+        readonly Models.TubeService tubeservice = new Models.TubeService();
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
@@ -40,7 +41,7 @@ namespace HISMvcProject1.Controllers
 
             return View();
         }
-        //
+        
 
   
         public ActionResult Main()
@@ -69,18 +70,9 @@ namespace HISMvcProject1.Controllers
             return Json(tempData);
         }
         [HttpPost]
-        public JsonResult GetPipeLineLocationDropDownList()
+        public JsonResult GetTubePartNameDropDownList()
         {
-            List<string> tempLocation = new List<string>();
-            tempLocation.Add("頭");
-            tempLocation.Add("鼻");
-            tempLocation.Add("脖子");
-            tempLocation.Add("胸腔");
-            tempLocation.Add("腹腔");
-            tempLocation.Add("尿管");
-            tempLocation.Add("屁股");
-            tempLocation.Add("周邊動脈");
-            return Json(tempLocation);
+            return Json(this.tubeservice.GetTubePartName());
         }
     }
 }

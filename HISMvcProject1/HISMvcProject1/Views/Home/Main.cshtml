@@ -19,9 +19,9 @@
             <div class="form-group">
                 <div class="form-group" style="margin-bottom:10px">
                     <label for="pipelineLocation" class="required">管路位置: </label>
-                    <select id="pipelineLocation" name="pipelineLocation" required validationMessage="請選擇管路位置" style="width: 100%;"></select>
+                    <select id="pipelineLocation" name="TubePartName" required validationMessage="請選擇管路位置" style="width: 100%;"></select>
                     <div>
-                        <span class="k-invalid-msg" data-for="pipelineLocation"></span>
+                        <span class="k-invalid-msg" data-for="TubePartName"></span>
                     </div>
                 </div>
                 <div class="form-group" style="margin-bottom:10px">
@@ -108,13 +108,13 @@
             }
         });
         $("#pipelineLocation").kendoDropDownList({
-            //dataTextField: "Text",
-            //dataValueField: "Value",
+            dataTextField: "Text",
+            dataValueField: "Value",
             optionLabel: "請選擇",
             dataSource: {
                 transport: {
                     read: {
-                        url: "GetPipeLineLocationDropDownList",
+                        url: "GetTubePartNameDropDownList",
                         type: "post",
                         dataType: "json"
                     }
