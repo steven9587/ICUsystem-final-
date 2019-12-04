@@ -3,12 +3,9 @@
     ViewBag.Title = "Main";
 }
 
-
 @section head
 {
-
 }
-
 @section body
 {
     <div class="row">
@@ -17,65 +14,63 @@
         </div>
         <div class="helloworld">
             <div class="form-group">
-                <div class="form-group" style="margin-bottom:10px">
-                    <label for="pipelineLocation" class="required">管路位置: </label>
-                    <select id="pipelineLocation" name="TubePartName" required validationMessage="請選擇管路位置" style="width: 100%;"></select>
-                    <div>
-                        <span class="k-invalid-msg" data-for="TubePartName"></span>
+                <form id="addTubeForm" data-role="validator" novalidate="novalidate">
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="pipelineLocation" class="required">管路位置: </label>
+                        <select id="pipeline_Location" name="pipelineLocation" required validationMessage="請選擇管路位置" style="width: 100%;"></select>
+                        <div>
+                            <span class="k-invalid-msg" data-for="pipelineLocation"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group" style="margin-bottom:10px">
-                    <label for="pipelineName" class="required">管路名稱: </label>
-                    <select id="pipelineName" name="PipelineName" required validationMessage="請選擇管路名稱" style="width: 100%;"></select>
-                    <div>
-                        <span class="k-invalid-msg" data-for="pipelineName"></span>
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="pipelineName" class="required">管路名稱: </label>
+                        <select id="pipeline_Name" name="PipelineName" required validationMessage="請選擇管路名稱" style="width: 100%;"></select>
+                        <div>
+                            <span class="k-invalid-msg" data-for="pipelineName"></span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group" style="margin-bottom:10px">
-                    <label for="bought_datepicker" class="required">放置日期:</label>
-                    <input type="text" data-role='datepicker' id="start_datepicker" name="start_datepicker"
-                           data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
-                    <span data-for='start_datepicker' class='k-invalid-msg'></span>
-                </div>
-                <div class="form-group" style="margin-bottom:10px">
-                    <label for="bought_datepicker" class="required">到期日期:</label>
-                    <input type="text" data-role='datepicker' id="expiry_datepicker" name="expiry_datepicker"
-                           data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
-                    <span data-for='expiry_datepicker' class='k-invalid-msg'></span>
-                </div>
-                <div class="form-group" style="margin-bottom:10px">
-                    <label for="caliber" class="required"> 管路口徑(french):</label>
-                    <input id="caliber" name="Caliber" style="width: 100%;" type="text" min="1" max="34" value="1" required data-max-msg="Enter french between 1 and 34" />
-                    <span class="k-invalid-msg" data-for="Caliber"></span>
-                </div>
-                <div class="form-group" style="margin-bottom:10px">
-                    <label for="inbodycm" class="required">管路埋入公分數:</label>
-                    <input id="inbodycm" name="Inbodycm" style="width: 100%;" type="text" min="1" max="100" value="1" required data-max-msg="Enter cm between 1 and 34" />
-                    <span class="k-invalid-msg" data-for="Inbodycm"></span>
-                </div>
-                <div class="form-group" style="margin-bottom:50px">
-                    <label for="caliber" class="required">備註：</label>
-                    <textarea id="pipelineNote" name="PipeLineNote" style="width: 100%;" onkeyup="WordsDeal();" cols="100" rows="2" required validationMessage="請輸入內容簡介"></textarea>
-                    <div>
-                        <span class="k-invalid-msg" data-for="pipelineNote"></span>
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="bought_datepicker" class="required">放置日期:</label>
+                        <input type="text" data-role='datepicker' id="start_datepicker" name="startdatepicker"
+                               data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
+                        <span data-for='startdatepicker' class='k-invalid-msg'></span>
                     </div>
-                </div>
-                <div class="col-md-10">
-                    <input type="button" value="Insert" onclick="add()" class="btn" style="background-color: #99b2db; color:#194284" />
-                    <input type="button" value="Save" onclick="location.href = ''" class="btn" style="background-color: #CCDDFF; color:#194284" />
-                    <input type="button" value="Delete" onclick="Delete()" class="btn" style="background-color: #CCDDFF; color:#194284" />
-                </div>
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="bought_datepicker" class="required">到期日期:</label>
+                        <input type="text" data-role='datepicker' id="expiry_datepicker" name="expirydatepicker"
+                               data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
+                        <span data-for='expirydatepicker' class='k-invalid-msg'></span>
+                    </div>
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="caliber" class="required"> 管路口徑(french):</label>
+                        <input id="caliber" name="Caliber" style="width: 100%;" type="text" min="1" max="34" value="1" required data-max-msg="Enter french between 1 and 34" />
+                        <span class="k-invalid-msg" data-for="Caliber"></span>
+                    </div>
+                    <div class="form-group" style="margin-bottom:10px">
+                        <label for="inbodycm" class="required">管路埋入公分數:</label>
+                        <input id="inbodycm" name="Inbodycm" style="width: 100%;" type="text" min="1" max="100" value="1" required data-max-msg="Enter cm between 1 and 34" />
+                        <span class="k-invalid-msg" data-for="Inbodycm"></span>
+                    </div>
+                    <div class="form-group" style="margin-bottom:50px">
+                        <label for="caliber" class="required">備註：</label>
+                        <textarea id="pipeline_Note" name="PipeLineNote" style="width: 100%;" onkeyup="WordsDeal();" cols="100" rows="2" required validationMessage="請輸入內容簡介"></textarea>
+                        <div>
+                            <span class="k-invalid-msg" data-for="pipelineNote"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="button" value="Insert" onclick="add()" class="btn" style="background-color: #99b2db; color:#194284" />
+                        <input type="button" value="Save" onclick="location.href = ''" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
+                        <input type="button" value="Delete" onclick="Delete()" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-
 }
-
 @section featured {
-
 }
-
 <script>
 
     $(function () {
@@ -133,9 +128,47 @@
         }
     }
 
+    //save data to database
+    $(".btn_save").click(function (e) {
+        var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
+        if (validator.validate()) {
+            var create_data = {
+                "pipelineLocation": $("#pipeline_Location").val(),
+                "pipelineName": $("#pipeline_Name").val(),
+                "startdatepicker": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                "expirydatepicker": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                "Caliber": $("#caliber").val(),
+                "inbodycm": $("#Iinbodycm").val,
+                "pipelineNote": $("#pipeline_Note").val(),
+            }
+            $.ajax({
+                type: "POST",
+                url: "",
+                data: create_data,
+                dataType: "json",
+                success: function (response) {
+                    if (response == true) {
+                        alert("圖書已新增");
+                        $("#pipeline_Location").val("");
+                        $("#pipeline_Name").val("");
+                        $("#start_datepicker").data("kendoDropDownList").value("");
+                        $("#expiry_datepicker").data("kendoDropDownList").value("");
+                        $("#caliber").val();
+                        $("#Iinbodycm").val();
+                        $("#pipeline_Note").val();
+                    }
+                },
+                error: function (error) {
+                    alert("系統發生錯誤");
+                }
+            });
+        }
+    });
+  
 
 
-    var locatoinX = []; 
+
+    var locatoinX = [];
     var locatoinY = [];
     var intubation = 0;
     //讀取資料庫資訊塞進陣列裡面
