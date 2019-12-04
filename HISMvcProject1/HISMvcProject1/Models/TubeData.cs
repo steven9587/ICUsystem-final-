@@ -9,6 +9,15 @@ namespace HISMvcProject1.Models
 {
     public class TubeData
     {
+
+
+        /// <summary>
+        /// 病人編號
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("病人編號")]
+        public string PatientID { get; set; }
+
         /// <summary>
         /// 管路位置
         /// </summary>

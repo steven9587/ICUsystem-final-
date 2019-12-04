@@ -39,6 +39,51 @@ namespace HISMvcProject1.Models
             }
             return this.MapCodeName(dt);
         }
+
+        /// <summary>
+        /// INSERT
+        /// </summary>
+        /// <returns></returns>
+        public int InsertTube(Models.TubeData tube)
+        {
+            string sql = @"INSERT INTO TUBE_INSERT(Patient_ID,Tube_Name_ID,Tube_Part_ID,In_Body_Cm,Caliber,Sys_Date,Exp_Date,Tube_Note) 
+                           VALUES(@PatientID,@TubeNameID,@TubePartID,@InBodyCm,@Caliber,@SysDate,@ExpDate,@TubeNote) 
+                           SELECT SCOPE_IDENTITY()";
+
+            int TubeID;
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientID", tube.PatientID));
+                cmd.Parameters.Add(new SqlParameter("@TubeNameID", tube.TubeNameID));
+                cmd.Parameters.Add(new SqlParameter("@TubePartID", tube.TubePartID));
+                cmd.Parameters.Add(new SqlParameter("@InBodyCm", tube.InBodyCm));
+                cmd.Parameters.Add(new SqlParameter("@Caliber", tube.Caliber));
+                cmd.Parameters.Add(new SqlParameter("@SysDate", tube.SysDate));
+                cmd.Parameters.Add(new SqlParameter("@ExpDate", tube.ExpDate));
+                cmd.Parameters.Add(new SqlParameter("@TubeNote", tube.TubeNote));
+                SqlTransaction Tran = conn.BeginTransaction();
+                cmd.Transaction = Tran;
+                try
+                {
+                    TubeID = Convert.ToInt32(cmd.ExecuteScalar());
+                    Tran.Commit();
+                }
+                catch (Exception)
+                {
+                    Tran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+            return TubeID;
+        }
+
         /// <summary>
         /// TubePartNameMap
         /// </summary>
@@ -64,7 +109,8 @@ namespace HISMvcProject1.Models
         public List<SelectListItem> GetPipeLine()
         {
             DataTable dt = new DataTable();
-            string sql = @" SELECT Tube_Name_ID as TubeID,Tube_Name as TubeName FROM tube_info;";
+            string sql = @" SELECT Tube_Name_ID as TubeID,Tube_Name as TubeName 
+                            FROM tube_info;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
