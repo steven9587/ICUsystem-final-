@@ -53,10 +53,8 @@
                     </div>
                     <div class="form-group" style="margin-bottom:50px">
                         <label for="caliber" class="required">備註：</label>
-                        <textarea id="pipeline_Note" name="PipeLineNote" style="width: 100%;" cols="100" rows="2" required validationMessage="請輸入內容簡介"></textarea>
-                        <div>
-                            <span class="k-invalid-msg" data-for="pipelineNote"></span>
-                        </div>
+                        <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 100%;" cols="100" rows="2" ></textarea>
+                        
                     </div>
                     <div class="col-md-10">
                         <input type="button" value="Insert" onclick="add()" class="btn" style="background-color: #99b2db; color:#194284" />
@@ -118,7 +116,7 @@
         $("#inbodycm").kendoNumericTextBox();
     });
 
-   /* function WordsDeal() {
+    function WordsDeal() {
         var curLength = $("#pipelineNote").val().length;
         if (curLength > 1000) {
             var num = $("#pipelineNote").val().substr(0, 1000);
@@ -126,7 +124,7 @@
             alert("超過字數限制(1000字)，多出的字將被移除！");
         }
     }
-    */
+    
     //save data to database
     $(".btn_save").click(function (e) {
         var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
@@ -151,15 +149,7 @@
                 success: function (response) {
                     if (response == true) {
                         alert("資料已新增");
-                        $("#pipeline_Location").val("");
-                        $("#pipeline_Name").val("");
-                        $("#start_datepicker").data("kendoDropDownList").value("");
-                        $("#expiry_datepicker").data("kendoDropDownList").value("");
-                        $("#caliber").val();
-                        $("#inbodycm").val();
-                        $("#pipeline_Note").val();
-                        x;
-                        y;
+                       
                     }
                 },
                 error: function (error) {

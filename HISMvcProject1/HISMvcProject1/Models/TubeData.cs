@@ -24,6 +24,7 @@ namespace HISMvcProject1.Models
         ///[MaxLength(5)]
         [DisplayName("管路位置")]
         public string TubePartName { get; set; }
+        
 
         [DisplayName("管路位置ID")]
         [Required(ErrorMessage = "此欄位必填")]
@@ -45,7 +46,6 @@ namespace HISMvcProject1.Models
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("放置日期")]
-        [Required(ErrorMessage = "此欄位必填")]
         public string SysDate { get; set; }
 
         /// <summary>
@@ -53,7 +53,6 @@ namespace HISMvcProject1.Models
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("到期日期")]
-        [Required(ErrorMessage = "此欄位必填")]
         public string ExpDate { get; set; }
 
         /// <summary>
