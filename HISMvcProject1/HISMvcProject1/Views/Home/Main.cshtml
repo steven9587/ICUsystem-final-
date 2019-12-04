@@ -53,14 +53,14 @@
                     </div>
                     <div class="form-group" style="margin-bottom:50px">
                         <label for="caliber" class="required">備註：</label>
-                        <textarea id="pipeline_Note" name="PipeLineNote" style="width: 100%;" onkeyup="WordsDeal();" cols="100" rows="2" required validationMessage="請輸入內容簡介"></textarea>
+                        <textarea id="pipeline_Note" name="PipeLineNote" style="width: 100%;" cols="100" rows="2" required validationMessage="請輸入內容簡介"></textarea>
                         <div>
                             <span class="k-invalid-msg" data-for="pipelineNote"></span>
                         </div>
                     </div>
                     <div class="col-md-10">
                         <input type="button" value="Insert" onclick="add()" class="btn" style="background-color: #99b2db; color:#194284" />
-                        <input type="button" value="Save" onclick="location.href = ''" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
+                        <input type="button" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
                         <input type="button" value="Delete" onclick="Delete()" class="btn" style="background-color: #CCDDFF; color:#194284" />
                     </div>
                 </form>
@@ -86,7 +86,7 @@
             dateInput: true,
             format: "yyyy-MM-dd"
         });
-        $("#pipelineName").kendoDropDownList({
+        $("#pipeline_Name").kendoDropDownList({
             dataTextField: "Text",
             dataValueField: "Value",
             optionLabel: "請選擇",
@@ -100,7 +100,7 @@
                 }
             }
         });
-        $("#pipelineLocation").kendoDropDownList({
+        $("#pipeline_Location").kendoDropDownList({
             dataTextField: "Text",
             dataValueField: "Value",
             optionLabel: "請選擇",
@@ -119,7 +119,7 @@
 
     });
 
-    function WordsDeal() {
+   /* function WordsDeal() {
         var curLength = $("#pipelineNote").val().length;
         if (curLength > 1000) {
             var num = $("#pipelineNote").val().substr(0, 1000);
@@ -127,21 +127,22 @@
             alert("超過字數限制(1000字)，多出的字將被移除！");
         }
     }
-
+    */
     //save data to database
     $(".btn_save").click(function (e) {
         var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
             var create_data = {
-                "pipelineLocation": $("#pipeline_Location").val(),
-                "pipelineName": $("#pipeline_Name").val(),
-                "startdatepicker": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
-                "expirydatepicker": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                "TubePartID": $("#pipeline_Location").val(),
+                "TubeNameID": $("#pipeline_Name").val(),
+                "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                "ExpDate": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
                 "Caliber": $("#caliber").val(),
-                "inbodycm": $("#Iinbodycm").val,
-                "pipelineNote": $("#pipeline_Note").val(),
-
-            }
+                "InBodyCm": $("#inbodycm").val(),
+                "TubeNote": $("#pipeline_Note").val(),
+                x,
+                y,
+                }
             $.ajax({
                 type: "POST",
                 url: "",
@@ -157,6 +158,8 @@
                         $("#caliber").val();
                         $("#Iinbodycm").val();
                         $("#pipeline_Note").val();
+                        x;
+                        y;
                     }
                 },
                 error: function (error) {
@@ -165,12 +168,14 @@
             });
         }
     });
-  
+
 
 
 
     var locatoinX = [];
     var locatoinY = [];
+    var x;
+    var y;
     var intubation = 0;
     //讀取資料庫資訊塞進陣列裡面
     var locationPointer = locatoinX.length;
@@ -182,18 +187,18 @@
         var lctx = lc.getContext("2d");
         lctx.drawImage(img, 0, 0, 600, 600);
         lc.onclick = function () {
-            if (intubation ==1) {
-                var x = event.clientX;
-                var y = event.clientY;
+            if (intubation == 1) {
+                x = event.clientX;
+                y = event.clientY;
                 locatoinX[locationPointer] = x - rect.left;
                 locatoinY[locationPointer] = y - rect.top;
                 locationPointer = locationPointer + 1;
             }
-            if (intubation==2) {
+            if (intubation == 2) {
                 for (var i = 0; i < locationPointer; i++) {
-                    if(event.clientX >= locatoinX[i]-5 && event.clientX <= locatoinX[i]+10 && event.clientY>= locatoinY[i]+35 && event.clientY<= locatoinY[i]+50){
-                        locatoinX.splice(i,1);
-                        locatoinY.splice(i,1);
+                    if (event.clientX >= locatoinX[i] - 5 && event.clientX <= locatoinX[i] + 10 && event.clientY >= locatoinY[i] + 35 && event.clientY <= locatoinY[i] + 50) {
+                        locatoinX.splice(i, 1);
+                        locatoinY.splice(i, 1);
                         locationPointer = locationPointer - 1;
 
                     }
@@ -207,7 +212,7 @@
                 lctx.fillStyle = "rgb(0,255,0)";
                 lctx.lineWidth = "3";
                 lctx.strokeStyle = 'black';
-                lctx.rect(locatoinX[i]-10, locatoinY[i]-10, 10, 10);
+                lctx.rect(locatoinX[i] - 10, locatoinY[i] - 10, 10, 10);
                 lctx.fill();
                 lctx.stroke();
             }
@@ -215,14 +220,10 @@
     }
 
     function add() {
-        intubation =1;
-        var mydateInput = document.getElementById("date");
-        var date = new Date();
-        var dateString = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
-        mydateInput.value = dateString;
+        intubation = 1;
     }
-    function Delete(){
-        intubation=2;
+    function Delete() {
+        intubation = 2;
         var x = event.clientX;
         var y = event.clientY;
         locatoinX[locationPointer] = x;
