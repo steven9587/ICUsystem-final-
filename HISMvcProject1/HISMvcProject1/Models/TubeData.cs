@@ -9,6 +9,15 @@ namespace HISMvcProject1.Models
 {
     public class TubeData
     {
+
+
+        /// <summary>
+        /// 病人編號
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("病人編號")]
+        public string PatientID { get; set; }
+
         /// <summary>
         /// 管路位置
         /// </summary>
@@ -69,5 +78,21 @@ namespace HISMvcProject1.Models
         ///[MaxLength(5)]
         [DisplayName("備註")]
         public string TubeNote { get; set; }
+
+
+        /// <summary>
+        /// Location_X
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("X座標")]
+        public string LocationX { get; set; }
+
+
+        /// <summary>
+        /// Location_Y
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("Y座標")]
+        public string LocationY { get; set; }
     }
 }
