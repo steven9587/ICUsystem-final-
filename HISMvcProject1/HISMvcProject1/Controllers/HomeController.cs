@@ -77,5 +77,21 @@ namespace HISMvcProject1.Controllers
         {
             return Json(this.tubeservice.GetTubePartName());
         }
+
+
+        [HttpPost]
+        public JsonResult InsertData(Models.TubeData tube)
+        {
+            try
+            {
+                tubeservice.InsertTube(tube);
+                return this.Json(true);
+            }
+            catch (Exception ex)
+            {
+                return this.Json(false);
+            }
+
+        }
     }
 }

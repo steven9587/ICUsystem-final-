@@ -132,6 +132,7 @@
         var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
         if (validator.validate()) {
             var create_data = {
+                "PatientID": 4065700123,
                 "TubePartID": $("#pipeline_Location").val(),
                 "TubeNameID": $("#pipeline_Name").val(),
                 "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
@@ -139,23 +140,23 @@
                 "Caliber": $("#caliber").val(),
                 "InBodyCm": $("#inbodycm").val(),
                 "TubeNote": $("#pipeline_Note").val(),
-                x,
-                y,
+                "LocationX": x,
+                "LocationY": y,
                 }
             $.ajax({
                 type: "POST",
-                url: "",
+                url: "InsertData",
                 data: create_data,
                 dataType: "json",
                 success: function (response) {
                     if (response == true) {
-                        alert("圖書已新增");
+                        alert("資料已新增");
                         $("#pipeline_Location").val("");
                         $("#pipeline_Name").val("");
                         $("#start_datepicker").data("kendoDropDownList").value("");
                         $("#expiry_datepicker").data("kendoDropDownList").value("");
                         $("#caliber").val();
-                        $("#Iinbodycm").val();
+                        $("#inbodycm").val();
                         $("#pipeline_Note").val();
                         x;
                         y;
@@ -167,9 +168,6 @@
             });
         }
     });
-
-
-
 
     var locatoinX = [];
     var locatoinY = [];
@@ -187,8 +185,8 @@
         lctx.drawImage(img, 0, 0, 600, 600);
         lc.onclick = function () {
             if (intubation == 1) {
-                x = event.clientX;
-                y = event.clientY;
+                x = event.clientX - rect.left;
+                y = event.clientY - rect.top;
                 locatoinX[locationPointer] = x - rect.left;
                 locatoinY[locationPointer] = y - rect.top;
                 locationPointer = locationPointer + 1;
@@ -207,7 +205,6 @@
             lctx.drawImage(img, 0, 0, 600, 600);
             for (var i = 0; i < locationPointer; i++) {
                 lctx.beginPath();
-                //lctx.arc(locatoinX[i] - 5, locatoinY[i] - 5, 5, 0, 2 * Math.PI);
                 lctx.fillStyle = "rgb(0,255,0)";
                 lctx.lineWidth = "3";
                 lctx.strokeStyle = 'black';

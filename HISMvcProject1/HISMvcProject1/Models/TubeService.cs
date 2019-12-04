@@ -47,8 +47,8 @@ namespace HISMvcProject1.Models
         public int InsertTube(Models.TubeData tube)
         {
             string sql = @"INSERT INTO TUBE_INSERT(Patient_ID,Tube_Name_ID,Tube_Part_ID,In_Body_Cm,Caliber,Sys_Date,Exp_Date,Tube_Note,Location_X,Location_Y) 
-                           VALUES(@PatientID,@TubeNameID,@TubePartID,@InBodyCm,@Caliber,@SysDate,@ExpDate,@TubeNote,@LocationX,@LocationY) 
-                           SELECT SCOPE_IDENTITY()";
+                           VALUES(@PatientID,@TubeNameID,@TubePartID,@InBodyCm,@Caliber,@SysDate,@ExpDate,@TubeNote,@LocationX,@LocationY); 
+                           ";
 
             int TubeID;
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
