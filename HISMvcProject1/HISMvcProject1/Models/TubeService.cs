@@ -46,8 +46,8 @@ namespace HISMvcProject1.Models
         /// <returns></returns>
         public int InsertTube(Models.TubeData tube)
         {
-            string sql = @"INSERT INTO TUBE_INSERT(Patient_ID,Tube_Name_ID,Tube_Part_ID,In_Body_Cm,Caliber,Sys_Date,Exp_Date,Tube_Note) 
-                           VALUES(@PatientID,@TubeNameID,@TubePartID,@InBodyCm,@Caliber,@SysDate,@ExpDate,@TubeNote) 
+            string sql = @"INSERT INTO TUBE_INSERT(Patient_ID,Tube_Name_ID,Tube_Part_ID,In_Body_Cm,Caliber,Sys_Date,Exp_Date,Tube_Note,Location_X,Location_Y) 
+                           VALUES(@PatientID,@TubeNameID,@TubePartID,@InBodyCm,@Caliber,@SysDate,@ExpDate,@TubeNote,@LocationX,@LocationY) 
                            SELECT SCOPE_IDENTITY()";
 
             int TubeID;
@@ -63,6 +63,8 @@ namespace HISMvcProject1.Models
                 cmd.Parameters.Add(new SqlParameter("@SysDate", tube.SysDate));
                 cmd.Parameters.Add(new SqlParameter("@ExpDate", tube.ExpDate));
                 cmd.Parameters.Add(new SqlParameter("@TubeNote", tube.TubeNote));
+                cmd.Parameters.Add(new SqlParameter("@LocationX", tube.LocationX));
+                cmd.Parameters.Add(new SqlParameter("@LocationY", tube.LocationY));
                 SqlTransaction Tran = conn.BeginTransaction();
                 cmd.Transaction = Tran;
                 try

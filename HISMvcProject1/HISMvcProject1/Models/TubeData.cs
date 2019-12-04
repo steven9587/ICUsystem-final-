@@ -78,5 +78,21 @@ namespace HISMvcProject1.Models
         ///[MaxLength(5)]
         [DisplayName("備註")]
         public string TubeNote { get; set; }
+
+
+        /// <summary>
+        /// Location_X
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("X座標")]
+        public string LocationX { get; set; }
+
+
+        /// <summary>
+        /// Location_Y
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("Y座標")]
+        public string LocationY { get; set; }
     }
 }
