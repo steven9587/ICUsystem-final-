@@ -57,9 +57,9 @@
                         
                     </div>
                     <div class="col-md-10">
-                        <input type="button" value="Insert" onclick="add()" class="btn" style="background-color: #99b2db; color:#194284" />
-                        <input type="button" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
-                        <input type="button" value="Delete" onclick="Delete()" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                        <input type="button" id="insert" value="Insert" class="btn" style="background-color: #99b2db; color:#194284" />
+                        <input type="button" id="save" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
+                        <input type="button" id="delete"value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
                     </div>
                 </form>
             </div>
@@ -70,95 +70,7 @@
 @section featured {
 }
 <script>
-
-    $(function () {
-        $("#start_datepicker").kendoDatePicker({
-            value: new Date(),
-            min: "1900-01-01",
-            dateInput: true,
-            format: "yyyy-MM-dd"
-        });
-        $("#expiry_datepicker").kendoDatePicker({
-            value: new Date(),
-            min: "1900-01-01",
-            dateInput: true,
-            format: "yyyy-MM-dd"
-        });
-        $("#pipeline_Name").kendoDropDownList({
-            dataTextField: "Text",
-            dataValueField: "Value",
-            optionLabel: "請選擇",
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "GetPipeLineDropDownList",
-                        type: "post",
-                        dataType: "json"
-                    }
-                }
-            }
-        });
-        $("#pipeline_Location").kendoDropDownList({
-            dataTextField: "Text",
-            dataValueField: "Value",
-            optionLabel: "請選擇",
-            dataSource: {
-                transport: {
-                    read: {
-                        url: "GetTubePartNameDropDownList",
-                        type: "post",
-                        dataType: "json"
-                    }
-                }
-            }
-        });
-        $("#caliber").kendoNumericTextBox();
-        $("#inbodycm").kendoNumericTextBox();
-    });
-
-    function WordsDeal() {
-        var curLength = $("#pipelineNote").val().length;
-        if (curLength > 1000) {
-            var num = $("#pipelineNote").val().substr(0, 1000);
-            $("#pipelineNote").val(num);
-            alert("超過字數限制(1000字)，多出的字將被移除！");
-        }
-    }
-    
-    //save data to database
-    $(".btn_save").click(function (e) {
-        var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
-        if (validator.validate()) {
-            var create_data = {
-                "PatientID": 4065700123,
-                "TubePartID": $("#pipeline_Location").val(),
-                "TubeNameID": $("#pipeline_Name").val(),
-                "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
-                "ExpDate": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
-                "Caliber": $("#caliber").val(),
-                "InBodyCm": $("#inbodycm").val(),
-                "TubeNote": $("#pipeline_Note").val(),
-                "LocationX": x,
-                "LocationY": y,
-                }
-            $.ajax({
-                type: "POST",
-                url: "InsertData",
-                data: create_data,
-                dataType: "json",
-                success: function (response) {
-                    if (response == true) {
-                        alert("資料已新增");
-                       
-                    }
-                },
-                error: function (error) {
-                    alert("系統發生錯誤");
-                }
-            });
-        }
-    });
-
+    //canvas
     var locatoinX = [];
     var locatoinY = [];
     var x;
@@ -175,8 +87,8 @@
         lctx.drawImage(img, 0, 0, 600, 600);
         lc.onclick = function () {
             if (intubation == 1) {
-                x = event.clientX - rect.left;
-                y = event.clientY - rect.top;
+                x = event.clientX;
+                y = event.clientY;
                 locatoinX[locationPointer] = x - rect.left;
                 locatoinY[locationPointer] = y - rect.top;
                 locationPointer = locationPointer + 1;
@@ -205,18 +117,138 @@
         };
     }
 
-    function add() {
-        intubation = 1;
-    }
-    function Delete() {
-        intubation = 2;
-        var x = event.clientX;
-        var y = event.clientY;
-        locatoinX[locationPointer] = x;
-        locatoinY[locationPointer] = y;
-    }
+    $(function () {
+        //button click 
+        var Insert = $("#insert").kendoButton({
+            icon: "ungroup"
+        }).data("kendoButton");
+        var Delete = $("#delete").kendoButton({
+            icon: "ungroup"
+        }).data("kendoButton");
+        var Save = $("#save").kendoButton({
+            icon: "ungroup",
+            enable: false
+        }).data("kendoButton");
 
-    function save() {
-        intubation = false;
+        //kendoDatePicker
+        $("#start_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+        $("#expiry_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+
+        //kendropdownList
+        $("#pipeline_Name").kendoDropDownList({
+            dataTextField: "Text",
+            dataValueField: "Value",
+            optionLabel: "請選擇",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "GetPipeLineDropDownList",
+                        type: "post",
+                        dataType: "json"
+                    }
+                }
+            }
+        });
+        $("#pipeline_Location").kendoDropDownList({
+            dataTextField: "Text",
+            dataValueField: "Value",
+            optionLabel: "請選擇",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "GetTubePartNameDropDownList",
+                        type: "post",
+                        dataType: "json"
+                    }
+                }
+            }
+        });
+
+        //kendoNumericTextBox()
+        $("#caliber").kendoNumericTextBox();
+        $("#inbodycm").kendoNumericTextBox();
+
+        //save data to database
+        $("#save").click(function (e) {
+            Insert.enable(true);
+            Delete.enable(true);
+            Save.enable(false);
+            intubation = false;
+            var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
+            if (validator.validate()) {
+                var create_data = {
+                    "PatientID": 4065700123,
+                    "TubePartID": $("#pipeline_Location").val(),
+                    "TubeNameID": $("#pipeline_Name").val(),
+                    "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                    "ExpDate": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                    "Caliber": $("#caliber").val(),
+                    "InBodyCm": $("#inbodycm").val(),
+                    "TubeNote": $("#pipeline_Note").val(),
+                    "LocationX": x,
+                    "LocationY": y,
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "InsertData",
+                    data: create_data,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response == true) {
+                            alert("資料已新增");
+
+                        }
+                    },
+                    error: function (error) {
+                        alert("系統發生錯誤");
+                    }
+                });
+            }
+        });
+
+        //click insert button
+        $("#insert").click(function () {
+            intubation = 1;
+            Insert.enable(false);
+            Delete.enable(false);
+            Save.enable(true);
+        });
+
+        //click insert button
+        $ ("#delete").click(function () {
+            intubation = 2;
+            var x = event.clientX;
+            var y = event.clientY;
+            locatoinX[locationPointer] = x;
+            locatoinY[locationPointer] = y;
+        });
+    });
+
+    function WordsDeal() {
+        var curLength = $("#pipelineNote").val().length;
+        if (curLength > 1000) {
+            var num = $("#pipelineNote").val().substr(0, 1000);
+            $("#pipelineNote").val(num);
+            alert("超過字數限制(1000字)，多出的字將被移除！");
+        }
     }
+    
+    
+
+
+   
+
+
+
+  
 </script>
