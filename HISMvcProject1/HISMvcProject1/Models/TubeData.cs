@@ -87,7 +87,7 @@ namespace HISMvcProject1.Models
         [DisplayName("X座標")]
         public string LocationX { get; set; }
 
-
+        
         /// <summary>
         /// Location_Y
         /// </summary>
