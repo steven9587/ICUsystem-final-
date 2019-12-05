@@ -1,8 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Main";
-    var location_x = ViewBag.location_x;
-    var location_y= ViewBag.location_y;
+   
 }
 
 @section head
@@ -60,38 +59,37 @@
                     </div>
                     <div class="col-md-10">
                         <input type="button" id="insert" value="Insert" class="btn" style="background-color: #99b2db; color:#194284" />
-                        <input type="button" id="save" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
+                        <input type="button" id="save" value="Save" class="btn btn_save"  style="background-color: #CCDDFF; color:#194284" />
                         <input type="button" id="delete"value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    @for (int i = 0; i < location_x.Count; i++)
-    {
-        
-    }
-}
+   }
 @section featured {
 }
 <script>
     //canvas
-    var locatoinX = @Html.Raw(Json.Encode(ViewBag.location_x));
-    var locatoinY = @Html.Raw(Json.Encode(ViewBag.location_y));
+    var locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
+    
+    var locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+    
     var x;
     var y;
     var intubation = 0;
     //讀取資料庫資訊塞進陣列裡面
-    var locationPointer = locatoinX.length;
+    var locationLength = locatoinX.length;
     var img = new Image();
     img.src = "https://i.imgur.com/lQx1bV0.jpg";
     window.onload = function () {
+
         var lc = document.getElementById("full");
         var rect = lc.getBoundingClientRect();
         var lctx = lc.getContext("2d");
         lctx.drawImage(img, 0, 0, 600, 600);
         //
-        for (var i = 0; i < locationPointer; i++) {
+        for (var i = 0; i < locationLength; i++) {
             lctx.beginPath();
             lctx.fillStyle = "rgb(0,255,0)";
             lctx.lineWidth = "3";
@@ -102,11 +100,18 @@
         }
         lc.onclick = function () {
             if (intubation == 1) {
-                x = event.clientX;
-                y = event.clientY;
-                locatoinX[locationPointer] = x - rect.left;
-                locatoinY[locationPointer] = y - rect.top;
-                locationPointer = locationPointer + 1;
+                x = event.clientX - rect.left;
+                y = event.clientY - rect.top;
+                //locatoinX[locationPointer] = x ;
+                //locatoinY[locationPointer] = y ;
+                //locationPointer = locationPointer + 1;
+                lctx.beginPath();
+                lctx.fillStyle = "rgb(0,255,0)";
+                lctx.lineWidth = "3";
+                lctx.strokeStyle = 'black';
+                lctx.rect(x - 10, y - 10, 10, 10);
+                lctx.fill();
+                lctx.stroke();
             }
             if (intubation == 2) {
                 for (var i = 0; i < locationPointer; i++) {
@@ -222,7 +227,7 @@
                     success: function (response) {
                         if (response == true) {
                             alert("資料已新增");
-
+                            location.reload();
                         }
                     },
                     error: function (error) {

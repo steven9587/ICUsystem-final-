@@ -95,6 +95,88 @@ namespace HISMvcProject1.Models
         }
 
         /// <summary>
+        /// GetTubeLocationX
+        /// </summary>
+        /// <returns></returns>
+        public List<String> GetTubeLocationX()
+        {
+            DataTable dt = new DataTable();
+            string sql = @" SELECT Location_X AS CodeID
+	                       FROM tube_Insert;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+
+            List<String> result = new List<String>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(row["CodeID"].ToString());
+
+            }
+            return result;
+         }
+
+        public List<String> GetTubeLocationY()
+        {
+            DataTable dt = new DataTable();
+            string sql = @"  SELECT Location_Y AS CodeID
+	                       FROM tube_Insert;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+
+            List<String> result = new List<String>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(row["CodeID"].ToString());
+
+            }
+            return result;
+        }
+        /// <summary>
+        /// GetTubeLocationY
+        /// </summary>
+        /// <returns></returns>
+       /* public List<SelectListItem> GetTubeLocationY()
+        {
+            DataTable dt = new DataTable();
+            string sql = @" SELECT Location_Y AS CodeID
+	                       FROM tube_Insert;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return this.MapLocationY(dt);
+        }
+        private List<SelectListItem> MapLocationY(DataTable dt)
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(new SelectListItem()
+                {
+
+                    Value = row["CodeID"].ToString()
+                });
+            }
+            return result;
+        }*/
+
+        /// <summary>
         /// TubePartNameMap
         /// </summary>
         /// <returns></returns>

@@ -47,15 +47,15 @@ namespace HISMvcProject1.Controllers
         public ActionResult Main()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-            List<float> location_x = new List<float>();
+           /*List<float> location_x = new List<float>();
             location_x.Add(123);
             location_x.Add(456);
             List<float> location_y = new List<float>();
             location_y.Add(123);
-            location_y.Add(456);
+            location_y.Add(456);*/
 
-            ViewBag.location_x = location_x;
-            ViewBag.location_y = location_y;
+            ViewBag.location_x = tubeservice.GetTubeLocationX();
+            ViewBag.location_y = tubeservice.GetTubeLocationX();
 
             return View();
         }
