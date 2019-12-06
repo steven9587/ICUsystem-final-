@@ -37,6 +37,10 @@ namespace HISMvcProject1.Models
         [DisplayName("管路名稱")]
         public string TubeName { get; set; }
 
+        /// <summary>
+        /// 管路名稱ID
+        /// </summary>
+        ///[MaxLength(5)]
         [DisplayName("管路名稱ID")]
         [Required(ErrorMessage = "此欄位必填")]
         public string TubeNameID { get; set; }

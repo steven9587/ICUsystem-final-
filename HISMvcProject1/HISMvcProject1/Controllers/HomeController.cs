@@ -19,11 +19,33 @@ namespace HISMvcProject1.Controllers
     public class HomeController : Controller
     {
         readonly Models.TubeService tubeservice = new Models.TubeService();
+        readonly Models.LoginService loginservice = new Models.LoginService();
+
+       
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
+         
 
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult UserLogin(Models.LoginData login)
+        {
+
+            loginservice.UserLogin(login);
+           /* return this.Json(true);*/
+            
+            if (loginservice.UserLogin(login) != 0)            
+            {
+                return this.Json(true);
+            }
+            else
+            {
+                return this.Json(false);
+            }
+
         }
 
 
@@ -102,5 +124,7 @@ namespace HISMvcProject1.Controllers
             }
 
         }
+
+
     }
 }

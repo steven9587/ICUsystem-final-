@@ -11,9 +11,9 @@
 {
     <div class="login_row">
         <div class="login_column">
-            <input id='username' type='text' placeholder="user">
-            <input id='password' type='text' placeholder='password'>
-            <input type="button" value="LOGIN" onclick="login()" class="btn" style="background-color: #99b2db; color:#194284" />
+            <label for="username">Username:</label><input type="text" id="username"  />
+            <label for="password">Password:</label><input type="password" id="password"  />
+            <input type="button" id="login" value="Login" class="btn" data-role="button" style="background-color: #CCDDFF; color:#194284;float:right;margin-left:10px;margin-bottom:20px;" />
         </div>
     </div>
 }
@@ -24,6 +24,60 @@
 
 <script>
 
+    $("#login").click(function (e) {
+        var login_data = {
+            "Username": $("#username").val(),
+            "Password": $("#password").val(),
+        }
+        $.ajax({
+            type: "POST",
+            url: "UserLogin",
+            data: login_data,
+            dataType: "json",
+            success: function (response) {
+                if (response == true) {
+                    alert("登入成功");
+                    window.location.href = "Search"
+                }
+                else {
+                    alert("登入失敗");
+                    $("#username").val("");
+                    $("#password").val("");
+                }
+            },
+            error: function (error) {
+                alert("你Controller沒進去");
+            }
+        });
+
+    })
+    /*
+    function authenticateUser() {
+        var userName = $("#username").val();
+        var password = $("#password").val();
+        var $msg = $("#login-message");
+
+        $.ajax({
+            url: "/fakeaccount/_login",
+            data: { UserName: userName, Password: password, RememberMe: false },
+            dataType: "json",
+            type: "POST",
+            success: function (data) {
+                if (data.Success) {
+                    $msg.hide();
+                    app.navigate("");
+                } else {
+                    $msg.html(data.Message).show();
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText)
+            }
+        });
+    }
+    */
+
+    /*
     function login() {
         kendo.alert("This is a Kendo UI Alert message.");
         var username = $("#username").val();
@@ -53,4 +107,5 @@
             $("#loginresult").html(message);
         }
     }
+    */
 </script>
