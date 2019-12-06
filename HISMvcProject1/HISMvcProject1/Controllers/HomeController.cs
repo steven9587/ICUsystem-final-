@@ -55,7 +55,7 @@ namespace HISMvcProject1.Controllers
             location_y.Add(456);*/
 
             ViewBag.location_x = tubeservice.GetTubeLocationX();
-            ViewBag.location_y = tubeservice.GetTubeLocationX();
+            ViewBag.location_y = tubeservice.GetTubeLocationY();
 
             return View();
         }
