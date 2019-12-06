@@ -202,9 +202,7 @@
 
         //save data to database
         $("#save").click(function (e) {
-            Insert.enable(true);
-            Delete.enable(true);
-            Save.enable(false);
+           
             intubation = false;
             var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
             if (validator.validate()) {
@@ -229,6 +227,9 @@
                         if (response == true) {
                             alert("資料已新增");
                             location.reload();
+                            Insert.enable(true);
+                            Delete.enable(true);
+                            Save.enable(false);
                         }
                     },
                     error: function (error) {
