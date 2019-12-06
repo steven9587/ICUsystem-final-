@@ -119,16 +119,29 @@
                     if (clickX  >= locatoinX[i] -5 && clickX <= locatoinX[i] + 5
                         && clickY >= locatoinY[i] -5  && clickY <= locatoinY[i] + 5) {
                         tubepointer = i;
-                        lctx.beginPath();
+                        /*lctx.beginPath();
                         lctx.fillStyle = "rgb(0,255,0)";
                         lctx.lineWidth = "3";
                         lctx.strokeStyle = 'red';
                         lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
                         lctx.fill();
-                        lctx.stroke();
+                        lctx.stroke();*/
                     }
                 }
-
+                //redraw tube drom DB
+                for (var i = 0; i < locationLength; i++) {
+                    lctx.beginPath();
+                    lctx.fillStyle = "rgb(0,255,0)";
+                    lctx.lineWidth = "3";
+                    if(i == tubepointer){
+                        lctx.strokeStyle = 'red';
+                    }else{
+                        lctx.strokeStyle = 'black';
+                    }
+                    lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
+                    lctx.fill();
+                    lctx.stroke();
+                }
             }
         };
     }
