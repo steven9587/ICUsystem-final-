@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Main";
-   
+
 }
 
 @section head
@@ -54,64 +54,78 @@
                     </div>
                     <div class="form-group" style="margin-bottom:50px">
                         <label for="caliber" class="required">備註：</label>
-                        <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 100%;" cols="100" rows="2" ></textarea>
-                        
+                        <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 100%;" cols="100" rows="2"></textarea>
+
                     </div>
                     <div class="col-md-10">
                         <input type="button" id="insert" value="Insert" class="btn" style="background-color: #99b2db; color:#194284" />
-                        <input type="button" id="save" value="Save" class="btn btn_save"  style="background-color: #CCDDFF; color:#194284" />
-                        <input type="button" id="delete"value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                        <input type="button" id="save" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
+                        <input type="button" id="delete" value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
                     </div>
                 </form>
             </div>
         </div>
     </div>
-   }
+}
 @section featured {
 }
 <script>
-    //讀取資料庫資訊塞進陣列裡面
-    var locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
-    var locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y)); 
-    var locationLength = locatoinX.length;
-    var intubation = 0;
+    var locatoinX ;
+    var locatoinY ;
+    var locationLength;
+    var x;
+    var y;
+    var tubepointer;
+    var intubation;
     //canvas
     var img = new Image();
     img.src = "https://i.imgur.com/lQx1bV0.jpg";
     window.onload = function () {
+        //read tube x-y from DB
+        locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
+        locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+        locationLength = locatoinX.length;
         var lc = document.getElementById("full");
         var rect = lc.getBoundingClientRect();
         var lctx = lc.getContext("2d");
         lctx.drawImage(img, 0, 0, 600, 600);
-        //draw point drom DB
+        //draw tube drom DB
         for (var i = 0; i < locationLength; i++) {
             lctx.beginPath();
             lctx.fillStyle = "rgb(0,255,0)";
             lctx.lineWidth = "3";
             lctx.strokeStyle = 'black';
-            lctx.rect(locatoinX[i] - 10, locatoinY[i] - 10, 10, 10);
+            lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
             lctx.fill();
             lctx.stroke();
         }
         lc.onclick = function () {
-            if (intubation == 1) {
-                //draw insert point
-                var x = event.clientX - rect.left;
-                var y = event.clientY - rect.top;
+            if (intubation == 'insert') {
+                //draw tube from insert
+                x = event.clientX - rect.left - 10;
+                y = event.clientY - rect.top - 10;
                 lctx.beginPath();
                 lctx.fillStyle = "rgb(0,255,0)";
                 lctx.lineWidth = "3";
                 lctx.strokeStyle = 'black';
-                lctx.rect(x - 10, y - 10, 10, 10);
+                lctx.rect(x, y, 10, 10);
                 lctx.fill();
                 lctx.stroke();
-            }
-            if (intubation == 2) {
-                for (var i = 0; i < locationPointer; i++) {
-                    if (event.clientX >= locatoinX[i] - 5 && event.clientX <= locatoinX[i] + 10 && event.clientY >= locatoinY[i] + 35 && event.clientY <= locatoinY[i] + 50) {
-                        locatoinX.splice(i, 1);
-                        locatoinY.splice(i, 1);
-                        locationPointer = locationPointer - 1;
+            }else{
+                //select point on canvasS
+                var clickX = event.clientX - rect.left - 10 ;
+                var clickY = event.clientY - rect.top - 10;
+                for (var i = 0; i < locationLength; i++) {
+                    if (clickX  >= locatoinX[i] -5 && clickX <= locatoinX[i] + 5
+                        && clickY >= locatoinY[i] -5  && clickY <= locatoinY[i] + 5) {
+                        tubepointer = i;
+                        lctx.beginPath();
+                        lctx.fillStyle = "rgb(0,255,0)";
+                        lctx.lineWidth = "3";
+                        lctx.strokeStyle = 'red';
+                        lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
+                        lctx.fill();
+                        lctx.stroke();
                     }
                 }
 
@@ -220,15 +234,15 @@
 
         //click insert button
         $("#insert").click(function () {
-            intubation = 1;
+            intubation = 'insert';
             Insert.enable(false);
             Delete.enable(false);
             Save.enable(true);
         });
 
-        //click insert button
+        //click delete button
         $ ("#delete").click(function () {
-            intubation = 2;
+            intubation = 'delete';
             var x = event.clientX;
             var y = event.clientY;
             locatoinX[locationPointer] = x;
@@ -244,13 +258,4 @@
             alert("超過字數限制(1000字)，多出的字將被移除！");
         }
     }
-
-
-
-
-
-
-
-
-
 </script>
