@@ -19,7 +19,7 @@ namespace HISMvcProject1.Models
             return System.Configuration.ConfigurationManager.ConnectionStrings["DBConn"].ConnectionString.ToString();
         }
 
-        public int UserLogin(Models.LoginData login)
+        public int UserLogin(Models.LoginData login) 
         {
             string sql = @"SELECT USER_ID, USER_NAME, USER_PASSWORD 
                            FROM USER_LOGIN
