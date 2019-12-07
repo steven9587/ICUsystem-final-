@@ -9,7 +9,7 @@ namespace HISMvcProject1.Models
 {
     public class TubeData
     {
-         
+
 
         /// <summary>
         /// 病人編號
@@ -24,7 +24,7 @@ namespace HISMvcProject1.Models
         ///[MaxLength(5)]
         [DisplayName("管路位置")]
         public string TubePartName { get; set; }
-        
+
 
         [DisplayName("管路位置ID")]
         [Required(ErrorMessage = "此欄位必填")]
@@ -37,10 +37,6 @@ namespace HISMvcProject1.Models
         [DisplayName("管路名稱")]
         public string TubeName { get; set; }
 
-        /// <summary>
-        /// 管路名稱ID
-        /// </summary>
-        ///[MaxLength(5)]
         [DisplayName("管路名稱ID")]
         [Required(ErrorMessage = "此欄位必填")]
         public string TubeNameID { get; set; }
@@ -88,14 +84,14 @@ namespace HISMvcProject1.Models
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("X座標")]
-        public string LocationX { get; set; }
+        public int LocationX { get; set; }
 
-        
+
         /// <summary>
         /// Location_Y
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("Y座標")]
-        public string LocationY { get; set; }
+        public int LocationY { get; set; }
     }
 }

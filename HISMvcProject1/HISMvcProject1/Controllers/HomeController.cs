@@ -20,32 +20,11 @@ namespace HISMvcProject1.Controllers
     {
         readonly Models.TubeService tubeservice = new Models.TubeService();
         readonly Models.LoginService loginservice = new Models.LoginService();
-
-       
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-         
 
             return View();
-        }
-
-        [HttpPost]
-        public JsonResult UserLogin(Models.LoginData login)
-        {
-
-            loginservice.UserLogin(login);
-           /* return this.Json(true);*/
-            
-            if (loginservice.UserLogin(login) != 0)            
-            {
-                return this.Json(true);
-            }
-            else
-            {
-                return this.Json(false);
-            }
-
         }
 
 
@@ -63,18 +42,18 @@ namespace HISMvcProject1.Controllers
 
             return View();
         }
-        
 
-  
+
+
         public ActionResult Main()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-           /*List<float> location_x = new List<float>();
-            location_x.Add(123);
-            location_x.Add(456);
-            List<float> location_y = new List<float>();
-            location_y.Add(123);
-            location_y.Add(456);*/
+            /*List<float> location_x = new List<float>();
+             location_x.Add(123);
+             location_x.Add(456);
+             List<float> location_y = new List<float>();
+             location_y.Add(123);
+             location_y.Add(456);*/
 
             ViewBag.location_x = tubeservice.GetTubeLocationX();
             ViewBag.location_y = tubeservice.GetTubeLocationY();
@@ -108,7 +87,12 @@ namespace HISMvcProject1.Controllers
         {
             return Json(this.tubeservice.GetTubePartName());
         }
-
+        //
+        [HttpPost]
+        public JsonResult GetTubeData(Models.TubeData tubexy)
+        {
+            return Json(this.tubeservice.GetTubeData(tubexy));
+        }
 
         [HttpPost]
         public JsonResult InsertData(Models.TubeData tube)
@@ -124,7 +108,22 @@ namespace HISMvcProject1.Controllers
             }
 
         }
+        [HttpPost]
+        public JsonResult UserLogin(Models.LoginData login)
+        {
 
+            loginservice.UserLogin(login);
+            /* return this.Json(true);*/
 
+            if (loginservice.UserLogin(login) != 0)
+            {
+                return this.Json(true);
+            }
+            else
+            {
+                return this.Json(false);
+            }
+
+        }
     }
 }

@@ -119,7 +119,7 @@ namespace HISMvcProject1.Models
 
             }
             return result;
-         }
+        }
 
         public List<String> GetTubeLocationY()
         {
@@ -143,38 +143,50 @@ namespace HISMvcProject1.Models
             }
             return result;
         }
-        /// <summary>
-        /// GetTubeLocationY
-        /// </summary>
-        /// <returns></returns>
-       /* public List<SelectListItem> GetTubeLocationY()
+        public Models.TubeData GetTubeData(Models.TubeData tubexy)
         {
             DataTable dt = new DataTable();
-            string sql = @" SELECT Location_Y AS CodeID
-	                       FROM tube_Insert;";
+            string sql = @"select ti.Tube_Info_id as TubeIfoId, 
+		                          ti.tube_name_id as TubeId ,
+		                          t.tube_name as TubeName,
+		                          ti.tube_part_id as PartId,
+		                          tp.tube_part as PartName,
+		                          ti.in_body_cm as Inbodycm,
+		                          ti.caliber as Caliber,
+		                          CONVERT(char(10),ti.sys_date,126) as Sysdate,
+		                          CONVERT(char(10),ti.exp_date,126) as Expdate,
+		                          ti.tube_note as TubeNote
+                          from tube_insert ti 
+                          left join tube_part tp on ti.tube_part_id = tp.tube_part_id 
+                          left join tube_info t on ti.tube_name_id = t.tube_name_id
+                          where location_x = @LocationX and location_y = @LocationY;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@LocationX", tubexy.LocationX));
+                cmd.Parameters.Add(new SqlParameter("@LocationY", tubexy.LocationY));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
             }
-            return this.MapLocationY(dt);
+            return MapEditData(dt);
         }
-        private List<SelectListItem> MapLocationY(DataTable dt)
+        private Models.TubeData MapEditData(DataTable dt)
         {
-            List<SelectListItem> result = new List<SelectListItem>();
-            foreach (DataRow row in dt.Rows)
-            {
-                result.Add(new SelectListItem()
-                {
+            Models.TubeData result = new Models.TubeData();
 
-                    Value = row["CodeID"].ToString()
-                });
-            }
+            result.TubePartID = dt.Rows[0]["PartId"].ToString();
+            result.TubeNameID = dt.Rows[0]["TubeId"].ToString();
+            result.SysDate = dt.Rows[0]["Sysdate"].ToString();
+            result.ExpDate = dt.Rows[0]["Expdate"].ToString();
+            result.Caliber = dt.Rows[0]["Caliber"].ToString();
+            result.InBodyCm = dt.Rows[0]["Inbodycm"].ToString();
+            result.TubeNote = dt.Rows[0]["TubeNote"].ToString();
+
+
             return result;
-        }*/
+        }
 
         /// <summary>
         /// TubePartNameMap
