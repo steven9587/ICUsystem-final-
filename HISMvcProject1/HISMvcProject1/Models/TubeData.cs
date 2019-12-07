@@ -9,7 +9,7 @@ namespace HISMvcProject1.Models
 {
     public class TubeData
     {
-
+         
 
         /// <summary>
         /// 病人編號
