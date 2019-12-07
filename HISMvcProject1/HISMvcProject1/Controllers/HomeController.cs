@@ -48,13 +48,8 @@ namespace HISMvcProject1.Controllers
         public ActionResult Main()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-            /*List<float> location_x = new List<float>();
-             location_x.Add(123);
-             location_x.Add(456);
-             List<float> location_y = new List<float>();
-             location_y.Add(123);
-             location_y.Add(456);*/
 
+            //return xy to view from db
             ViewBag.location_x = tubeservice.GetTubeLocationX();
             ViewBag.location_y = tubeservice.GetTubeLocationY();
 
@@ -75,25 +70,42 @@ namespace HISMvcProject1.Controllers
             return View();
         }
 
-        //
+        /// <summary>
+        /// GetPipeLineDropDownList
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult GetPipeLineDropDownList()
         {
             return Json(this.tubeservice.GetPipeLine());
         }
-        //
+        
+        /// <summary>
+        /// GetTubePartNameDropDownList
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult GetTubePartNameDropDownList()
         {
             return Json(this.tubeservice.GetTubePartName());
         }
-        //
+
+        /// <summary>
+        /// Get xy from view return detail to view from db
+        /// </summary>
+        /// <param name="tubexy"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult GetTubeData(Models.TubeData tubexy)
         {
             return Json(this.tubeservice.GetTubeData(tubexy));
         }
 
+        /// <summary>
+        /// insertdata
+        /// </summary>
+        /// <param name="tube"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult InsertData(Models.TubeData tube)
         {
@@ -108,6 +120,30 @@ namespace HISMvcProject1.Controllers
             }
 
         }
+        /// <summary>
+        /// DeleteTube
+        /// </summary>
+        /// <param name="tube"></param>
+        /// <returns></returns>
+        public JsonResult DeleteTube(Models.TubeData tube)
+        {
+            try
+            {
+                tubeservice.DeleteTube(tube);
+                return this.Json(true);
+            }
+            catch (Exception ex)
+            {
+                return this.Json(false);
+            }
+
+        }
+
+        /// <summary>
+        /// userlogin
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult UserLogin(Models.LoginData login)
         {

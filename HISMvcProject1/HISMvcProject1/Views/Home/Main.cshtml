@@ -283,12 +283,32 @@
         });
 
         //click delete button
-        $ ("#delete").click(function () {
-            intubation = 'delete';
+        $ ("#delete").click(function (e) {
+            /*intubation = 'delete';
             var x = event.clientX;
             var y = event.clientY;
             locatoinX[locationPointer] = x;
-            locatoinY[locationPointer] = y;
+            locatoinY[locationPointer] = y;*/
+            pointlocation = {
+                "LocationX":location_point_x,
+                "LocationY":location_point_y
+            }
+            $.ajax({
+                type: "POST",
+                url: "DeleteTube",
+                data: pointlocation,
+                dataType: "json",
+                success: function (response) {
+                    if (response == true) {
+                        alert("已刪除");
+                        location.reload();
+                    }
+                },
+                error: function (error) {
+                    alert("系統發生錯誤");
+                }
+            });
+            
         });
     });
 

@@ -93,6 +93,45 @@ namespace HISMvcProject1.Models
             }
             return TubeID;
         }
+        
+        /// <summary>
+        /// delete
+        /// </summary>
+        /// <param name="BookID"></param>
+        public void DeleteTube(Models.TubeData tube)
+        {
+            try  //針對SQL 做try catch
+            {
+                string sql = @"DELETE FROM tube_insert where location_x = @LocationX and location_y = @LocationY;";
+                using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.Add(new SqlParameter("@LocationX", tube.LocationX));
+                    cmd.Parameters.Add(new SqlParameter("@LocationY", tube.LocationY));
+                    SqlTransaction Tran = conn.BeginTransaction();
+                    cmd.Transaction = Tran;
+                    try  //針對Transaction 做try catch
+                    {
+                        cmd.ExecuteNonQuery();
+                        Tran.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        Tran.Rollback();
+                        throw;
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         /// <summary>
         /// GetTubeLocationX
