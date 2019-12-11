@@ -93,7 +93,67 @@ namespace HISMvcProject1.Models
             }
             return TubeID;
         }
-        
+
+
+        /// <summary>
+        /// EDIT
+        /// </summary>
+        /// <returns></returns>
+        public void EditTube(Models.TubeData tube)
+        {
+            string sql = @"UPDATE TUBE_INSERT SET 
+                            Patient_ID = '@PatientID',
+                            Tube_Name_ID = '@TubeNameID',
+                            Tube_Part_ID = '@TubePartID',
+                            In_Body_Cm = @InBodyCm,
+                            Caliber = @Caliber,Sys_Date = '@SysDate',
+                            Exp_Date = '@ExpDate',
+                            Tube_Note = '@TubeNote' 
+                            WHERE Location_X = @LocationX AND Location_Y = @LocationY;";
+            
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientID", tube.PatientID));
+                cmd.Parameters.Add(new SqlParameter("@TubeNameID", tube.TubeNameID));
+                cmd.Parameters.Add(new SqlParameter("@TubePartID", tube.TubePartID));
+                cmd.Parameters.Add(new SqlParameter("@InBodyCm", tube.InBodyCm));
+                cmd.Parameters.Add(new SqlParameter("@Caliber", tube.Caliber));
+                cmd.Parameters.Add(new SqlParameter("@SysDate", tube.SysDate));
+                cmd.Parameters.Add(new SqlParameter("@ExpDate", tube.ExpDate));
+                if (tube.TubeNote == null)
+                {
+                    cmd.Parameters.Add(new SqlParameter("@TubeNote", ""));
+                }
+                else
+                {
+                    cmd.Parameters.Add(new SqlParameter("@TubeNote", tube.TubeNote));
+                }
+                cmd.Parameters.Add(new SqlParameter("@LocationX", tube.LocationX));
+                cmd.Parameters.Add(new SqlParameter("@LocationY", tube.LocationY));
+                SqlTransaction Tran = conn.BeginTransaction();
+                cmd.Transaction = Tran;
+                try
+                {
+                    //TubeID = Convert.ToInt32(cmd.ExecuteScalar());
+                    Tran.Commit();
+                }
+                catch (Exception)
+                {
+                    Tran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+            //return TubeID;
+        }
+
+
         /// <summary>
         /// delete
         /// </summary>
@@ -214,7 +274,6 @@ namespace HISMvcProject1.Models
         private Models.TubeData MapEditData(DataTable dt)
         {
             Models.TubeData result = new Models.TubeData();
-
             result.TubePartID = dt.Rows[0]["PartId"].ToString();
             result.TubeNameID = dt.Rows[0]["TubeId"].ToString();
             result.SysDate = dt.Rows[0]["Sysdate"].ToString();
@@ -222,8 +281,6 @@ namespace HISMvcProject1.Models
             result.Caliber = dt.Rows[0]["Caliber"].ToString();
             result.InBodyCm = dt.Rows[0]["Inbodycm"].ToString();
             result.TubeNote = dt.Rows[0]["TubeNote"].ToString();
-
-
             return result;
         }
 

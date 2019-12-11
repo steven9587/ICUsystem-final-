@@ -165,11 +165,8 @@
                         $("#caliber").data("kendoNumericTextBox").value(data.Caliber);
                         $("#inbodycm").data("kendoNumericTextBox").value(data.InBodyCm);
                         $("#pipeline_Note").val(data.TubeNote);
-
                     }
                 });
-                //redraw tube drom DB
-
             }
         };
     }
@@ -184,7 +181,7 @@
         }).data("kendoButton");
         var Save = $("#save").kendoButton({
             icon: "ungroup",
-            enable: false
+            //enable: false
         }).data("kendoButton");
 
         //kendoDatePicker
@@ -237,49 +234,87 @@
 
         //save data to database
         $("#save").click(function (e) {
-
-            intubation = false;
-            var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
-            if (validator.validate()) {
-                var create_data = {
-                    "PatientID": 4065700123,
-                    "TubePartID": $("#pipeline_Location").val(),
-                    "TubeNameID": $("#pipeline_Name").val(),
-                    "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
-                    "ExpDate": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
-                    "Caliber": $("#caliber").val(),
-                    "InBodyCm": $("#inbodycm").val(),
-                    "TubeNote": $("#pipeline_Note").val(),
-                    "LocationX": x,
-                    "LocationY": y.toFixed(0)
-                }
-                $.ajax({
-                    type: "POST",
-                    url: "InsertData",
-                    data: create_data,
-                    dataType: "json",
-                    success: function (response) {
-                        if (response == true) {
-                            alert("資料已新增");
-                            location.reload();
-                            Insert.enable(true);
-                            Delete.enable(true);
-                            Save.enable(false);
-                        }
-                    },
-                    error: function (error) {
-                        alert("系統發生錯誤");
+            if(intubation == 'insert') {
+                intubation = false;
+                var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
+                if (validator.validate()) {
+                    var create_data = {
+                        "PatientID": 4065700123,
+                        "TubePartID": $("#pipeline_Location").val(),
+                        "TubeNameID": $("#pipeline_Name").val(),
+                        "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                        "ExpDate": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                        "Caliber": $("#caliber").val(),
+                        "InBodyCm": $("#inbodycm").val(),
+                        "TubeNote": $("#pipeline_Note").val(),
+                        "LocationX": x,
+                        "LocationY": y.toFixed(0)
                     }
-                });
+                    $.ajax({
+                        type: "POST",
+                        url: "InsertData",
+                        data: create_data,
+                        dataType: "json",
+                        success: function (response) {
+                            if (response == true) {
+                                alert("資料已新增");
+                                location.reload();
+                                /*Insert.enable(true);
+                                Delete.enable(true);
+                                Save.enable(false);*/
+                            }
+                        },
+                        error: function (error) {
+                            alert("系統發生錯誤");
+                        }
+                    });
+                }
+            }else{
+                
+                intubation = false;
+                var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
+                if (validator.validate()) {
+                    var edit_data = {
+                        "PatientID": 4065700123,
+                        "TubePartID": $("#pipeline_Location").val(),
+                        "TubeNameID": $("#pipeline_Name").val(),
+                        "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                        "ExpDate": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                        "Caliber": $("#caliber").val(),
+                        "InBodyCm": $("#inbodycm").val(),
+                        "TubeNote": $("#pipeline_Note").val(),
+                        "LocationX": locatoinX[tubepointer],
+                        "LocationY": locatoinY[tubepointer]
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "EditData",
+                        data: edit_data,
+                        dataType: "json",
+                        success: function (response) {
+                            if (response == true) {
+                                alert("資料已修改");
+                                location.reload();
+                                /*Insert.enable(true);
+                                Delete.enable(true);
+                                Save.enable(false);*/
+                            }
+                        },
+                        error: function (error) {
+                            alert("系統發生錯誤");
+                        }
+                    });
+                }
             }
+
         });
 
         //click insert button
         $("#insert").click(function () {
             intubation = 'insert';
-            Insert.enable(false);
+            /*Insert.enable(false);
             Delete.enable(false);
-            Save.enable(true);
+            Save.enable(true);*/
         });
 
         //click delete button
@@ -308,7 +343,7 @@
                     alert("系統發生錯誤");
                 }
             });
-            
+
         });
     });
 

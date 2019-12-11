@@ -120,6 +120,33 @@ namespace HISMvcProject1.Controllers
             }
 
         }
+
+
+
+        /// <summary>
+        /// editdata
+        /// </summary>
+        /// <param name="tube"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult EditData(Models.TubeData tube)
+        {
+            try
+            {
+                tubeservice.EditTube(tube);
+                return this.Json(true);
+            }
+            catch (Exception ex)
+            {
+                return this.Json(false);
+            }
+
+        }
+
+
+
+
+
         /// <summary>
         /// DeleteTube
         /// </summary>
