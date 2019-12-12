@@ -138,9 +138,11 @@ namespace HISMvcProject1.Controllers
             }
             catch (Exception ex)
             {
-                return this.Json(false);
-            }
 
+                return this.Json(false);
+
+
+            }
         }
 
 

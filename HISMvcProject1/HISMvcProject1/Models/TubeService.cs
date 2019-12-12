@@ -101,20 +101,23 @@ namespace HISMvcProject1.Models
         /// <returns></returns>
         public void EditTube(Models.TubeData tube)
         {
+            DataTable dt = new DataTable();
             string sql = @"UPDATE TUBE_INSERT SET 
-                            Patient_ID = '@PatientID',
-                            Tube_Name_ID = '@TubeNameID',
-                            Tube_Part_ID = '@TubePartID',
+                            Patient_ID = @PatientID,
+                            Tube_Name_ID = @TubeNameID,
+                            Tube_Part_ID = @TubePartID,
                             In_Body_Cm = @InBodyCm,
-                            Caliber = @Caliber,Sys_Date = '@SysDate',
-                            Exp_Date = '@ExpDate',
-                            Tube_Note = '@TubeNote' 
+                            Caliber = @Caliber,
+                            Sys_Date = CONVERT(DATETIME, @SysDate),
+                            Exp_Date = CONVERT(DATETIME, @ExpDate),
+                            Tube_Note = @TubeNote 
                             WHERE Location_X = @LocationX AND Location_Y = @LocationY;";
-            
+
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 cmd.Parameters.Add(new SqlParameter("@PatientID", tube.PatientID));
                 cmd.Parameters.Add(new SqlParameter("@TubeNameID", tube.TubeNameID));
                 cmd.Parameters.Add(new SqlParameter("@TubePartID", tube.TubePartID));
@@ -134,10 +137,11 @@ namespace HISMvcProject1.Models
                 cmd.Parameters.Add(new SqlParameter("@LocationY", tube.LocationY));
                 SqlTransaction Tran = conn.BeginTransaction();
                 cmd.Transaction = Tran;
-                try
+               try
                 {
                     //TubeID = Convert.ToInt32(cmd.ExecuteScalar());
                     Tran.Commit();
+                    
                 }
                 catch (Exception)
                 {
@@ -146,6 +150,7 @@ namespace HISMvcProject1.Models
                 }
                 finally
                 {
+                    sqlAdapter.Fill(dt);
                     conn.Close();
                 }
 
