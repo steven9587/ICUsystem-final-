@@ -10,144 +10,513 @@
 
 @section body
 {
-   
 
-<div>
-    <div class="left" style="width:350px;height:860px;">
-        <div class="patient_info" style="resize:none;  overflow-y: scroll;" cols="45" rows="80">
 
-            <label for="patient_name">病人姓名 : </label><br>
-            <input type="patient_name" class="form-control" id="patient_name" placeholder="威爾森"><br>
+    <div>
+        <div class="left" style="width:350px;height:860px;">
+            <div class="patient_info" style="resize:none;  overflow-y: scroll;" cols="45" rows="80">
 
-            <label for="patient_id_no">身分證字號 : </label><br>
-            <input type="patient_id_no" class="form-control" id="patient_id_no" placeholder="E000000000"><br>
+                <label for="patient_name">病人姓名 : </label><br>
+                <input type="patient_name" class="form-control" id="patient_name" placeholder="威爾森"><br>
 
-            <label for="patient_birthday">出生年月日 : </label><br>
-            <input type="patient_birthday" class="form-control" id="patient_birthday" placeholder="2019-11-01"><br>
+                <label for="patient_id_no">身分證字號 : </label><br>
+                <input type="patient_id_no" class="form-control" id="patient_id_no" placeholder="E000000000"><br>
 
-            <label for="his_no">病歷號 : </label><br>
-            <input type="his_no" class="form-control" id="his_no" placeholder="0123456789"><br>
+                <label for="patient_birthday">出生年月日 : </label><br>
+                <input type="patient_birthday" class="form-control" id="patient_birthday" placeholder="2019-11-01"><br>
 
-            <label for="in_ICU_date">入ICU日 : </label><br>
-            <input type="in_ICU_date" class="form-control" id="in_ICU_date" placeholder="2019-12-01"><br>
+                <label for="his_no">病歷號 : </label><br>
+                <input type="his_no" class="form-control" id="his_no" placeholder="0123456789"><br>
 
-            <label for="in_adm_date">入院日 : </label><br>
-            <input type="in_adm_date" class="form-control" id="in_adm_date" placeholder="2019-12-02"><br>
+                <label for="in_ICU_date">入ICU日 : </label><br>
+                <input type="in_ICU_date" class="form-control" id="in_ICU_date" placeholder="2019-12-01"><br>
 
-            <label for="height_weight">身高、體重 : </label><br>
-            <input type="height_weight" class="form-control" id="height_weight" placeholder="81cm 0.8kg"><br>
+                <label for="in_adm_date">入院日 : </label><br>
+                <input type="in_adm_date" class="form-control" id="in_adm_date" placeholder="2019-12-02"><br>
 
-            <label for="bed_no">床號 : </label><br>
-            <input type="bed_no" class="form-control" id="bed_no" placeholder="no.220"><br>
+                <label for="height_weight">身高、體重 : </label><br>
+                <input type="height_weight" class="form-control" id="height_weight" placeholder="81cm 0.8kg"><br>
 
-            <label for="dr_no">主治醫師 : </label><br>
-            <input type="dr_no" class="form-control" id="dr_no" placeholder="Dr.Avacado"><br>
-             
+                <label for="bed_no">床號 : </label><br>
+                <input type="bed_no" class="form-control" id="bed_no" placeholder="no.220"><br>
+
+                <label for="dr_no">主治醫師 : </label><br>
+                <input type="dr_no" class="form-control" id="dr_no" placeholder="Dr.Avacado"><br>
+
+            </div>
+            <div class="shift" style="width:350px;height:256px;">
+                <textarea style="resize:none;  overflow-y: scroll;" cols="45" rows="10">嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷</textarea><br><br>
+
+            </div>
+            <button type="button" id="shift_send">Send</button>
         </div>
-        <div class="shift" style="width:350px;height:256px;">
-            <textarea style="resize:none;  overflow-y: scroll;" cols="45" rows="10">嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷</textarea><br><br>
-            
+        <div class="middle" style="width:450px;height:600px;">
+            <div class="dr_order">
+                <li style="resize:none;  overflow-y: scroll;" cols="50" rows="50">
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                    Meow Meow Meow Meow Meow Meow
+                </li>
+
+            </div>
+            <div class="inspection" style="width:450px;height:250px;">
+                <table style="resize:none;  overflow-y: scroll;" cols="10" rows="10">
+                    <tr>
+                        <th>檢查項目日期</th>
+                        <th>12/27</th>
+                        <th>09/20</th>
+                        <th>10/18</th>
+                        <th>09/27</th>
+                        <th>06/30</th>
+                        <th>05/13</th>
+                    </tr>
+                    <tr>
+                        <td>檢查項目</td>
+                        <td>AAAAAAAAAAA</td>
+                        <td>BBBBBBBBBBB</td>
+                        <td>CCCCCCCCCCC</td>
+                        <td>DDDDDDDDDDD</td>
+                        <td>EEEEEEEEEEE</td>
+                        <td>FFFFFFFFFFF</td>
+                    </tr>
+                    <tr>
+                        <td>檢查項目</td>
+                        <td>AAAAAAAAAAA</td>
+                        <td>BBBBBBBBBBB</td>
+                        <td>CCCCCCCCCCC</td>
+                        <td>DDDDDDDDDDD</td>
+                        <td>EEEEEEEEEEE</td>
+                        <td>FFFFFFFFFFF</td>
+                    </tr>
+                    <tr>
+                        <td>檢查項目</td>
+                        <td>AAAAAAAAAAA</td>
+                        <td>BBBBBBBBBBB</td>
+                        <td>CCCCCCCCCCC</td>
+                        <td>DDDDDDDDDDD</td>
+                        <td>EEEEEEEEEEE</td>
+                        <td>FFFFFFFFFFF</td>
+                    </tr>
+                    <tr>
+                        <td>檢查項目</td>
+                        <td>AAAAAAAAAAA</td>
+                        <td>BBBBBBBBBBB</td>
+                        <td>CCCCCCCCCCC</td>
+                        <td>DDDDDDDDDDD</td>
+                        <td>EEEEEEEEEEE</td>
+                        <td>FFFFFFFFFFF</td>
+                    </tr>
+                    <tr>
+                        <td>檢查項目</td>
+                        <td>AAAAAAAAAAA</td>
+                        <td>BBBBBBBBBBB</td>
+                        <td>CCCCCCCCCCC</td>
+                        <td>DDDDDDDDDDD</td>
+                        <td>EEEEEEEEEEE</td>
+                        <td>FFFFFFFFFFF</td>
+                    </tr>
+                    <tr>
+                        <td>檢查項目</td>
+                        <td>AAAAAAAAAAA</td>
+                        <td>BBBBBBBBBBB</td>
+                        <td>CCCCCCCCCCC</td>
+                        <td>DDDDDDDDDDD</td>
+                        <td>EEEEEEEEEEE</td>
+                        <td>FFFFFFFFFFF</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tpr_io" style="position: relative; width:800px;height:250px;">
+                <table></table>
+            </div>
+
         </div>
-        <button type="button" id="shift_send">Send</button>
+        <div id="andy_open">
+            <img src="https://i.imgur.com/lQx1bV0.jpg" width="350px" height="520px">
+        </div>
+       
+        <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
+            <div class="row">
+                <div class="Full_column">
+                    <canvas id="full" width="600" height="600" style="border:5px "></canvas>
+                </div>
+                <div class="helloworld">
+                    <div class="form-group">
+                        <form id="addTubeForm" data-role="validator" novalidate="novalidate">
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label for="pipelineLocation" class="required">管路位置: </label>
+                                <select id="pipeline_Location" name="pipelineLocation" required validationMessage="請選擇管路位置" style="width: 100%;"></select>
+                                <div>
+                                    <span class="k-invalid-msg" data-for="pipelineLocation"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label for="pipelineName" class="required">管路名稱: </label>
+                                <select id="pipeline_Name" name="PipelineName" required validationMessage="請選擇管路名稱" style="width: 100%;"></select>
+                                <div>
+                                    <span class="k-invalid-msg" data-for="pipelineName"></span>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label for="bought_datepicker" class="required">放置日期:</label>
+                                <input type="text" data-role='datepicker' id="start_datepicker" name="startdatepicker"
+                                       data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
+                                <span data-for='startdatepicker' class='k-invalid-msg'></span>
+                            </div>
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label for="bought_datepicker" class="required">到期日期:</label>
+                                <input type="text" data-role='datepicker' id="expiry_datepicker" name="expirydatepicker"
+                                       data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
+                                <span data-for='expirydatepicker' class='k-invalid-msg'></span>
+                            </div>
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label for="caliber" class="required"> 管路口徑(french):</label>
+                                <input id="caliber" name="Caliber" style="width: 100%;" type="text" min="1" max="34" value="1" required data-max-msg="Enter french between 1 and 34" />
+                                <span class="k-invalid-msg" data-for="Caliber"></span>
+                            </div>
+                            <div class="form-group" style="margin-bottom:10px">
+                                <label for="inbodycm" class="required">管路埋入公分數:</label>
+                                <input id="inbodycm" name="Inbodycm" style="width: 100%;" type="text" min="1" max="100" value="1" required data-max-msg="Enter cm between 1 and 34" />
+                                <span class="k-invalid-msg" data-for="Inbodycm"></span>
+                            </div>
+                            <div class="form-group" style="margin-bottom:50px">
+                                <label for="caliber" class="required">備註：</label>
+                                <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 100%;" cols="100" rows="2"></textarea>
+
+                            </div>
+                            <div class="col-md-10">
+                                <input type="button" id="insert" value="Insert" class="btn" style="background-color: #99b2db; color:#194284" />
+                                <input type="button" id="save" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
+                                <input type="button" id="delete" value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <div class="middle" style="width:450px;height:600px;">
-        <div class="dr_order">
-            <li style="resize:none;  overflow-y: scroll;" cols="50" rows="50">
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-                Meow Meow Meow Meow Meow Meow
-            </li>
-            
-        </div>
-        <div class="inspection" style="width:450px;height:250px;">
-            <table style= "resize:none;  overflow-y: scroll;" cols="10" rows="10">
-                <tr>
-                    <th>檢查項目日期</th>
-                    <th>12/27</th>
-                    <th>09/20</th>
-                    <th>10/18</th>
-                    <th>09/27</th>
-                    <th>06/30</th>
-                    <th>05/13</th>
-                </tr>
-                <tr>
-                    <td>檢查項目</td>
-                    <td>AAAAAAAAAAA</td>
-                    <td>BBBBBBBBBBB</td>
-                    <td>CCCCCCCCCCC</td>
-                    <td>DDDDDDDDDDD</td>
-                    <td>EEEEEEEEEEE</td>
-                    <td>FFFFFFFFFFF</td>
-                </tr>
-                <tr>
-                    <td>檢查項目</td>
-                    <td>AAAAAAAAAAA</td>
-                    <td>BBBBBBBBBBB</td>
-                    <td>CCCCCCCCCCC</td>
-                    <td>DDDDDDDDDDD</td>
-                    <td>EEEEEEEEEEE</td>
-                    <td>FFFFFFFFFFF</td>
-                </tr>
-                <tr>
-                    <td>檢查項目</td>
-                    <td>AAAAAAAAAAA</td>
-                    <td>BBBBBBBBBBB</td>
-                    <td>CCCCCCCCCCC</td>
-                    <td>DDDDDDDDDDD</td>
-                    <td>EEEEEEEEEEE</td>
-                    <td>FFFFFFFFFFF</td>
-                </tr>
-                <tr>
-                    <td>檢查項目</td>
-                    <td>AAAAAAAAAAA</td>
-                    <td>BBBBBBBBBBB</td>
-                    <td>CCCCCCCCCCC</td>
-                    <td>DDDDDDDDDDD</td>
-                    <td>EEEEEEEEEEE</td>
-                    <td>FFFFFFFFFFF</td>
-                </tr>
-                <tr>
-                    <td>檢查項目</td>
-                    <td>AAAAAAAAAAA</td>
-                    <td>BBBBBBBBBBB</td>
-                    <td>CCCCCCCCCCC</td>
-                    <td>DDDDDDDDDDD</td>
-                    <td>EEEEEEEEEEE</td>
-                    <td>FFFFFFFFFFF</td>
-                </tr>
-                <tr>
-                    <td>檢查項目</td>
-                    <td>AAAAAAAAAAA</td>
-                    <td>BBBBBBBBBBB</td>
-                    <td>CCCCCCCCCCC</td>
-                    <td>DDDDDDDDDDD</td>
-                    <td>EEEEEEEEEEE</td>
-                    <td>FFFFFFFFFFF</td>
-                </tr>
-            </table>
-        </div>
-        <div class="tpr_io" style="position: relative; width:800px;height:250px;">
-            <table>
 
-            </table>
-       </div>
 
-    </div>
 
-    <div class="andy" style="width:350px;height:520px;">
-
-    </div>
-   
-
-</div>
 
 }
+<script>
+    var locatoinX=[0];
+    var locatoinY=[0];
+    var location_point_x;
+    var location_point_y;
+    var locationLength;
+    var x;
+    var y;
+    var pointlocation;
+    var tubepointer;
+    var intubation;
+    var clickX;
+    var clickY;
+    //canvas
+    var img = new Image();
+    img.src = "https://i.imgur.com/lQx1bV0.jpg";
+
+
+
+    $(function () {
+        $("#andy_window").kendoWindow({
+            title: "管路位置",
+            width: "75%",
+            visible: false,
+            modal: true,
+            action: ["Minimize",
+                     "Maximize",
+                     "Close"],
+        })
+        $("#andy_open").click(function (e) {
+            $('#andy_window').data("kendoWindow").center().open();
+                //read tube x-y from DB
+                
+                locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
+                locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+                locationLength = locatoinX.length;
+                var lc = document.getElementById("full");
+                var rect = lc.getBoundingClientRect();
+                var lctx = lc.getContext("2d");
+                lctx.drawImage(img, 0, 0, 600, 600);
+                //draw tube drom DB
+                for (var i = 0; i < locationLength; i++) {
+                    lctx.beginPath();
+                    lctx.fillStyle = "rgb(0,255,0)";
+                    lctx.lineWidth = "3";
+                    lctx.strokeStyle = 'black';
+                    lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
+                    lctx.fill();
+                    lctx.stroke();
+                }
+                lc.onclick = function () {
+                    if (intubation == 'insert') {
+                        //draw tube from insert
+                        
+                        x = event.clientX - rect.left - 10;
+                        y = event.clientY - rect.top - 10;
+                        lctx.beginPath();
+                        lctx.fillStyle = "rgb(0,255,0)";
+                        lctx.lineWidth = "3";
+                        lctx.strokeStyle = 'black';
+                        lctx.rect(x, y, 10, 10);
+                        lctx.fill();
+                        lctx.stroke();
+                    }else{
+                        //select point on canvasS
+                        clickX = event.clientX - rect.left - 10 ;
+                        clickY = event.clientY - rect.top - 10;
+                        for (var i = 0; i < locationLength; i++) {
+                            if (clickX  >= locatoinX[i] -5 && clickX <= locatoinX[i] + 5
+                                && clickY >= locatoinY[i] -5  && clickY <= locatoinY[i] + 5) {
+                                tubepointer = i;
+
+                            }
+                        }
+                        locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
+                        locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+                        for (var i = 0; i < locationLength; i++) {
+                            lctx.beginPath();
+                            lctx.fillStyle = "rgb(0,255,0)";
+                            lctx.lineWidth = "3";
+                            if(i == tubepointer){
+                                lctx.strokeStyle = 'red';
+                            }else{
+                                lctx.strokeStyle = 'black';
+                            }
+
+                            lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
+                            lctx.fill();
+                            lctx.stroke();
+
+                            location_point_x =locatoinX[tubepointer];
+                            location_point_y =locatoinY[tubepointer];
+                        }
+                        //toDO: location_point_x !=locationX]; locatio_point_y !=locationY[i];
+                        pointlocation = {
+                            "LocationX":location_point_x,
+                            "LocationY":location_point_y
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: "GetTubeData",
+                            data: pointlocation,
+                            dataType: "json",
+                            success: function (data) {
+                                $("#pipeline_Location").data("kendoDropDownList").value(data.TubePartID);
+                                $("#pipeline_Name").data("kendoDropDownList").value(data.TubeNameID);
+                                $("#start_datepicker").data("kendoDatePicker").value(data.SysDate);
+                                $("#expiry_datepicker").data("kendoDatePicker").value(data.ExpDate);
+                                $("#caliber").data("kendoNumericTextBox").value(data.Caliber);
+                                $("#inbodycm").data("kendoNumericTextBox").value(data.InBodyCm);
+                                $("#pipeline_Note").val(data.TubeNote);
+                            }
+                        });
+                    }
+                };
+            
+
+
+        })
+
+        var Insert = $("#insert").kendoButton({
+            icon: "ungroup"
+        }).data("kendoButton");
+        var Delete = $("#delete").kendoButton({
+            icon: "ungroup"
+        }).data("kendoButton");
+        var Save = $("#save").kendoButton({
+            icon: "ungroup",
+            //enable: false
+        }).data("kendoButton");
+
+        //kendoDatePicker
+        $("#start_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+        $("#expiry_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+
+        //kendropdownList
+        $("#pipeline_Name").kendoDropDownList({
+            dataTextField: "Text",
+            dataValueField: "Value",
+            optionLabel: "請選擇",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "GetPipeLineDropDownList",
+                        type: "post",
+                        dataType: "json"
+                    }
+                }
+            }
+        });
+        $("#pipeline_Location").kendoDropDownList({
+            dataTextField: "Text",
+            dataValueField: "Value",
+            optionLabel: "請選擇",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "GetTubePartNameDropDownList",
+                        type: "post",
+                        dataType: "json"
+                    }
+                }
+            }
+        });
+
+        //kendoNumericTextBox()
+        $("#caliber").kendoNumericTextBox();
+        $("#inbodycm").kendoNumericTextBox();
+
+        //save data to database
+        $("#save").click(function (e) {
+            if(intubation == 'insert') {
+                intubation = false;
+                var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
+                if (validator.validate()) {
+                    var create_data = {
+                        "PatientID": 4065700123,
+                        "TubePartID": $("#pipeline_Location").val(),
+                        "TubeNameID": $("#pipeline_Name").val(),
+                        "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                        "ExpDate": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                        "Caliber": $("#caliber").val(),
+                        "InBodyCm": $("#inbodycm").val(),
+                        "TubeNote": $("#pipeline_Note").val(),
+                        "LocationX": x,
+                        "LocationY": y.toFixed(0)
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "InsertData",
+                        data: create_data,
+                        dataType: "json",
+                        success: function (response) {
+                            if (response == true) {
+                                alert("資料已新增");
+                                location.reload();
+                                /*Insert.enable(true);
+                                Delete.enable(true);
+                                Save.enable(false);*/
+                            }
+                        },
+                        error: function (error) {
+                            alert("系統發生錯誤");
+                        }
+                    });
+                }
+            }else{
+
+                intubation = false;
+                var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
+                if (validator.validate()) {
+                    var edit_data = {
+                        "PatientID": 4065700123,
+                        "TubePartID": $("#pipeline_Location").val(),
+                        "TubeNameID": $("#pipeline_Name").val(),
+                        "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                        "ExpDate": kendo.toString($("#expiry_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                        "Caliber": $("#caliber").val(),
+                        "InBodyCm": $("#inbodycm").val(),
+                        "TubeNote": $("#pipeline_Note").val(),
+                        "LocationX": locatoinX[tubepointer],
+                        "LocationY": locatoinY[tubepointer]
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "EditData",
+                        data: edit_data,
+                        dataType: "json",
+                        success: function (response) {
+                            if (response == true) {
+                                alert("資料已修改");
+                                location.reload();
+                                /*Insert.enable(true);
+                                Delete.enable(true);
+                                Save.enable(false);*/
+                            }
+                        },
+                        error: function (error) {
+                            alert("系統發生錯誤");
+                        }
+                    });
+                }
+            }
+
+        });
+
+        //click insert button
+        $("#insert").click(function () {
+            intubation = 'insert';
+            /*Insert.enable(false);
+            Delete.enable(false);
+            Save.enable(true);*/
+        });
+
+        //click delete button
+        $ ("#delete").click(function (e) {
+            /*intubation = 'delete';
+            var x = event.clientX;
+            var y = event.clientY;
+            locatoinX[locationPointer] = x;
+            locatoinY[locationPointer] = y;*/
+            pointlocation = {
+                "LocationX":location_point_x,
+                "LocationY":location_point_y
+            }
+            $.ajax({
+                type: "POST",
+                url: "DeleteTube",
+                data: pointlocation,
+                dataType: "json",
+                success: function (response) {
+                    if (response == true) {
+                        alert("已刪除");
+                        location.reload();
+                    }
+                },
+                error: function (error) {
+                    alert("系統發生錯誤");
+                }
+            });
+
+        });
+    })
+
+
+
+
+
+
+
+    function WordsDeal() {
+        var curLength = $("#pipelineNote").val().length;
+        if (curLength > 1000) {
+            var num = $("#pipelineNote").val().substr(0, 1000);
+            $("#pipelineNote").val(num);
+            alert("超過字數限制(1000字)，多出的字將被移除！");
+        }
+    }
+</script>
+
