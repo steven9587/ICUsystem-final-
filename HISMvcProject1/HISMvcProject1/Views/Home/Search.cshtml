@@ -12,32 +12,40 @@
 @section body
 {
 
-    <div>
-        <div class="search_row" role="form">
-            <div class="search_column">
-                <label for="email">病歷號碼 : </label>
-                <input type="email" class="form-control" id="patient_id" placeholder="Enter patient ID">
-            </div>
-            <div class="search_column">
-                <label for="pwd">醫生姓名 : </label>
-                <input type="password" class="form-control" id="doctor_name" placeholder="Enter doctor name">
-            </div>
-            <div class="search_column">
-                <label for="pwd">科別 : </label>
-                <input type="password" class="form-control" id="division" placeholder="Enter division">
-            </div>
-        </div>
-
-        <div class="search_column_b">
-            <input type="button" value="查詢" class="btn_search" style="background-color: #99b2db; color:#194284" />
+ <div class="search_row" role="form">
+    <div class="search_column">
+        <label for="email">病歷號碼 : </label>
+        <input type="email" class="form-control" id="patient_id" placeholder="Enter patient ID">
+    </div>
+    <div class="search_column">
+        <label for="pwd">醫生姓名 : </label>
+        <select id="doctor_name" name="doctor_name" style="width: 100%;"></select>
+        <div>
+            <span class="k-invalid-msg" data-for="doctor_name"></span>
         </div>
     </div>
-
-    <br><br>
-
-    <div class="grid_box"  >
-        <div id="patient_grid"></div>
+    <div class="search_column">
+        <label for="pwd">科別 : </label>
+        <select id="division" name="division" style="width: 100%;"></select>
+        <div>
+            <span class="k-invalid-msg" data-for="division"></span>
+        </div>
     </div>
+</div>
+
+<div class="search_column_b">
+    <input type="button" value="查詢" class="btn btn_search" style="background-color: #99b2db; color:#194284" />
+    <input type="button" value="清除" onclick="location.href = '/Home/Search'" class="btn" style="background-color: #CCDDFF; color:#194284" />
+</div>
+
+<br><br>
+    <div class="grid_box"  id="patient_grid" style="margin-top:40px"></div>
+
+    
+
+
+
+  
 
 }
 
@@ -48,25 +56,62 @@
 <script>
 
     $(".btn_search").click(function () {
+        var search_data = {
+            "PatientID": $("#patient_id").val(),
+            "DivisionId": $("#division").data("kendoDropDownList").value(),
+            "DoctorId": $("#doctor_name").data("kendoDropDownList").value()
+        };
+
         $("#patient_grid").kendoGrid({
             height: 510,
             columns: [
                 { field: "BedId", title: "床號", width: "10%" },
-                { field: "PatientId", title: "病歷號碼", width: "30%" },
+                { field: "Division", title: "科別", width: "10%" },
+                { field: "PatientId", title: "病歷號碼", width: "20%" },
                 { field: "PatientName", title: "病人名稱", width: "10%" },
+                { field: "DoctorName", title: "醫生名稱", width: "10%" },
+                { field: "NurseName", title: "護士名稱", width: "10%" },
+                { command: { text: "詳細資料", /*click:*/  }, title: " ", width: "8%" }
             ],
             dataSource: {
-                data: [{
-                    BedId: "123",
-                    PatientId: "123",
-                    PatientName: "閔Suga"
-                },
-                {
-                    BedId: "456",
-                    PatientId: "456",
-                    PatientName: "Ariel"
-                }]
+                transport: {
+                    read: {
+                        url: "GetGridData",
+                        type: "post",
+                        dataType: "json",
+                        data: search_data
+                    }
+                }
             }
         });
     });
+    $("#doctor_name").kendoDropDownList({
+        dataTextField: "Text",
+        dataValueField: "Value",
+        optionLabel: "請選擇",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "GetDoctorNameDropDownList",
+                    type: "post",
+                    dataType: "json"
+                }
+            }
+        }
+    });
+    $("#division").kendoDropDownList({
+        dataTextField: "Text",
+        dataValueField: "Value",
+        optionLabel: "請選擇",
+        dataSource: {
+            transport: {
+                read: {
+                    url: "GetDivisionDropDownList",
+                    type: "post",
+                    dataType: "json"
+                }
+            }
+        }
+    });
+
 </script>

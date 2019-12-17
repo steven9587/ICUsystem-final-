@@ -253,6 +253,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InfoData.cs" />
+    <Compile Include="Models\InfoService.cs" />
     <Compile Include="Models\LoginService.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\TubeData.cs" />

@@ -20,6 +20,7 @@ namespace HISMvcProject1.Controllers
     {
         readonly Models.TubeService tubeservice = new Models.TubeService();
         readonly Models.LoginService loginservice = new Models.LoginService();
+        readonly Models.InfoService infoservice = new Models.InfoService();
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
@@ -80,7 +81,24 @@ namespace HISMvcProject1.Controllers
         {
             return Json(this.tubeservice.GetPipeLine());
         }
-        
+        public JsonResult GetDivisionDropDownList()
+        {
+            return Json(this.infoservice.GetDivision());
+        }
+        public JsonResult GetDoctorNameDropDownList()
+        {
+            return Json(this.infoservice.GetDoctorName());
+        }
+
+        /// <summary>
+        /// getsearchgrid
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public JsonResult GetGridData(Models.InfoData data)
+        {
+            return Json(this.infoservice.GetInfoByCondtioin(data));
+        }
         /// <summary>
         /// GetTubePartNameDropDownList
         /// </summary>
