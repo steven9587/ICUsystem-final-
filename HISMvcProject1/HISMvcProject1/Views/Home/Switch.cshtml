@@ -143,11 +143,11 @@
         <div id="andy_open">
             <img src="https://i.imgur.com/lQx1bV0.jpg" width="350px" height="520px">
         </div>
-        <!-- andy window-->
+
         <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
             <div class="row">
                 <div class="Full_column">
-                    <canvas id="full" width="600" height="600" style="border:5px "></canvas>
+                    <canvas id="full" width="600" height="600" style="border:5px solid"></canvas>
                 </div>
                 <div class="helloworld">
                     <div class="form-group">
@@ -226,14 +226,14 @@
     //canvas
     var img = new Image();
     img.src = "https://i.imgur.com/lQx1bV0.jpg";
-
-
-
     $(function () {
         $("#andy_window").kendoWindow({
             title: "管路位置",
-            width: "75%",
-            visible: false,
+            width: "64%",
+            Draggable: false,
+            resizable:false,
+            visible:false,
+            pinned:true,
             modal: true,
             action: ["Minimize",
                      "Maximize",
@@ -241,69 +241,68 @@
         })
         $("#andy_open").click(function (e) {
             $('#andy_window').data("kendoWindow").center().open();
-                //read tube x-y from DB
-                
-                locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
-                locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
-                locationLength = locatoinX.length;
-                var lc = document.getElementById("full");
-                var rect = lc.getBoundingClientRect();
-                var lctx = lc.getContext("2d");
-                lctx.drawImage(img, 0, 0, 600, 600);
-                //draw tube drom DB
-                for (var i = 0; i < locationLength; i++) {
+            //read tube x-y from DB
+            locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
+            locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+            locationLength = locatoinX.length;
+            var lc = document.getElementById("full");
+            var rect = lc.getBoundingClientRect();
+            var lctx = lc.getContext("2d");
+            lctx.drawImage(img, 0, 0, 600, 600);
+            //draw tube drom DB
+            for (var i = 0; i < locationLength; i++) {
+                lctx.beginPath();
+                lctx.fillStyle = "rgb(0,255,0)";
+                lctx.lineWidth = "3";
+                lctx.strokeStyle = 'black';
+                lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
+                lctx.fill();
+                lctx.stroke();
+            }
+            lc.onclick = function () {
+                if (intubation == 'insert') {
+                    //draw tube from insert
+                    x = event.clientX - 288 - 10;
+                    y = event.clientY - 73 - 10;
                     lctx.beginPath();
                     lctx.fillStyle = "rgb(0,255,0)";
                     lctx.lineWidth = "3";
                     lctx.strokeStyle = 'black';
-                    lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
+                    lctx.rect(x, y, 10, 10);
                     lctx.fill();
                     lctx.stroke();
-                }
-                lc.onclick = function () {
-                    if (intubation == 'insert') {
-                        //draw tube from insert
-                        
-                        x = event.clientX - rect.left - 10;
-                        y = event.clientY - rect.top - 10;
+                }else{
+                    //select point on canvas
+                    clickX = event.clientX - 288 - 10;
+                    clickY = event.clientY - 73 - 10;
+                    for (var i = 0; i < locationLength; i++) {
+                        if (clickX  > parseInt(locatoinX[i]) -5 && clickX < parseInt(locatoinX[i]) + 5 &&
+                            clickY > parseInt(locatoinY[i]) -5 && clickY < parseInt(locatoinY[i]) + 5) {
+                            tubepointer = i;
+                            break;
+                        }else{
+                            tubepointer = null;
+                        }
+                    }
+                    locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
+                    locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+                    for (var i = 0; i < locationLength; i++) {
                         lctx.beginPath();
                         lctx.fillStyle = "rgb(0,255,0)";
                         lctx.lineWidth = "3";
-                        lctx.strokeStyle = 'black';
-                        lctx.rect(x, y, 10, 10);
+                        if(i == tubepointer){
+                            lctx.strokeStyle = 'red';
+                        }else{
+                            lctx.strokeStyle = 'black';
+                        }
+                        lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
                         lctx.fill();
                         lctx.stroke();
-                    }else{
-                        //select point on canvasS
-                        clickX = event.clientX - rect.left - 10 ;
-                        clickY = event.clientY - rect.top - 10;
-                        for (var i = 0; i < locationLength; i++) {
-                            if (clickX  >= locatoinX[i] -5 && clickX <= locatoinX[i] + 5
-                                && clickY >= locatoinY[i] -5  && clickY <= locatoinY[i] + 5) {
-                                tubepointer = i;
-
-                            }
-                        }
-                        locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
-                        locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
-                        for (var i = 0; i < locationLength; i++) {
-                            lctx.beginPath();
-                            lctx.fillStyle = "rgb(0,255,0)";
-                            lctx.lineWidth = "3";
-                            if(i == tubepointer){
-                                lctx.strokeStyle = 'red';
-                            }else{
-                                lctx.strokeStyle = 'black';
-                            }
-
-                            lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
-                            lctx.fill();
-                            lctx.stroke();
-
-                            location_point_x =locatoinX[tubepointer];
-                            location_point_y =locatoinY[tubepointer];
-                        }
-                        //toDO: location_point_x !=locationX]; locatio_point_y !=locationY[i];
+                        location_point_x =locatoinX[tubepointer];
+                        location_point_y =locatoinY[tubepointer];
+                    }
+                    //傳點選xy到controler
+                    if(tubepointer != null){
                         pointlocation = {
                             "LocationX":location_point_x,
                             "LocationY":location_point_y
@@ -323,11 +322,17 @@
                                 $("#pipeline_Note").val(data.TubeNote);
                             }
                         });
+                    }else{
+                        $("#pipeline_Location").data("kendoDropDownList").value("");
+                        $("#pipeline_Name").data("kendoDropDownList").value("");
+                        $("#start_datepicker").data("kendoDatePicker").value(new Date());
+                        $("#expiry_datepicker").data("kendoDatePicker").value(new Date());
+                        $("#caliber").data("kendoNumericTextBox").value("1");
+                        $("#inbodycm").data("kendoNumericTextBox").value("1");
+                        $("#pipeline_Note").val("");
                     }
-                };
-            
-
-
+                }
+            };
         })
 
         var Insert = $("#insert").kendoButton({
@@ -416,6 +421,7 @@
                             if (response == true) {
                                 alert("資料已新增");
                                 location.reload();
+                                //location.reload();
                                 /*Insert.enable(true);
                                 Delete.enable(true);
                                 Save.enable(false);*/
