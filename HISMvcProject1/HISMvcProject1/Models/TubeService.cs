@@ -247,6 +247,7 @@ namespace HISMvcProject1.Models
             }
             return result;
         }
+
         public Models.TubeData GetTubeData(Models.TubeData tubexy)
         {
             DataTable dt = new DataTable();
@@ -340,6 +341,34 @@ namespace HISMvcProject1.Models
                     Text = row["TubeName"].ToString(),
                     Value = row["TubeID"].ToString()
                 });
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// GetTubeDate
+        /// </summary>
+        /// <returns></returns>
+        public List<String> GetTubeDate()
+        {
+            DataTable dt = new DataTable();
+            string sql = @"SELECT DATEDIFF(DAY, getdate(), Exp_Date) AS tubeDate from TUBE_INSERT;";
+            //string sql = @"SELECT Location_X AS CodeID FROM tube_Insert;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+
+            List<String> result = new List<String>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(row["tubeDate"].ToString());
+
             }
             return result;
         }
