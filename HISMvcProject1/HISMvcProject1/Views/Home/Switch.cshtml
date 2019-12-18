@@ -213,6 +213,7 @@
 <script>
     var locatoinX=[0];
     var locatoinY=[0];
+    var date=[0];
     var location_point_x;
     var location_point_y;
     var locationLength;
@@ -244,6 +245,7 @@
             //read tube x-y from DB
             locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
             locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+            date = @Html.Raw(Json.Encode((List<String>)ViewBag.date));
             locationLength = locatoinX.length;
             var lc = document.getElementById("full");
             var rect = lc.getBoundingClientRect();
@@ -252,7 +254,13 @@
             //draw tube drom DB
             for (var i = 0; i < locationLength; i++) {
                 lctx.beginPath();
-                lctx.fillStyle = "rgb(0,255,0)";
+                if(date[i]<0){
+                    lctx.fillStyle = "rgb(255,0,0)";
+                }else if(date[i] == 0){
+                    lctx.fillStyle = "rgb(255,255,0)";
+                }else{
+                    lctx.fillStyle = "rgb(0,255,0)";
+                }
                 lctx.lineWidth = "3";
                 lctx.strokeStyle = 'black';
                 lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
@@ -286,9 +294,16 @@
                     }
                     locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
                     locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+                    date = @Html.Raw(Json.Encode((List<String>)ViewBag.date));
                     for (var i = 0; i < locationLength; i++) {
                         lctx.beginPath();
-                        lctx.fillStyle = "rgb(0,255,0)";
+                        if(date[i]<0){
+                            lctx.fillStyle = "rgb(255,0,0)";
+                        }else if(date[i] == 0){
+                            lctx.fillStyle = "rgb(255,255,0)";
+                        }else{
+                            lctx.fillStyle = "rgb(0,255,0)";
+                        }
                         lctx.lineWidth = "3";
                         if(i == tubepointer){
                             lctx.strokeStyle = 'red';

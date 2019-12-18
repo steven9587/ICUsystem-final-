@@ -51,10 +51,7 @@ namespace HISMvcProject1.Controllers
             ViewBag.Message = "Welcome to ASP.NET MVC!";
             ViewBag.location_x = tubeservice.GetTubeLocationX();
             ViewBag.location_y = tubeservice.GetTubeLocationY();
-
             //return xy to view from db
-
-
             return View();
         }
 
@@ -70,7 +67,7 @@ namespace HISMvcProject1.Controllers
             ViewBag.Message = "Welcome to ASP.NET MVC!";
             ViewBag.location_x = tubeservice.GetTubeLocationX();
             ViewBag.location_y = tubeservice.GetTubeLocationY();
-
+            ViewBag.date = tubeservice.GetTubeDate();
             return View();
         }
 
