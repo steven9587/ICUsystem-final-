@@ -9,21 +9,33 @@
 
 @section body
 {
-    <div class="login_row">
-        <div class="login_column">
-            <label for="username">Username:</label><input type="text" id="username"  />
-            <label for="password">Password:</label><input type="password" id="password"  />
-            <input type="button" id="login" value="Login" class="btn" data-role="button" style="background-color: #CCDDFF; color:#194284;float:right;margin-left:10px;margin-bottom:20px;" />
+    <div style="margin-top:10px">
+        <div style="margin: auto; position: absolute;left: 0; right: 0; top: 0px;width:350px;height:360px;border:5px solid;margin-top:150px">
+            <div>
+            <!--<div style="margin: auto; position: absolute;left: 0; right: 0; top: 0px;border:5px solid;margin-top:10px">-->
+                <img style="width:150px;display: block;margin:0 auto;margin-top:20px" src="https://dr.tvbs.com.tw/images/f-hos-logo.png">
+            </div>
+            <div style="margin: auto; position: absolute;left: 70px; right: 70px; top: 0px;;margin-top:180px;">
+                <!--<label for="username">Username:</label><br>-->
+                <input style="height:30px;width:200px;" placeholder="ID" type="text" id="username" />
+            </div>
+            <div style="margin: auto; position: absolute;left: 70px; right: 70px; top: 0px;margin-top:240px">
+                <!--<label for="password">Password:</label><br>-->
+                <input style="height:30px;width:200px;" placeholder="PASSWORD" type="password" id="password" />
+            </div>
+            <div style="margin: auto; position: absolute;left: 70px; right: 70px; top: 0px;margin-top:300px">
+                <input type="button" id="login" value="Login" class="btn" data-role="button" style="background-color:#CCDDFF;color:#194284;height:30px;width:200px;text-align:center;" />
+            </div>
         </div>
     </div>
-}  
+}
 
 @section featured {
 
 }
 
 <script>
-
+    debugger;
     $("#login").click(function (e) {
         var login_data = {
             "Username": $("#username").val(),
