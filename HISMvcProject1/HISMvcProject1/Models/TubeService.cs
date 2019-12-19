@@ -202,17 +202,17 @@ namespace HISMvcProject1.Models
         /// GetTubeLocationX
         /// </summary>
         /// <returns></returns>
-        public List<String> GetTubeLocationX(String PatientId)
+        public List<String> GetTubeLocationX()
         {
             DataTable dt = new DataTable();
             string sql = @" SELECT Location_X AS CodeID
 	                       FROM tube_Insert
-                           WHERE Patient_ID = @PatientId;";
+                           ;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+                //cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
@@ -227,17 +227,17 @@ namespace HISMvcProject1.Models
             return result;
         }
 
-        public List<String> GetTubeLocationY(String PatientId)
+        public List<String> GetTubeLocationY()
         {
             DataTable dt = new DataTable();
             string sql = @"  SELECT Location_Y AS CodeID
 	                         FROM tube_Insert
-                             WHERE Patient_ID = @PatientId;";
+                            ;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+               // cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
@@ -356,18 +356,18 @@ namespace HISMvcProject1.Models
         /// GetTubeDate
         /// </summary>
         /// <returns></returns>
-        public List<String> GetTubeDate(String PatientId)
+        public List<String> GetTubeDate()
         {
             DataTable dt = new DataTable();
             string sql = @"SELECT DATEDIFF(DAY, getdate(), Exp_Date) AS tubeDate 
                            from TUBE_INSERT
-                           WHERE Patient_ID = @PatientId;";
+                           ;";
             //string sql = @"SELECT Location_X AS CodeID FROM tube_Insert;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+                //cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();

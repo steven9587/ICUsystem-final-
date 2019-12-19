@@ -70,17 +70,20 @@ namespace HISMvcProject1.Controllers
         {
             patientId = PatientId;
             ViewBag.PatientId_search = patientId;
-            ViewBag.location_x = tubeservice.GetTubeLocationX(patientId);
-            ViewBag.location_y = tubeservice.GetTubeLocationY(patientId);
-            ViewBag.date = tubeservice.GetTubeDate(patientId);
+            ViewBag.location_x = tubeservice.GetTubeLocationX();
+            ViewBag.location_y = tubeservice.GetTubeLocationY();
+            ViewBag.date = tubeservice.GetTubeDate();
 
             return View("Switch");
         }
 
         public ActionResult Switch()
         {
+            ViewBag.location_x = tubeservice.GetTubeLocationX();
+            ViewBag.location_y = tubeservice.GetTubeLocationY();
+            ViewBag.date = tubeservice.GetTubeDate();
 
-      
+
             return View();
         }
 
