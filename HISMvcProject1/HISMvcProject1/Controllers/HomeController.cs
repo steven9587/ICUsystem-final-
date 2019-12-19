@@ -21,6 +21,7 @@ namespace HISMvcProject1.Controllers
         readonly Models.TubeService tubeservice = new Models.TubeService();
         readonly Models.LoginService loginservice = new Models.LoginService();
         readonly Models.InfoService infoservice = new Models.InfoService();
+        String patientId;
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
@@ -43,14 +44,14 @@ namespace HISMvcProject1.Controllers
 
             return View();
         }
-
+        
 
 
         public ActionResult Main()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-            ViewBag.location_x = tubeservice.GetTubeLocationX();
-            ViewBag.location_y = tubeservice.GetTubeLocationY();
+            //ViewBag.location_x = tubeservice.GetTubeLocationX();
+            //ViewBag.location_y = tubeservice.GetTubeLocationY();
             //return xy to view from db
             return View();
         }
@@ -62,12 +63,24 @@ namespace HISMvcProject1.Controllers
             return View();
         }
 
+       
+
+        [HttpPost()]
+        public ActionResult Switch(String PatientId)
+        {
+            patientId = PatientId;
+            ViewBag.PatientId_search = patientId;
+            ViewBag.location_x = tubeservice.GetTubeLocationX(patientId);
+            ViewBag.location_y = tubeservice.GetTubeLocationY(patientId);
+            ViewBag.date = tubeservice.GetTubeDate(patientId);
+
+            return View("Switch");
+        }
+
         public ActionResult Switch()
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
-            ViewBag.location_x = tubeservice.GetTubeLocationX();
-            ViewBag.location_y = tubeservice.GetTubeLocationY();
-            ViewBag.date = tubeservice.GetTubeDate();
+
+      
             return View();
         }
 
@@ -139,7 +152,7 @@ namespace HISMvcProject1.Controllers
 
         }
 
-
+      
 
         /// <summary>
         /// editdata

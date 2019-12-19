@@ -39,6 +39,7 @@
 </div>
 
 <br><br>
+
     <div class="grid_box"  id="patient_grid" style="margin-top:40px"></div>
 
     
@@ -71,7 +72,7 @@
                 { field: "PatientName", title: "病人名稱", width: "10%" },
                 { field: "DoctorName", title: "醫生名稱", width: "10%" },
                 { field: "NurseName", title: "護士名稱", width: "10%" },
-                { command: { text: "詳細資料", /*click:*/  }, title: " ", width: "8%" }
+                { command: { text: "詳細資料", click: search }, title: " ", width: "8%" }
             ],
             dataSource: {
                 transport: {
@@ -113,5 +114,27 @@
             }
         }
     });
+
+    //點選病人的病歷號跳轉到交班頁面
+    function search(e) {
+        e.preventDefault();
+        debugger
+        var PatientId = this.dataItem($(e.currentTarget).closest("tr")).PatientId
+       
+        /*window.sessionStorage.setItem("data", PatientId);
+        var targetUrl = '/Home/Switch/' + PatientId
+        location.href = targetUrl;*/
+        $.ajax({
+            type: "post",
+            url: "Switch",
+            data: { "PatientId": PatientId },
+            cache: false,
+            
+            success: 
+                window.location.href = "Switch"
+            
+        });
+
+    }
 
 </script>

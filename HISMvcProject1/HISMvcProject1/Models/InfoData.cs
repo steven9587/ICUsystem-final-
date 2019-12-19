@@ -17,8 +17,8 @@ namespace HISMvcProject1.Models
         public string PatientId { get; set; }
 
         [DisplayName("病人床號")]
-        public int BedId { get; set; }
-
+        public int BedId { get; set; } 
+         
         [DisplayName("科別")]
         public string Division { get; set; }
         [DisplayName("科別Id")]
