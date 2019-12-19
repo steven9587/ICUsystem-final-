@@ -65,7 +65,7 @@ namespace HISMvcProject1.Controllers
 
        
 
-        [HttpPost()]
+    /*    [HttpPost()]
         public ActionResult Switch(String PatientId)
         {
             patientId = PatientId;
@@ -75,7 +75,7 @@ namespace HISMvcProject1.Controllers
             ViewBag.date = tubeservice.GetTubeDate();
 
             return View("Switch");
-        }
+        }*/
 
         public ActionResult Switch()
         {

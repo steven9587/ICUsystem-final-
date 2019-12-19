@@ -206,8 +206,7 @@ namespace HISMvcProject1.Models
         {
             DataTable dt = new DataTable();
             string sql = @" SELECT Location_X AS CodeID
-	                       FROM tube_Insert
-                           ;";
+	                       FROM tube_Insert;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -231,8 +230,7 @@ namespace HISMvcProject1.Models
         {
             DataTable dt = new DataTable();
             string sql = @"  SELECT Location_Y AS CodeID
-	                         FROM tube_Insert
-                            ;";
+	                         FROM tube_Insert;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
