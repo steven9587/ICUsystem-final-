@@ -13,8 +13,8 @@
 
 
     <div>
-        <div class="left" style="width:350px;height:860px;">
-            <div class="patient_info" style="resize:none;  overflow-y: scroll;" cols="45" rows="80">
+        <div class="left"  style="width:350px;height:860px;">
+            <div class="patient_info" id="patient_window" style="resize:none;  overflow-y: scroll;" cols="45" rows="80">
 
                 <label for="patient_name">病人姓名 : </label><br>
                 <input type="patient_name" class="form-control" id="patient_name" placeholder="威爾森"><br>
@@ -44,15 +44,15 @@
                 <input type="dr_no" class="form-control" id="dr_no" placeholder="Dr.Avacado"><br>
 
             </div>
-            <div class="shift" style="width:350px;height:256px;">
-                <textarea style="resize:none;  overflow-y: scroll;" cols="45" rows="10">嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷</textarea><br><br>
-
+            <div class="shift" id="shift_window" style="width:350px;height:200px;">
+                <li  cols="35" rows="10">嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷</li><br><br>
+                <button type="button">Send</button>
             </div>
-            <button type="button" id="shift_send">Send</button>
+            
         </div>
         <div class="middle" style="width:450px;height:600px;">
-            <div class="dr_order">
-                <li style="resize:none;  overflow-y: scroll;" cols="50" rows="50">
+            <div class="dr_order" id="doctor">
+                <li style="resize:none; " cols="50" rows="50">
                     Meow Meow Meow Meow Meow Meow
                     Meow Meow Meow Meow Meow Meow
                     Meow Meow Meow Meow Meow Meow
@@ -68,7 +68,7 @@
                 </li>
 
             </div>
-            <div class="inspection" style="width:450px;height:250px;">
+            <div class="inspection" id ="check" style="width:500px;height:230px;">
                 <table style="resize:none;  overflow-y: scroll;" cols="10" rows="10">
                     <tr>
                         <th>檢查項目日期</th>
@@ -135,13 +135,13 @@
                     </tr>
                 </table>
             </div>
-            <div class="tpr_io" style="position: relative; width:800px;height:250px;">
+            <div class="tpr_io" id ="io" style="position: relative; width:1100px;height:200px;">
                 <table></table>
             </div>
 
         </div>
         <div id="andy_open">
-            <img src="https://i.imgur.com/lQx1bV0.jpg" width="350px" height="520px">
+            <img src="https://i.imgur.com/lQx1bV0.jpg" width="600px" height="350px">
         </div>
 
         <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
@@ -228,6 +228,96 @@
     var img = new Image();
     img.src = "https://i.imgur.com/lQx1bV0.jpg";
     $(function () {
+        $("#patient_window").kendoWindow({
+            title: "基本資料",
+            width:"360px",
+            height:"400px",
+            Draggable: false,
+            resizable:false,
+            visible:true,
+            pinned:true,
+            position: { 
+                top: 50 
+            }
+            
+            
+        })
+        $("#shift_window").kendoWindow({
+            title: "備註",
+            width:"360px",
+            height:"250px",
+            Draggable: false,
+            resizable:false,
+            visible:true,
+            pinned:true,
+            position: { 
+                top: 490 
+            }
+            
+            
+        })
+       
+        $("#doctor").kendoWindow({
+            title: "醫囑",
+            width:"500px",
+            height:"120px",
+            Draggable: false,
+            resizable:false,
+            visible:true,
+            pinned:true,
+            position: { 
+                top: 50,
+                left: 365
+            }
+            
+            
+        })
+        $("#check").kendoWindow({
+            title: "檢驗檢查",
+            width:"500px",
+            height:"240px",
+            Draggable: false,
+            resizable:false,
+            visible:true,
+            pinned:true,
+            position: { 
+                top: 210,
+                left: 365
+            }
+            
+            
+        })
+        $("#io").kendoWindow({
+            title: "IO",
+            width:"1150px",
+            height:"250px",
+            Draggable: false,
+            resizable:false,
+            visible:true,
+            pinned:true,
+            position: { 
+                top: 490,
+                left: 365
+            }
+            
+            
+        })
+        $("#andy_open").kendoWindow({
+            title: "小人圖",
+            width:"650px",
+            height:"400px",
+            Draggable: false,
+            resizable:false,
+            visible:true,
+            pinned:true,
+            position: { 
+                top: 50,
+                left: 866
+            }
+            
+            
+        })
+        
         $("#andy_window").kendoWindow({
             title: "管路位置",
             width: "64%",
