@@ -1,11 +1,14 @@
 ﻿
 @{
     ViewBag.Title = "Switch";
+    
+
 }
 
 
 @section head
 {
+
 }
 
 @section body
@@ -14,6 +17,8 @@
 
     <div>
         <div class="left" style="width:350px;height:860px;">
+                
+
             <div class="patient_info" id="patient_window" style="resize:none;  overflow-y: scroll;" cols="45" rows="80">
 
                 <label for="patient_name">病人姓名 : </label><br>
@@ -45,30 +50,18 @@
 
             </div>
             <div class="shift" id="shift_window" style="width:350px;height:200px;">
-                <li cols="35" rows="10">嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷嗷</li><br><br>
+                <li cols="35" rows="10">test</li><br><br>
                 <button type="button">Send</button>
             </div>
-
         </div>
         <div class="middle" style="width:450px;height:600px;">
             <div class="dr_order" id="doctor">
                 <li style="resize:none; " cols="50" rows="50">
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
-                    Meow Meow Meow Meow Meow Meow
+                   test1
                 </li>
 
             </div>
-            @*<div class="inspection" id="check" style="width:500px;height:230px;">
+            <div class="inspection" id="check" style="width:500px;height:230px;">
                 <table style="resize:none;  overflow-y: scroll;" cols="10" rows="10">
                     <tr>
                         <th>檢查項目日期</th>
@@ -134,7 +127,7 @@
                         <td>FFFFFFFFFFF</td>
                     </tr>
                 </table>
-            </div>*@
+            </div>
             <div class="tpr_io" id="io" style="position: relative; width:1100px;height:200px;">
                 <table></table>
             </div>
@@ -142,10 +135,7 @@
         </div>
         <div id="andy_open">
             <img src="https://i.imgur.com/lQx1bV0.jpg" width="600px" height="350px">
-        </div>
-
-        
-
+        </div>       
     </div>
 
 <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
@@ -210,7 +200,7 @@
 
 
 }
-<script>
+<script type="text/javascript">
     var locatoinX=[0];
     var locatoinY=[0];
     var date=[0];
@@ -227,6 +217,8 @@
     //canvas
     var img = new Image();
     img.src = "https://i.imgur.com/lQx1bV0.jpg";
+
+
     $(function () {
         $("#patient_window").kendoWindow({
             title: "基本資料",
@@ -256,7 +248,6 @@
 
 
         })
-
         $("#doctor").kendoWindow({
             title: "醫囑",
             width:"500px",
@@ -317,7 +308,6 @@
 
 
         })
-
         $("#andy_window").kendoWindow({
             title: "管路位置",
             width: "75  %",
@@ -333,11 +323,13 @@
 
 
         $("#andy_open").click(function (e) {
-            debugger
+
             $('#andy_window').data("kendoWindow").center().open();
             //read tube x-y from DB
+            debugger
+            test = '@ViewBag.test';
             locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
-            locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
+            locatoinY =  @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
             date = @Html.Raw(Json.Encode((List<String>)ViewBag.date));
             locationLength = locatoinX.length;
             var lc = document.getElementById("full");
@@ -376,8 +368,8 @@
                     lctx.stroke();
                 }else{
                     //select point on canvas
-                    clickX = event.clientX - 288 - 10;
-                    clickY = event.clientY - 73 - 10;
+                    clickX = event.clientX - 293 - 10;
+                    clickY = event.clientY - 78 - 10;
                     for (var i = 0; i < locationLength; i++) {
                         if (clickX  > parseInt(locatoinX[i]) -5 && clickX < parseInt(locatoinX[i]) + 5 &&
                             clickY > parseInt(locatoinY[i]) -5 && clickY < parseInt(locatoinY[i]) + 5) {
@@ -446,7 +438,7 @@
         })
 
 
-        debugger
+
         var Insert = $("#insert").kendoButton({
             icon: "ungroup"
         }).data("kendoButton");

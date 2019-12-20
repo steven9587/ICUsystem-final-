@@ -118,21 +118,19 @@
     //點選病人的病歷號跳轉到交班頁面
     function search(e) {
         e.preventDefault();
-        debugger
         var PatientId = this.dataItem($(e.currentTarget).closest("tr")).PatientId
-       
         /*window.sessionStorage.setItem("data", PatientId);
         var targetUrl = '/Home/Switch/' + PatientId
         location.href = targetUrl;*/
         $.ajax({
             type: "post",
-            url: "Switch",
+            url: "Getifo",
             data: { "PatientId": PatientId },
-            cache: false,
-            
-            success: 
-                window.location.href = "Switch"
-            
+            success: function (response) {
+                if (response == true) {
+                    window.location.href = "Switch"
+                }
+            }
         });
 
     }

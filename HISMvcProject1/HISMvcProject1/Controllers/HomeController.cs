@@ -16,20 +16,20 @@ using Kendo.Mvc.UI;
 
 namespace HISMvcProject1.Controllers
 {
+    
     public class HomeController : Controller
     {
         readonly Models.TubeService tubeservice = new Models.TubeService();
         readonly Models.LoginService loginservice = new Models.LoginService();
         readonly Models.InfoService infoservice = new Models.InfoService();
-        String patientId;
+        String patientId = "";
+
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
 
             return View();
         }
-
-
 
         public ActionResult About()
         {
@@ -44,8 +44,6 @@ namespace HISMvcProject1.Controllers
 
             return View();
         }
-        
-
 
         public ActionResult Main()
         {
@@ -63,29 +61,31 @@ namespace HISMvcProject1.Controllers
             return View();
         }
 
-       
-
-    /*    [HttpPost()]
-        public ActionResult Switch(String PatientId)
+        
+        public ActionResult Switch(string id)
         {
-            patientId = PatientId;
-            ViewBag.PatientId_search = patientId;
-            ViewBag.location_x = tubeservice.GetTubeLocationX();
-            ViewBag.location_y = tubeservice.GetTubeLocationY();
-            ViewBag.date = tubeservice.GetTubeDate();
+            ViewBag.test = "test";
+            var search_id = TempData["id"] as string;
+            //HomeController.Initialize(patientId);
+            ViewBag.location_x = tubeservice.GetTubeLocationX(search_id);
+            ViewBag.location_y = tubeservice.GetTubeLocationY(search_id);
+            ViewBag.date = tubeservice.GetTubeDate(search_id);
 
             return View("Switch");
-        }*/
-
-        public ActionResult Switch()
-        {
-            ViewBag.location_x = tubeservice.GetTubeLocationX();
-            ViewBag.location_y = tubeservice.GetTubeLocationY();
-            ViewBag.date = tubeservice.GetTubeDate();
-
-
-            return View();
         }
+
+        [HttpPost]
+        public ActionResult Getifo(String PatientId)
+        {
+            patientId = PatientId;
+            TempData["id"] = patientId;
+            return this.Json(true);
+        }
+            
+
+
+
+       
 
         /// <summary>
         /// GetPipeLineDropDownList

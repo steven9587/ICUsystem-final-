@@ -202,16 +202,17 @@ namespace HISMvcProject1.Models
         /// GetTubeLocationX
         /// </summary>
         /// <returns></returns>
-        public List<String> GetTubeLocationX()
+        public List<String> GetTubeLocationX(String PatientId)
         {
             DataTable dt = new DataTable();
             string sql = @" SELECT Location_X AS CodeID
-	                       FROM tube_Insert;";
+	                       FROM tube_Insert
+                           Where Patient_ID = @PatientId;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                //cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
@@ -226,16 +227,17 @@ namespace HISMvcProject1.Models
             return result;
         }
 
-        public List<String> GetTubeLocationY()
+        public List<String> GetTubeLocationY(String PatientId)
         {
             DataTable dt = new DataTable();
             string sql = @"  SELECT Location_Y AS CodeID
-	                         FROM tube_Insert;";
+	                         FROM tube_Insert
+                             Where Patient_ID = @PatientId;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-               // cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
@@ -250,7 +252,8 @@ namespace HISMvcProject1.Models
             return result;
         }
 
-        public Models.TubeData GetTubeData(Models.TubeData tubexy)
+    
+    public Models.TubeData GetTubeData(Models.TubeData tubexy)
         {
             DataTable dt = new DataTable();
             string sql = @"select ti.Tube_Info_id as TubeIfoId, 
@@ -354,18 +357,18 @@ namespace HISMvcProject1.Models
         /// GetTubeDate
         /// </summary>
         /// <returns></returns>
-        public List<String> GetTubeDate()
+        public List<String> GetTubeDate(String PatientId)
         {
             DataTable dt = new DataTable();
             string sql = @"SELECT DATEDIFF(DAY, getdate(), Exp_Date) AS tubeDate 
                            from TUBE_INSERT
-                           ;";
+                           Where Patient_ID = @PatientId;";
             //string sql = @"SELECT Location_X AS CodeID FROM tube_Insert;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                //cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
