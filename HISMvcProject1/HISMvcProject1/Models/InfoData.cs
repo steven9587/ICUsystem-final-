@@ -34,7 +34,18 @@ namespace HISMvcProject1.Models
 
         [DisplayName("護士名稱")]
         public string NurseName { get; set; }
+        [DisplayName("身分證號碼")]
+        public string PatientIdNo { get; set; }
+        [DisplayName("出生年月日")]
+        public string PatientBirth{ get; set; }
+        [DisplayName("入ICU日")]
+        public string PatientInICU { get; set; }
+        [DisplayName("住院日")]
+        public string PatientAdmdt { get; set; }
+        [DisplayName("病人身高")]
+        public string PatientHeight { get; set; }
+        [DisplayName("病人體重")]
+        public string PatientWeight { get; set; }
 
-       
     }
 }

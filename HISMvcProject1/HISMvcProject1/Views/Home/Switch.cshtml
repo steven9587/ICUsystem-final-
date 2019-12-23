@@ -53,6 +53,10 @@
                     <input type="text" class="form-control" id="bed_no">
                 </div>
                 <div class="form-group">
+                    <label for="patient_division">科別 : </label>
+                    <input type="text" class="form-control" id="patient_division">
+                </div>
+                <div class="form-group">
                     <label for="dr_no">主治醫師 : </label>
                     <input type="text" class="form-control" id="dr_no">
                 </div>
@@ -390,10 +394,37 @@
         //kendoNumericTextBox()
         $("#caliber").kendoNumericTextBox();
         $("#inbodycm").kendoNumericTextBox();
-
+        
+        // get patient detail from db
+        patient_id = {
+            "PatientId":patient_id_search
+        }
+        $.ajax({
+            type: "POST",
+            url: "GetPatientData",
+            data: patient_id,
+            dataType: "json",
+            success: function (data) {
+                $("#patient_name").val(data.PatientName);
+                $("#patient_id_no").val(data.PatientIdNo);
+                $("#patient_birthday").val(data.PatientBirth);
+                $("#his_no").val(patient_id_search);
+                $("#in_ICU_date").val(data.PatientInICU);
+                $("#patient_height").val(data.PatientHeight);
+                $("#patient_weight").val(data.PatientWeight);
+                $("#dr_no").val(data.DoctorName);
+                $("#patient_division").val(data.Division);
+                $("#bed_no").val(data.BedId);
+                $("#in_adm_date").val(data.PatientAdmdt);
+                
+            }
+        });
+      
        
         //小人圖window開啟
         $("#andy_open").click(function (e) {
+            Insert.enable(true);
+            intubation = "";
             $('#andy_window').data("kendoWindow").center().open();
             //read tube x-y from DB
             locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
@@ -460,7 +491,7 @@
                         }
                         lctx.lineWidth = "2";
                         if(i == tubepointer){
-                            lctx.strokeStyle = 'red';
+                            lctx.strokeStyle = "rgb(180,209,255)";
                         }else{
                             lctx.strokeStyle = 'black';
                         }
@@ -511,7 +542,7 @@
                 var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
                 if (validator.validate()) {
                     var create_data = {
-                        "PatientID": 4065700123,
+                        "PatientID": patient_id_search,
                         "TubePartID": $("#pipeline_Location").val(),
                         "TubeNameID": $("#pipeline_Name").val(),
                         "SysDate": kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
@@ -530,7 +561,17 @@
                         success: function (response) {
                             if (response == true) {
                                 alert("資料已新增");
-                                location.reload();
+                                var PatientId = patient_id_search
+                                $.ajax({
+                                    type: "post",
+                                    url: "Getifo",
+                                    data: { "PatientId": PatientId },
+                                    success: function (response) {
+                                        if (response == true) {
+                                            window.location.href = "Switch"
+                                        }
+                                    }
+                                });
                                 //location.reload();
                                 /*Insert.enable(true);
                                 Delete.enable(true);
@@ -585,8 +626,8 @@
         //click insert button
         $("#insert").click(function () {
             intubation = 'insert';
-            /*Insert.enable(false);
-            Delete.enable(false);
+            Insert.enable(false);
+            /*Delete.enable(false);
             Save.enable(true);*/
         });
 
