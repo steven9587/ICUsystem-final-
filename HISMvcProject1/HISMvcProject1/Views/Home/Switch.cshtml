@@ -217,9 +217,11 @@
     //canvas
     var img = new Image();
     img.src = "https://i.imgur.com/lQx1bV0.jpg";
+    var patient_id_search ="";
 
 
     $(function () {
+        patient_id_search = @Html.Raw(Json.Encode(ViewBag.search_id));
         $("#patient_window").kendoWindow({
             title: "基本資料",
             width:"360px",
@@ -321,7 +323,7 @@
                      "Close"],
         })
 
-
+        //小人圖window開啟
         $("#andy_open").click(function (e) {
 
             $('#andy_window').data("kendoWindow").center().open();
@@ -334,8 +336,7 @@
             var rect = lc.getBoundingClientRect();
             var lctx = lc.getContext("2d");
             lctx.drawImage(img, 0, 0, 600, 600);
-
-
+            
             //draw tube drom DB
             for (var i = 0; i < locationLength; i++) {
                 lctx.beginPath();

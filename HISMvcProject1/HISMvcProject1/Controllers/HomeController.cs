@@ -64,12 +64,11 @@ namespace HISMvcProject1.Controllers
         
         public ActionResult Switch(string id)
         {
-            ViewBag.test = "test";
             var search_id = TempData["id"] as string;
-           
             ViewBag.location_x = tubeservice.GetTubeLocationX(search_id);
             ViewBag.location_y = tubeservice.GetTubeLocationY(search_id);
             ViewBag.date = tubeservice.GetTubeDate(search_id);
+            ViewBag.search_id = search_id;
 
             return View("Switch");
         }
