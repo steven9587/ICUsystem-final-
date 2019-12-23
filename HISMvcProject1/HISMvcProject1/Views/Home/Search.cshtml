@@ -119,9 +119,6 @@
     function search(e) {
         e.preventDefault();
         var PatientId = this.dataItem($(e.currentTarget).closest("tr")).PatientId
-        /*window.sessionStorage.setItem("data", PatientId);
-        var targetUrl = '/Home/Switch/' + PatientId
-        location.href = targetUrl;*/
         $.ajax({
             type: "post",
             url: "Getifo",

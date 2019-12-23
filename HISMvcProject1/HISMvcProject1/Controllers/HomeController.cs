@@ -66,7 +66,7 @@ namespace HISMvcProject1.Controllers
         {
             ViewBag.test = "test";
             var search_id = TempData["id"] as string;
-            //HomeController.Initialize(patientId);
+           
             ViewBag.location_x = tubeservice.GetTubeLocationX(search_id);
             ViewBag.location_y = tubeservice.GetTubeLocationY(search_id);
             ViewBag.date = tubeservice.GetTubeDate(search_id);
