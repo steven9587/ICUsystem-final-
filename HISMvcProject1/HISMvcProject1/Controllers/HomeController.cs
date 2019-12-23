@@ -65,10 +65,10 @@ namespace HISMvcProject1.Controllers
         public ActionResult Switch(string id)
         {
             var search_id = TempData["id"] as string;
-            ViewBag.location_x = tubeservice.GetTubeLocationX(search_id);
-            ViewBag.location_y = tubeservice.GetTubeLocationY(search_id);
-            ViewBag.date = tubeservice.GetTubeDate(search_id);
-            ViewBag.search_id = search_id;
+            ViewBag.location_x = tubeservice.GetTubeLocationX("406570789");
+            ViewBag.location_y = tubeservice.GetTubeLocationY("406570789");
+            ViewBag.date = tubeservice.GetTubeDate("406570789");
+            ViewBag.search_id = "406570789";
 
             return View("Switch");
         }
