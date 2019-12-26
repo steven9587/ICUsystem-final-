@@ -16,8 +16,8 @@
 
 
     <div>
-        <div class="left" style="width:350px;height:860px;">
-            <div class="patient_info" id="patient_window" style="resize:none;  overflow-y: scroll;" cols="45" rows="80">
+        <div class="left">
+            <div class="patient_info" id="patient_window" style="resize:none; border:none;  overflow-y: scroll;" cols="45" rows="80">
                 <div class="form-group" >
                     <label for="patient_name">病人姓名 : </label>
                     <input type="text" class="form-control" id="patient_name">
@@ -62,19 +62,23 @@
                 </div>
 
             </div>
-            <div class="shift" id="shift_window" style="width:350px;height:200px;">
-                <li cols="35" rows="10">test</li><br><br>
-                <button type="button">Send</button>
+            <div class="shift" id="shift_window" style="border:none;">
+                <li cols="35" rows="10">Leave your message here...</li><br><br>
+                <textarea id="Note"  style="width: 95%;" cols="100" rows="2"></textarea>
+                <button type="button" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Send</button>
             </div>
         </div>
-        <div class="middle" style="width:450px;height:600px;">
-            <div class="dr_order" id="doctor">
+        <div class="middle">
+            <div class="dr_order" id="doctor" style="border:none;">
                 <li style="resize:none; " cols="50" rows="50">
                     test1
                 </li>
+                <li style="resize:none; " cols="50" rows="50">
+                    test2
+                </li>
 
             </div>
-            <div class="inspection" id="check" style="width:500px;height:230px;">
+            <div class="inspection" id="check" style="border:none;">
                 <table style="resize:none;  overflow-y: scroll;" cols="10" rows="10">
                     <tr>
                         <th>檢查項目日期</th>
@@ -141,20 +145,20 @@
                     </tr>
                 </table>
             </div>
-            <div class="tpr_io" id="io" style="position: relative; width:1100px;height:200px;">
+            <div class="tpr_io" id="io" style="position: relative;border:none;">
                 <table></table>
             </div>
 
         </div>
         <div id="andy_open">
-            <img src="https://i.imgur.com/lQx1bV0.jpg" width="600px" height="350px">
+            <img src="https://i.imgur.com/lQx1bV0.jpg" style="width:350px; height:350px;">
         </div>
     </div>
 
     <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
         <div class="row">
             <div class="Full_column">
-                <canvas id="full" width="600" height="600" style="border:5px solid"></canvas>
+                <canvas id="full" width="600" height="600"></canvas>
             </div>
             <div class="helloworld">
                 <div class="form-group">
@@ -197,7 +201,7 @@
                         </div>
                         <div class="form-group" style="margin-bottom:50px">
                             <label for="caliber" class="required">備註：</label>
-                            <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 100%;" cols="100" rows="2"></textarea>
+                            <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 95%;" cols="100" rows="2"></textarea>
 
                         </div>
                         <div class="col-md-10">
@@ -261,7 +265,7 @@
 
         })
         $("#shift_window").kendoWindow({
-            title: "備註",
+            title: "交班、接班",
             width:"360px",
             height:"250px",
             Draggable: false,
@@ -276,7 +280,7 @@
         })
         $("#doctor").kendoWindow({
             title: "醫囑",
-            width:"500px",
+            width:"745px",
             height:"120px",
             Draggable: false,
             resizable:false,
@@ -291,7 +295,7 @@
         })
         $("#check").kendoWindow({
             title: "檢驗檢查",
-            width:"500px",
+            width:"745px",
             height:"240px",
             Draggable: false,
             resizable:false,
@@ -321,7 +325,7 @@
         })
         $("#andy_open").kendoWindow({
             title: "小人圖",
-            width:"650px",
+            width:"400px",
             height:"400px",
             Draggable: false,
             resizable:false,
@@ -329,7 +333,7 @@
             pinned:true,
             position: {
                 top: 50,
-                left: 866
+                left: 1115,
             }
 
 
@@ -466,6 +470,7 @@
                     lctx.stroke();
                 }else{
                     //select point on canvas
+                    debugger
                     clickX = event.clientX - 293 - 10;
                     clickY = event.clientY - 78 - 10;
                     for (var i = 0; i < locationLength; i++) {
