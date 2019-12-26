@@ -111,7 +111,8 @@ namespace HISMvcProject1.Models
                             Sys_Date = CONVERT(DATETIME, @SysDate),
                             Exp_Date = CONVERT(DATETIME, @ExpDate),
                             Tube_Note = @TubeNote 
-                            WHERE Location_X = @LocationX AND Location_Y = @LocationY;";
+                            WHERE Location_X = @LocationX AND Location_Y = @LocationY
+                             AND patient_id = @PatientID ;";
 
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
@@ -167,13 +168,14 @@ namespace HISMvcProject1.Models
         {
             try  //針對SQL 做try catch
             {
-                string sql = @"DELETE FROM tube_insert where location_x = @LocationX and location_y = @LocationY;";
+                string sql = @"DELETE FROM tube_insert where location_x = @LocationX and location_y = @LocationY  AND patient_id = @PatientId ;";
                 using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
                 {
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     cmd.Parameters.Add(new SqlParameter("@LocationX", tube.LocationX));
                     cmd.Parameters.Add(new SqlParameter("@LocationY", tube.LocationY));
+                    cmd.Parameters.Add(new SqlParameter("@PatientId", tube.PatientID));
                     SqlTransaction Tran = conn.BeginTransaction();
                     cmd.Transaction = Tran;
                     try  //針對Transaction 做try catch
@@ -252,8 +254,81 @@ namespace HISMvcProject1.Models
             return result;
         }
 
-    
-    public Models.TubeData GetTubeData(Models.TubeData tubexy)
+        public List<String> GetTubeCaliber(String PatientId)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"  select caliber as TubeCaliber
+                             from tube_insert
+                             Where Patient_ID = @PatientId;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+
+            List<String> result = new List<String>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(row["TubeCaliber"].ToString());
+
+            }
+            return result;
+        }
+        public List<String> GetTubeInBodyCm(String PatientId)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"  select in_body_cm as TubeInBodym
+                             from tube_insert
+                             Where Patient_ID = @PatientId;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+
+            List<String> result = new List<String>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(row["TubeInBodym"].ToString());
+
+            }
+            return result;
+        }
+        public List<String> GetTubeInsertName(String PatientId)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"  select tin.tube_name_id as TubeNameId, 
+                             ti.tube_name as TubeName
+                             from tube_insert tin 
+                             left join tube_info ti on tin.tube_name_id = ti.tube_name_id
+                             Where Patient_ID = @PatientId;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", PatientId));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+
+            List<String> result = new List<String>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(row["TubeName"].ToString());
+
+            }
+            return result;
+        }
+        public Models.TubeData GetTubeData(Models.TubeData tubexy)
         {
             DataTable dt = new DataTable();
             string sql = @"select ti.Tube_Info_id as TubeIfoId, 
@@ -269,11 +344,13 @@ namespace HISMvcProject1.Models
                           from tube_insert ti 
                           left join tube_part tp on ti.tube_part_id = tp.tube_part_id 
                           left join tube_info t on ti.tube_name_id = t.tube_name_id
-                          where location_x = @LocationX and location_y = @LocationY;";
+                          where location_x = @LocationX and location_y = @LocationY
+                          AND patient_id = @PatientId;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", tubexy.PatientID));
                 cmd.Parameters.Add(new SqlParameter("@LocationX", tubexy.LocationX));
                 cmd.Parameters.Add(new SqlParameter("@LocationY", tubexy.LocationY));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);

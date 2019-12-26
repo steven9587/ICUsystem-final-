@@ -67,6 +67,9 @@ namespace HISMvcProject1.Controllers
             var search_id = TempData["id"] as string;
             ViewBag.location_x = tubeservice.GetTubeLocationX(search_id);
             ViewBag.location_y = tubeservice.GetTubeLocationY(search_id);
+            ViewBag.tube_caliber = tubeservice.GetTubeCaliber(search_id);
+            ViewBag.tube_inbodycm = tubeservice.GetTubeInBodyCm(search_id);
+            ViewBag.tube_insertname = tubeservice.GetTubeInsertName(search_id);
             ViewBag.date = tubeservice.GetTubeDate(search_id);
             ViewBag.search_id = search_id;
 
