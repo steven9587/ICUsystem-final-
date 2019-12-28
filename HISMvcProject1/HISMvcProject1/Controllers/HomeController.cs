@@ -99,9 +99,14 @@ namespace HISMvcProject1.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetPipeLineDropDownList()
+        public JsonResult GetPipeLineDropDownList(Models.TubeData data)
         {
-            return Json(this.tubeservice.GetPipeLine());
+            return Json(this.tubeservice.GetPipeLine(data));
+        }
+        [HttpPost]
+        public JsonResult GetPipeLineDropDownListStart()
+        {
+            return Json(this.tubeservice.GetPipeLineStart());
         }
         public JsonResult GetDivisionDropDownList()
         {

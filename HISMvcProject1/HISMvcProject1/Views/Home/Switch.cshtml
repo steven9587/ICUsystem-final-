@@ -18,7 +18,7 @@
     <div>
         <div class="left">
             <div class="patient_info" id="patient_window" style="resize:none; border:none;  overflow-y: scroll;" cols="45" rows="80">
-                <div class="form-group" >
+                <div class="form-group">
                     <label for="patient_name">病人姓名 : </label>
                     <input type="text" class="form-control" id="patient_name">
                 </div>
@@ -64,7 +64,7 @@
             </div>
             <div class="shift" id="shift_window" style="border:none;">
                 <li cols="35" rows="10">Leave your message here...</li><br><br>
-                <textarea id="Note"  style="width: 95%;" cols="100" rows="2"></textarea>
+                <textarea id="Note" style="width: 95%;" cols="100" rows="2"></textarea>
                 <button type="button" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Send</button>
             </div>
         </div>
@@ -82,7 +82,7 @@
                 <div class="grid_box" id="check_grid"></div>
             </div>
             <div class="tpr_io" id="io" style="position: relative;border:none;width:1100px; height:250px;">
-                <div class="demo-section" >
+                <div class="demo-section">
                     <div id="chart" style="width:1150px; height:250px;"></div>
                 </div>
             </div>
@@ -101,7 +101,7 @@
             <div class="helloworld">
                 <div class="form-group">
                     <form id="addTubeForm" data-role="validator" novalidate="novalidate">
-                        <div class="form-group" style="margin-bottom:10px" >
+                        <div class="form-group" style="margin-bottom:10px">
                             <label for="pipelineLocation" class="required">管路位置: </label>
                             <select id="pipeline_Location" name="pipelineLocation" required validationMessage="請選擇管路位置" style="width: 100%;"></select>
                             <div>
@@ -172,6 +172,7 @@
     var intubation;
     var clickX;
     var clickY;
+    var tubepart;
     //canvas
     var img = new Image();
     img.src = "https://i.imgur.com/lQx1bV0.jpg";
@@ -327,8 +328,30 @@
             dateInput: true,
             format: "yyyy-MM-dd"
         });
-
+      
         //kendropdownList
+        $("#pipeline_Location").change(function(){
+            tubepart = $(this).val();
+            $("#pipeline_Name").kendoDropDownList({
+                dataTextField: "Text",
+                dataValueField: "Value",
+                optionLabel: "請選擇",
+                cascadeFrom: "tubepart",
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "GetPipeLineDropDownList",
+                            data:{
+                                "TubePartID":tubepart
+                            },
+                            type: "post",
+                            dataType: "json"
+                        }
+                    }
+                }
+            });
+        })
+      
         $("#pipeline_Name").kendoDropDownList({
             dataTextField: "Text",
             dataValueField: "Value",
@@ -336,7 +359,7 @@
             dataSource: {
                 transport: {
                     read: {
-                        url: "GetPipeLineDropDownList",
+                        url: "GetPipeLineDropDownListStart",
                         type: "post",
                         dataType: "json"
                     }
@@ -414,20 +437,20 @@
                 }else if(date[i] == 0){
                     lctx.fillStyle = "rgb(242,202,0)";
                 }else{
-                    lctx.fillStyle = "rgb(0,255,0)";
+                    lctx.fillStyle = "rgb(2,198,0)";
                 }
                 lctx.lineWidth = "2";
                 lctx.strokeStyle = 'black';
                 if(tubecaliber[i] < 5){
-                    lctx.rect(locatoinX[i], locatoinY[i], 10, 3);
+                    lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 3);
                 }else if(tubecaliber[i] > 5 && tubecaliber[i] < 20){
-                    lctx.rect(locatoinX[i], locatoinY[i], 10, 7);
+                    lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 7);
                 }else{
-                    lctx.rect(locatoinX[i], locatoinY[i], 10, 15);
+                    lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 10);
                 }
                 //lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
-                lctx.font = "15px Arial";
-                lctx.fillText(tubeinsertname[i]+","+tubeinbodycm[i],parseInt(locatoinX[i])+15,parseInt(locatoinY[i])+10);
+                lctx.font = "20px Arial";
+                lctx.fillText(tubeinsertname[i]+","+tubeinbodycm[i],parseInt(locatoinX[i])+25,parseInt(locatoinY[i])+10);
                 lctx.fill();
                 lctx.stroke();
             }
@@ -449,7 +472,7 @@
                     clickX = event.clientX - 312 - 10;
                     clickY = event.clientY - 74 - 10;
                     for (var i = 0; i < locationLength; i++) {
-                        if (clickX  > parseInt(locatoinX[i]) -5 && clickX < parseInt(locatoinX[i]) + 5 &&
+                        if (clickX  > parseInt(locatoinX[i]) -10 && clickX < parseInt(locatoinX[i]) + 10 &&
                             clickY > parseInt(locatoinY[i]) -5 && clickY < parseInt(locatoinY[i]) + 5) {
                             tubepointer = i;
                             break;
@@ -467,7 +490,7 @@
                         }else if(date[i] == 0){
                             lctx.fillStyle = "rgb(242,202,0)";
                         }else{
-                            lctx.fillStyle = "rgb(0,255,0)";
+                            lctx.fillStyle = "rgb(2,198,0)";
                         }
                         lctx.lineWidth = "2";
                         if(i == tubepointer){
@@ -476,11 +499,11 @@
                             lctx.strokeStyle = 'black';
                         }
                         if(tubecaliber[i] < 5){
-                            lctx.rect(locatoinX[i], locatoinY[i], 10, 3);
+                            lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 3);
                         }else if(tubecaliber[i] > 5 && tubecaliber[i] < 20){
-                            lctx.rect(locatoinX[i], locatoinY[i], 10, 7);
+                            lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 7);
                         }else{
-                            lctx.rect(locatoinX[i], locatoinY[i], 10, 15);
+                            lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 10);
                         }
                         //lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
                         lctx.fill();
@@ -596,10 +619,17 @@
                         success: function (response) {
                             if (response == true) {
                                 alert("資料已修改");
-                                location.reload();
-                                /*Insert.enable(true);
-                                Delete.enable(true);
-                                Save.enable(false);*/
+                                var PatientId = patient_id_search
+                                $.ajax({
+                                    type: "post",
+                                    url: "Getifo",
+                                    data: { "PatientId": PatientId },
+                                    success: function (response) {
+                                        if (response == true) {
+                                            window.location.href = "Switch"
+                                        }
+                                    }
+                                });
                             }
                         },
                         error: function (error) {
@@ -617,6 +647,13 @@
             Insert.enable(false);
             /*Delete.enable(false);
             Save.enable(true);*/
+            $("#pipeline_Location").data("kendoDropDownList").value("");
+            $("#pipeline_Name").data("kendoDropDownList").value("");
+            $("#start_datepicker").data("kendoDatePicker").value(new Date());
+            $("#expiry_datepicker").data("kendoDatePicker").value(new Date());
+            $("#caliber").data("kendoNumericTextBox").value("1");
+            $("#inbodycm").data("kendoNumericTextBox").value("1");
+            $("#pipeline_Note").val("");
         });
 
         //click delete button
@@ -634,7 +671,18 @@
                 success: function (response) {
                     if (response == true) {
                         alert("已刪除");
-                        location.reload();
+                        //location.reload();
+                        var PatientId = patient_id_search
+                        $.ajax({
+                            type: "post",
+                            url: "Getifo",
+                            data: { "PatientId": PatientId },
+                            success: function (response) {
+                                if (response == true) {
+                                    window.location.href = "Switch"
+                                }
+                            }
+                        });
                     }
                 },
                 error: function (error) {
@@ -644,10 +692,10 @@
 
         });
     })
-    
+
     function createChart() {
         $("#chart").kendoChart({
-            
+
             title: {
                 text: ""
             },
@@ -718,11 +766,10 @@
 <style type="text/css">
     #chart {
         background: center no-repeat url('../content/shared/styles/world-map.png');
-        width:1150px;
-        height:250px;
+        width: 1150px;
+        height: 250px;
     }
 </style>
-
 
 
 

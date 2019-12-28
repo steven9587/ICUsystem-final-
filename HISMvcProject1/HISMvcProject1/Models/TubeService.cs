@@ -394,7 +394,33 @@ namespace HISMvcProject1.Models
         /// PipeLine
         /// </summary>
         /// <returns></returns>
-        public List<SelectListItem> GetPipeLine()
+        public List<SelectListItem> GetPipeLine(Models.TubeData data)
+        {
+            DataTable dt = new DataTable();
+            string sql = @" SELECT Tube_Name_ID as TubeID,Tube_Name as TubeName 
+                            FROM tube_info
+                            where tube_part_id = @tubepartid
+                           ;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                if (data.TubePartID == null)
+                {
+                    cmd.Parameters.Add(new SqlParameter("@tubepartid", ""));
+                }
+                else
+                {
+                    cmd.Parameters.Add(new SqlParameter("@tubepartid", data.TubePartID));
+                }
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return this.MapTubeName(dt);
+        }
+
+        public List<SelectListItem> GetPipeLineStart()
         {
             DataTable dt = new DataTable();
             string sql = @" SELECT Tube_Name_ID as TubeID,Tube_Name as TubeName 
@@ -404,7 +430,6 @@ namespace HISMvcProject1.Models
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
