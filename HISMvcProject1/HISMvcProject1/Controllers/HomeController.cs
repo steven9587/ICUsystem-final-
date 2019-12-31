@@ -76,6 +76,11 @@ namespace HISMvcProject1.Controllers
             return View("Switch");
         }
 
+        /// <summary>
+        ///  得到搜尋病人病歷號
+        /// </summary>
+        /// <param name="PatientId"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Getifo(String PatientId)
         {
@@ -84,7 +89,11 @@ namespace HISMvcProject1.Controllers
             return this.Json(true);
         }
 
-
+        /// <summary>
+        /// 得到病人基本資料
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult GetPatientData(Models.InfoData data)
         {
@@ -191,10 +200,6 @@ namespace HISMvcProject1.Controllers
             }
         }
 
-
-
-
-
         /// <summary>
         /// DeleteTube
         /// </summary>
@@ -224,8 +229,6 @@ namespace HISMvcProject1.Controllers
         {
 
             loginservice.UserLogin(login);
-            /* return this.Json(true);*/
-
             if (loginservice.UserLogin(login) != 0)
             {
                 return this.Json(true);

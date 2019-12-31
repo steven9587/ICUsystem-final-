@@ -20,7 +20,7 @@ namespace HISMvcProject1.Models
         }
 
         /// <summary>
-        /// TubePartName
+        /// GetTubePartName
         /// </summary>
         /// <returns></returns>
         public List<SelectListItem> GetTubePartName()
@@ -41,7 +41,7 @@ namespace HISMvcProject1.Models
         }
 
         /// <summary>
-        /// INSERT
+        /// InsertTube
         /// </summary>
         /// <returns></returns>
         public int InsertTube(Models.TubeData tube)
@@ -96,7 +96,7 @@ namespace HISMvcProject1.Models
 
 
         /// <summary>
-        /// EDIT
+        /// EditTube
         /// </summary>
         /// <returns></returns>
         public void EditTube(Models.TubeData tube)
@@ -140,7 +140,6 @@ namespace HISMvcProject1.Models
                 cmd.Transaction = Tran;
                try
                 {
-                    //TubeID = Convert.ToInt32(cmd.ExecuteScalar());
                     Tran.Commit();
                     
                 }
@@ -156,12 +155,11 @@ namespace HISMvcProject1.Models
                 }
 
             }
-            //return TubeID;
         }
 
 
         /// <summary>
-        /// delete
+        /// DeleteTube
         /// </summary>
         /// <param name="BookID"></param>
         public void DeleteTube(Models.TubeData tube)
@@ -229,6 +227,11 @@ namespace HISMvcProject1.Models
             return result;
         }
 
+        /// <summary>
+        /// GetTubeLocationY
+        /// </summary>
+        /// <param name="PatientId"></param>
+        /// <returns></returns>
         public List<String> GetTubeLocationY(String PatientId)
         {
             DataTable dt = new DataTable();
@@ -254,6 +257,11 @@ namespace HISMvcProject1.Models
             return result;
         }
 
+        /// <summary>
+        /// GetTubeCaliber
+        /// </summary>
+        /// <param name="PatientId"></param>
+        /// <returns></returns>
         public List<String> GetTubeCaliber(String PatientId)
         {
             DataTable dt = new DataTable();
@@ -278,6 +286,12 @@ namespace HISMvcProject1.Models
             }
             return result;
         }
+
+        /// <summary>
+        /// GetTubeInBodyCm
+        /// </summary>
+        /// <param name="PatientId"></param>
+        /// <returns></returns>
         public List<String> GetTubeInBodyCm(String PatientId)
         {
             DataTable dt = new DataTable();
@@ -302,6 +316,12 @@ namespace HISMvcProject1.Models
             }
             return result;
         }
+
+        /// <summary>
+        /// GetTubeInsertName
+        /// </summary>
+        /// <param name="PatientId"></param>
+        /// <returns></returns>
         public List<String> GetTubeInsertName(String PatientId)
         {
             DataTable dt = new DataTable();
@@ -328,6 +348,12 @@ namespace HISMvcProject1.Models
             }
             return result;
         }
+
+        /// <summary>
+        /// GetTubeData
+        /// </summary>
+        /// <param name="tubexy"></param>
+        /// <returns></returns>
         public Models.TubeData GetTubeData(Models.TubeData tubexy)
         {
             DataTable dt = new DataTable();
@@ -420,6 +446,10 @@ namespace HISMvcProject1.Models
             return this.MapTubeName(dt);
         }
 
+        /// <summary>
+        /// GetPipeLineStart
+        /// </summary>
+        /// <returns></returns>
         public List<SelectListItem> GetPipeLineStart()
         {
             DataTable dt = new DataTable();

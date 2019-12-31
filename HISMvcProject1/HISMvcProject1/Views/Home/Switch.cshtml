@@ -192,6 +192,7 @@
             //enable: false
         }).data("kendoButton");
 
+        //交班頁面Window
         $("#patient_window").kendoWindow({
             title: "基本資料",
             width:"360px",
@@ -441,6 +442,7 @@
                 }
                 lctx.lineWidth = "2";
                 lctx.strokeStyle = 'black';
+                //draw tube with size
                 if(tubecaliber[i] < 5){
                     lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 3);
                 }else if(tubecaliber[i] > 5 && tubecaliber[i] < 20){
@@ -448,18 +450,18 @@
                 }else{
                     lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 10);
                 }
-                //lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
                 lctx.font = "20px Arial";
                 lctx.fillText(tubeinsertname[i]+","+tubeinbodycm[i],parseInt(locatoinX[i])+25,parseInt(locatoinY[i])+10);
                 lctx.fill();
                 lctx.stroke();
             }
+
+            //insert tube
             lc.onclick = function () {
                 if (intubation == 'insert') {
                     //draw tube from insert
                     x = event.clientX - 312 - 10;
                     y = event.clientY - 74 - 10;
-                    //alert("x:"+x+"y:"+y);
                     lctx.beginPath();
                     lctx.fillStyle = "rgb(180,209,255)";
                     lctx.lineWidth = "2";
@@ -468,7 +470,7 @@
                     lctx.fill();
                     lctx.stroke();
                 }else{
-                    //select point on canvas
+                    //select tube on canvas
                     clickX = event.clientX - 312 - 10;
                     clickY = event.clientY - 74 - 10;
                     for (var i = 0; i < locationLength; i++) {
@@ -480,6 +482,7 @@
                             tubepointer = null;
                         }
                     }
+                    //change selected tube border color  
                     locatoinX = @Html.Raw(Json.Encode((List<String>)ViewBag.location_x));
                     locatoinY = @Html.Raw(Json.Encode((List<String>)ViewBag.location_y));
                     date = @Html.Raw(Json.Encode((List<String>)ViewBag.date));
@@ -505,7 +508,6 @@
                         }else{
                             lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 10);
                         }
-                        //lctx.rect(locatoinX[i], locatoinY[i], 10, 10);
                         lctx.fill();
                         lctx.stroke();
                         location_point_x =locatoinX[tubepointer];
@@ -534,6 +536,7 @@
                             }
                         });
                     }else{
+                        //return to the default
                         $("#pipeline_Location").data("kendoDropDownList").value("");
                         $("#pipeline_Name").data("kendoDropDownList").value("");
                         $("#start_datepicker").data("kendoDatePicker").value(new Date());
@@ -548,6 +551,7 @@
 
         //save data to database
         $("#save").click(function (e) {
+            //save insert data
             if(intubation == 'insert') {
                 intubation = false;
                 var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
@@ -583,10 +587,6 @@
                                         }
                                     }
                                 });
-                                //location.reload();
-                                /*Insert.enable(true);
-                                Delete.enable(true);
-                                Save.enable(false);*/
                             }
                         },
                         error: function (error) {
@@ -595,7 +595,7 @@
                     });
                 }
             }else{
-
+                // sava edit data
                 intubation = false;
                 var validator = $("#addTubeForm").kendoValidator().data("kendoValidator");
                 if (validator.validate()) {
@@ -645,8 +645,6 @@
         $("#insert").click(function () {
             intubation = 'insert';
             Insert.enable(false);
-            /*Delete.enable(false);
-            Save.enable(true);*/
             $("#pipeline_Location").data("kendoDropDownList").value("");
             $("#pipeline_Name").data("kendoDropDownList").value("");
             $("#start_datepicker").data("kendoDatePicker").value(new Date());
@@ -656,7 +654,7 @@
             $("#pipeline_Note").val("");
         });
 
-        //click delete button
+        //click delete button to delete tube data
         $ ("#delete").click(function (e) {
             pointlocation = {
                 "LocationX":location_point_x,
@@ -671,7 +669,6 @@
                 success: function (response) {
                     if (response == true) {
                         alert("已刪除");
-                        //location.reload();
                         var PatientId = patient_id_search
                         $.ajax({
                             type: "post",
@@ -693,6 +690,7 @@
         });
     })
 
+    // I/O圖
     function createChart() {
         $("#chart").kendoChart({
 
@@ -748,12 +746,9 @@
 
     $(document).ready(createChart);
     $(document).bind("kendo:skinChange", createChart);
+    
 
-
-
-
-
-
+    //管路備註字數限制
     function WordsDeal() {
         var curLength = $("#pipelineNote").val().length;
         if (curLength > 1000) {
@@ -763,6 +758,8 @@
         }
     }
 </script>
+
+<!--I/O圖 CSS-->
 <style type="text/css">
     #chart {
         background: center no-repeat url('../content/shared/styles/world-map.png');

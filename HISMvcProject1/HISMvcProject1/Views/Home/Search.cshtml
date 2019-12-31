@@ -56,13 +56,14 @@
 
 <script>
 
+    //按下搜尋鍵取得搜尋條件
     $(".btn_search").click(function () {
         var search_data = {
             "PatientID": $("#patient_id").val(),
             "DivisionId": $("#division").data("kendoDropDownList").value(),
             "DoctorId": $("#doctor_name").data("kendoDropDownList").value()
         };
-
+    //search grid 
         $("#patient_grid").kendoGrid({
             height: 510,
             columns: [
@@ -86,6 +87,8 @@
             }
         });
     });
+
+    //kendoDropDownList
     $("#doctor_name").kendoDropDownList({
         dataTextField: "Text",
         dataValueField: "Value",

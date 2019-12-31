@@ -20,7 +20,7 @@ namespace HISMvcProject1.Models
         }
 
         /// <summary>
-        /// TubePartName
+        /// GetDivision
         /// </summary>
         /// <returns></returns>
         public List<SelectListItem> GetDivision()
@@ -40,7 +40,7 @@ namespace HISMvcProject1.Models
             return this.MapCodeName(dt);
         }
         /// <summary>
-        /// TubePartName
+        /// GetDoctorName
         /// </summary>
         /// <returns></returns>
         public List<SelectListItem> GetDoctorName()
@@ -60,6 +60,11 @@ namespace HISMvcProject1.Models
             return this.MapCodeName(dt);
         }
 
+        /// <summary>
+        /// GetPatientData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public Models.InfoData GetPatientData(Models.InfoData data)
         {
             DataTable dt = new DataTable();
@@ -117,11 +122,7 @@ namespace HISMvcProject1.Models
             return result;
         }
 
-        /// <summary>
-        /// getinfo
-        /// </summary>
-        /// <param name="arg"></param>
-        /// <returns></returns>
+       
         public List<Models.InfoData> GetInfoByCondtioin(Models.InfoData data)
         {
 

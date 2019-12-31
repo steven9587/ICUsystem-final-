@@ -11,7 +11,7 @@
 {
 
     <div style="margin-top:10px">
-        <div style="margin: auto; position: absolute;left: 0; right: 0; top: 0px;width:350px;height:360px;border:5px solid; margin-top:150px; border-color:rgba(25, 66, 132, 0.52);border-radius:10px;">
+        <div style="margin: auto; position: absolute;left: 0; right: 0; top: 0px;width:350px;height:360px;border:5px solid; margin-top:150px; border-color:rgba(25, 66, 132, 0.52);border-radius:10px;  ">
             <div>
             <!--<div style="margin: auto; position: absolute;left: 0; right: 0; top: 0px;border:5px solid;margin-top:10px">-->
                 <img style="width:150px;display: block;margin:0 auto;margin-top:20px" src="https://dr.tvbs.com.tw/images/f-hos-logo.png">
@@ -36,7 +36,7 @@
 }
 
 <script>
-    debugger;
+    //按下登入按鈕取得帳號密碼
     $("#login").click(function (e) {
         var login_data = {
             "Username": $("#username").val(),
@@ -64,61 +64,4 @@
         });
 
     })
-    /*
-    function authenticateUser() {
-        var userName = $("#username").val();
-        var password = $("#password").val();
-        var $msg = $("#login-message");
-
-        $.ajax({
-            url: "/fakeaccount/_login",
-            data: { UserName: userName, Password: password, RememberMe: false },
-            dataType: "json",
-            type: "POST",
-            success: function (data) {
-                if (data.Success) {
-                    $msg.hide();
-                    app.navigate("");
-                } else {
-                    $msg.html(data.Message).show();
-                }
-            },
-            error: function (xhr, status, error) {
-                alert(xhr.responseText)
-            }
-        });
-    }
-    */
-
-    /*
-    function login() {
-        kendo.alert("This is a Kendo UI Alert message.");
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var loginUrl = 'http://myurl.co.uk/appqueries/login.php?username=' + username + '&password=' + password;
-
-        $.ajax({
-            url: loginUrl,
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                handleLoginResult(data);
-            }
-
-        });
-
-    }
-
-    $(document).on("click", "#loginbutton", loginClick);
-
-    function handleLoginResult(data) {
-        var status = data.status;
-        var message = data.message;
-
-        if (status === "success") {
-            // do whatever needs to be done after successful login
-            $("#loginresult").html(message);
-        }
-    }
-    */
 </script>
