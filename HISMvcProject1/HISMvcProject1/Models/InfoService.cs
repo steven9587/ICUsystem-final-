@@ -46,8 +46,8 @@ namespace HISMvcProject1.Models
         public List<SelectListItem> GetDoctorName()
         {
             DataTable dt = new DataTable();
-            string sql = @" SELECT doctor_id as CodeID, 
-	                               doctor_name as CodeName 
+            string sql = @" SELECT [DOCTOR_ID] as CodeID, 
+	                               DOCTOR_NAME as CodeName 
                             FROM doctor_info;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
@@ -72,12 +72,12 @@ namespace HISMvcProject1.Models
                                   pai.patient_hisid as PatientId,
                                   pai.patient_division as DivisionId ,
                                   di.division_ename as DivisionName,
-								  pai.PATEINT_ID as PatientIdNo,
+								  pai.PATIENT_ID as PatientIdNo,
 								  CONVERT(char(10),pai.patient_birth,126) as PatientBirth,
 								  CONVERT(char(10),pai.patient_inicu,126) as PatientInICU,
                                   CONVERT(char(10),pai.patient_admdt,126) as PatientAdmdt,
 								  pai.patient_weight as PatientWeight,
-								  pai.PATTIENT_HEIGHT as PatientHeight,
+								  pai.PATIENT_HEIGHT as PatientHeight,
                                   pai.patient_name as PatientName,
                                   pai.patient_doctor_id as DoctorId,
                                   doi.doctor_name as DoctorName,
@@ -86,7 +86,7 @@ namespace HISMvcProject1.Models
 			               INNER JOIN DIVISION_INFO di 
                                 ON pai.PATIENT_DIVISION = di.division_id
 			               INNER JOIN doctor_info doi 
-                                on pai.patient_doctor_id = doi.doctor_id
+                                on pai.patient_doctor_id = doi.DOCTOR_ID
 			               INNER JOIN user_login ul 
                                 on pai.PATIENT_NURSE_ID_1 = ul.user_id
                             Where patient_hisid = @PatientId";
@@ -139,7 +139,7 @@ namespace HISMvcProject1.Models
 			               INNER JOIN DIVISION_INFO di 
                                 ON pai.PATIENT_DIVISION = di.division_id
 			               INNER JOIN doctor_info doi 
-                                on pai.patient_doctor_id = doi.doctor_id
+                                on pai.patient_doctor_id = doi.DOCTOR_ID
 			               INNER JOIN user_login ul 
                                 on pai.PATIENT_NURSE_ID_1 = ul.user_id
                            WHERE (pai.patient_hisid LIKE ('%'+@PatientId+'%') OR @PatientId='' )AND

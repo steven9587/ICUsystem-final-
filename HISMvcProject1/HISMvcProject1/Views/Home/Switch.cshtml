@@ -415,6 +415,7 @@
         //小人圖window開啟
         $("#andy_open").click(function (e) {
             Insert.enable(true);
+            Delete.enable(false);
             intubation = "";
             $('#andy_window').data("kendoWindow").center().open();
             //read tube x-y from DB
@@ -451,7 +452,7 @@
                     lctx.rect((parseInt(locatoinX[i])-5), locatoinY[i], 20, 10);
                 }
                 lctx.font = "20px Arial";
-                lctx.fillText(tubeinsertname[i]+","+tubeinbodycm[i],parseInt(locatoinX[i])+25,parseInt(locatoinY[i])+10);
+                lctx.fillText(tubeinsertname[i]+","+tubeinbodycm[i]+" cm",parseInt(locatoinX[i])+25,parseInt(locatoinY[i])+10);
                 lctx.fill();
                 lctx.stroke();
             }
@@ -515,6 +516,8 @@
                     }
                     //傳點選xy到controler
                     if(tubepointer != null){
+                        Insert.enable(false);
+                        Delete.enable(true);
                         pointlocation = {
                             "LocationX":location_point_x,
                             "LocationY":location_point_y,
@@ -537,6 +540,8 @@
                         });
                     }else{
                         //return to the default
+                        Insert.enable(true);
+                        Delete.enable(false);
                         $("#pipeline_Location").data("kendoDropDownList").value("");
                         $("#pipeline_Name").data("kendoDropDownList").value("");
                         $("#start_datepicker").data("kendoDatePicker").value(new Date());
@@ -645,6 +650,7 @@
         $("#insert").click(function () {
             intubation = 'insert';
             Insert.enable(false);
+            Delete.enable(false);
             $("#pipeline_Location").data("kendoDropDownList").value("");
             $("#pipeline_Name").data("kendoDropDownList").value("");
             $("#start_datepicker").data("kendoDatePicker").value(new Date());
