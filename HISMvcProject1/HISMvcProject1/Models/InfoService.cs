@@ -71,7 +71,7 @@ namespace HISMvcProject1.Models
             string sql = @"SELECT pai.patient_bed as BedId,
                                   pai.patient_hisid as PatientId,
                                   pai.patient_division as DivisionId ,
-                                  di.division_ename as DivisionName,
+                                  (di.division_ename + '(' + di.division_cname + ')' )as DivisionName,
 								  pai.PATIENT_ID as PatientIdNo,
 								  CONVERT(char(10),pai.patient_birth,126) as PatientBirth,
 								  CONVERT(char(10),pai.patient_inicu,126) as PatientInICU,
