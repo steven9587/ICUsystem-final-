@@ -77,6 +77,12 @@ namespace HISMvcProject1.Controllers
             return View("Switch");
         }
 
+        public ActionResult MHistory() {
+
+            return View("MHistory");
+
+        }
+
         /// <summary>
         ///  得到搜尋病人病歷號
         /// </summary>
