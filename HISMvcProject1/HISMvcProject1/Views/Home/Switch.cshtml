@@ -149,7 +149,7 @@
                                     <input type="button" id="insert" value="Insert" class="btn" style="background-color: #99b2db; color:#194284" />
                                     <input type="button" id="save" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
                                     <input type="button" id="delete" value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
-                                    <input type="button" id="io_btn" value="IO" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                                    <!--<input type="button" id="io_btn" value="IO" class="btn" style="background-color: #CCDDFF; color:#194284" />-->
                                 </div>
                             </form>
                         </div>
@@ -158,10 +158,10 @@
             </div>
             <div>
                 <span class="io_tag">&nbsp;</span>
-
+                <div class="grid_box" id="io_grid" style="width:900px;"></div>
             </div>
         </div>
-       
+
     </div>
 
 
@@ -712,7 +712,7 @@
         debugger
         $("#andy_io_window").data("kendoWindow").open();
     });
-    
+
 
 
     //管路備註字數限制
@@ -725,6 +725,7 @@
         }
     }
 
+    //小人圖標籤
     $(document).ready(function () {
         $("#tabstrip").kendoTabStrip({
             animation: {
@@ -734,6 +735,21 @@
             }
         });
     });
+
+    //io_grid
+    $("#io_grid").kendoGrid({
+        height: "200px",
+        columns: [
+                { field: "IoTubeName", title: "藥名", width: "20%" },
+                { field: "DayShift", title: "早班",subtitle:"(07:00~15:00)", width: "20%" },
+                { field: "LaterShift", title: "小夜班",subtitle:"(15:00~23:00)", width: "20%" },
+                { field: "GraveyardShift", title: "大夜班",subtitle:"(23:00~07:00)", width: "20%" },
+                { field: "Total", title: "總計",subtitle:"(07:00~07:00)", width: "20%" },
+
+
+
+        ]
+    })
 </script>
 <!--I/O圖 CSS-->
 <style type="text/css">
@@ -743,33 +759,33 @@
         height: 250px;
     }
 
-     .andy_tag, .io_tag {
-                display: block;
-                width: 0px;
-                height: 0px;
-            }
+    .andy_tag, .io_tag {
+        display: block;
+        width: 0px;
+        height: 0px;
+    }
 
 
 
-            #tabstrip h2 {
-                font-weight: lighter;
-                font-size: 5em;
-                line-height: 1;
-                padding: 0 0 0 30px;
-                margin: 0;
-            }
+    #tabstrip h2 {
+        font-weight: lighter;
+        font-size: 5em;
+        line-height: 1;
+        padding: 0 0 0 30px;
+        margin: 0;
+    }
 
-                #tabstrip h2 span {
-                    background: none;
-                    padding-left: 5px;
-                    font-size: .3em;
-                    vertical-align: top;
-                }
+        #tabstrip h2 span {
+            background: none;
+            padding-left: 5px;
+            font-size: .3em;
+            vertical-align: top;
+        }
 
-            #tabstrip p {
-                margin: 0;
-                padding: 0;
-            }
+    #tabstrip p {
+        margin: 0;
+        padding: 0;
+    }
 </style>
 
 
