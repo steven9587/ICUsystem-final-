@@ -10,46 +10,44 @@
 @section body
 {
     <div class="row">
-
-        <div class="Full_column">
-            <canvas id="full" width="1300" height="450" style="border:5px solid"></canvas>
-        </div>
-
-        <div class="demo-section k-content">
-            <div>
-                <h4>Check nodes</h4>
-                <div id="treeview"></div>
+        <div class="row" style="width:auto;height:auto;">
+            <div class="Full_column">
+                <canvas id="full" width="1300" height="450" style="border:5px solid"></canvas>
             </div>
-            <div style="padding-top: 2em;">
-                <h4>Status</h4>
-                <p id="result">No nodes checked.</p>
+
+            <div class="demo-section k-content" style="height:100px;">
+                <div>
+                    <h4>曾經使用過的藥品</h4>
+                    <div id="m_important_treeview"></div>
+                    <div id="m_treeview"></div>
+                </div>
+                <input type="button" id="delete" value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                <div style="padding-top: 2em;">
+                    <h4>Status</h4>
+                    <p id="result">No nodes checked.</p>
+                </div>
             </div>
         </div>
         <div class="grid_box" id="history_grid" style="margin-top:30px"></div>
-
     </div>
-
-
     <script>
-        //treeview
-        $("#treeview").kendoTreeView({
+        //重要藥物treeview
+        $("#m_important_treeview").kendoTreeView({
             checkboxes: {
                 checkChildren: true
             },
-
             check: onCheck,
-
             dataSource: [{
-                id: 1, text: "My Documents", expanded: true, spriteCssClass: "rootfolder", items: [
+                id: 1, text: "重點藥物", /*expanded: true,*/ spriteCssClass: "rootfolder", items: [
                     {
-                        id: 2, text: "Kendo UI Project", expanded: true, spriteCssClass: "folder", items: [
+                        id: 2, text: "抗生素", expanded: true, spriteCssClass: "folder", items: [
                             { id: 3, text: "about.html", spriteCssClass: "html" },
                             { id: 4, text: "index.html", spriteCssClass: "html" },
                             { id: 5, text: "logo.png", spriteCssClass: "image" }
                         ]
                     },
                     {
-                        id: 6, text: "New Web Site", expanded: true, spriteCssClass: "folder", items: [
+                        id: 6, text: "抗凝血劑", expanded: true, spriteCssClass: "folder", items: [
                             { id: 7, text: "mockup.jpg", spriteCssClass: "image" },
                             { id: 8, text: "Research.pdf", spriteCssClass: "pdf" },
                         ]
@@ -64,7 +62,37 @@
                 ]
             }]
         });
-
+        //一般藥物treeview
+        $("#m_treeview").kendoTreeView({
+            checkboxes: {
+                checkChildren: true
+            },
+            check: onCheck,
+            dataSource: [{
+                id: 1, text: "一般藥物", /*expanded: true,*/ spriteCssClass: "rootfolder", items: [
+                    {
+                        id: 2, text: "抗生素", expanded: true, spriteCssClass: "folder", items: [
+                            { id: 3, text: "about.html", spriteCssClass: "html" },
+                            { id: 4, text: "index.html", spriteCssClass: "html" },
+                            { id: 5, text: "logo.png", spriteCssClass: "image" }
+                        ]
+                    },
+                    {
+                        id: 6, text: "抗凝血劑", expanded: true, spriteCssClass: "folder", items: [
+                            { id: 7, text: "mockup.jpg", spriteCssClass: "image" },
+                            { id: 8, text: "Research.pdf", spriteCssClass: "pdf" },
+                        ]
+                    },
+                    {
+                        id: 9, text: "Reports", expanded: true, spriteCssClass: "folder", items: [
+                            { id: 10, text: "February.pdf", spriteCssClass: "pdf" },
+                            { id: 11, text: "March.pdf", spriteCssClass: "pdf" },
+                            { id: 12, text: "April.pdf", spriteCssClass: "pdf" }
+                        ]
+                    }
+                ]
+            }]
+        });
         // function that gathers IDs of checked nodes
         function checkedNodeIds(nodes, checkedNodes) {
             for (var i = 0; i < nodes.length; i++) {
@@ -81,7 +109,7 @@
         // show checked node IDs on datasource change
         function onCheck() {
             var checkedNodes = [],
-                treeView = $("#treeview").data("kendoTreeView"),
+                treeView = $("#m_treeview").data("kendoTreeView"),
                 message;
 
             checkedNodeIds(treeView.dataSource.view(), checkedNodes);
@@ -99,19 +127,21 @@
         $("#history_grid").kendoGrid({
             height: "200px",
             columns: [
-                    { field: "Checkdate", title: "項", width: "10%" },
-                    { field: "CheckItem", title: "藥名", width: "10%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" },
-                    { field: "ChechNum", title: "藥品分類", width: "20%" }
+                    { field: "Item", title: "項", width: "5%" },
+                    { field: "MName", title: "藥名", width: "10%" },
+                    { field: "MClass", title: "藥品分類", width: "7%" },
+                    { field: "MAmount", title: "藥量", width: "7%" },
+                    { field: "MUnit", title: "單位", width: "7%" },
+                    { field: "MFrequency", title: "頻次", width: "7%" },
+                    { field: "MWay", title: "途徑", width: "7%" },
+                    { field: "MDay", title: "天數", width: "7%" },
+                    { field: "MTotal", title: "總量", width: "7%" },
+                    { field: "MStart", title: "開始", width: "7%" },
+                    { field: "MEnd", title: "結束", width: "7%" },
+                    { field: "MO", title: "來源", width: "7%" },
+                    { field: "MBranch", title: "開藥科別", width: "7%" },
+                    { field: "MDoctor", title: "開藥醫師", width: "7%" }
+
 
             ]
         })
@@ -121,28 +151,15 @@
     <!--treeView style-->
     <style>
         #treeview .k-sprite {
-            background-image: url("../content/web/treeview/coloricons-sprite.png");
+            e: url("../ o /coloricons-sprite.p g);
         }
 
-        .rootfolder {
-            background-position: 0 0;
+        .rootfo d background-posit o: 0 0;
         }
 
-        .folder {
-            background-position: 0 -16px;
-        }
-
-        .pdf {
-            background-position: 0 -32px;
-        }
-
-        .html {
-            background-position: 0 -48px;
-        }
-
-        .image {
-            background-position: 0 -64px;
+        .fol e background-positi n 0 -16 .p f background-positio : 0 -32p .htm background-position -48px .image {
+            backgr background-position: 0 -64px;
         }
     </style>
 
-}
+    }
