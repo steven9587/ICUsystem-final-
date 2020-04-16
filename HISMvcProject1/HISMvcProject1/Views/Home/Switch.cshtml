@@ -86,70 +86,85 @@
         </div>
     </div>
     <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
-        <div class="row">
-            <div class="Full_column">
-                <canvas id="full" width="600" height="600"></canvas>
-            </div>
-            <div class="helloworld">
-                <div class="form-group">
-                    <form id="addTubeForm" data-role="validator" novalidate="novalidate">
-                        <div class="form-group" style="margin-bottom:10px">
-                            <label for="pipelineLocation" class="required">管路位置: </label>
-                            <select id="pipeline_Location" name="pipelineLocation" required validationMessage="請選擇管路位置" style="width: 100%;"></select>
-                            <div>
-                                <span class="k-invalid-msg" data-for="pipelineLocation"></span>
-                            </div>
+        <div id="tabstrip">
+            <ul>
+                <li class="k-state-active">
+                    andy
+                </li>
+                <li>
+                    i/o
+                </li>
+
+            </ul>
+            <div>
+                <span class="andy_tag">&nbsp;</span>
+                <div class="row">
+                    <div class="Full_column">
+                        <canvas id="full" width="600" height="600"></canvas>
+                    </div>
+                    <div class="helloworld">
+                        <div class="form-group">
+                            <form id="addTubeForm" data-role="validator" novalidate="novalidate">
+                                <div class="form-group" style="margin-bottom:10px">
+                                    <label for="pipelineLocation" class="required">管路位置: </label>
+                                    <select id="pipeline_Location" name="pipelineLocation" required validationMessage="請選擇管路位置" style="width: 100%;"></select>
+                                    <div>
+                                        <span class="k-invalid-msg" data-for="pipelineLocation"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:10px">
+                                    <label for="pipelineName" class="required">管路名稱: </label>
+                                    <select id="pipeline_Name" name="PipelineName" required validationMessage="請選擇管路名稱" style="width: 100%;"></select>
+                                    <div>
+                                        <span class="k-invalid-msg" data-for="pipelineName"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom:10px">
+                                    <label for="bought_datepicker" class="required">放置日期:</label>
+                                    <input type="text" data-role='datepicker' id="start_datepicker" name="startdatepicker"
+                                           data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
+                                    <span data-for='startdatepicker' class='k-invalid-msg'></span>
+                                </div>
+                                <div class="form-group" style="margin-bottom:10px">
+                                    <label for="bought_datepicker" class="required">到期日期:</label>
+                                    <input type="text" data-role='datepicker' id="expiry_datepicker" name="expirydatepicker"
+                                           data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
+                                    <span data-for='expirydatepicker' class='k-invalid-msg'></span>
+                                </div>
+                                <div class="form-group" style="margin-bottom:10px">
+                                    <label for="caliber" class="required"> 管路口徑(french):</label>
+                                    <input id="caliber" name="Caliber" style="width: 100%;" type="text" min="1" max="34" value="1" required data-max-msg="Enter french between 1 and 34" />
+                                    <span class="k-invalid-msg" data-for="Caliber"></span>
+                                </div>
+                                <div class="form-group" style="margin-bottom:10px">
+                                    <label for="inbodycm" class="required">管路埋入公分數:</label>
+                                    <input id="inbodycm" name="Inbodycm" style="width: 100%;" type="text" min="1" max="100" value="1" required data-max-msg="Enter cm between 1 and 34" />
+                                    <span class="k-invalid-msg" data-for="Inbodycm"></span>
+                                </div>
+                                <div class="form-group" style="margin-bottom:50px">
+                                    <label for="caliber" class="required">備註：</label>
+                                    <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 95%;" cols="100" rows="2"></textarea>
+                                </div>
+                                <div class="col-md-10">
+                                    <input type="button" id="insert" value="Insert" class="btn" style="background-color: #99b2db; color:#194284" />
+                                    <input type="button" id="save" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
+                                    <input type="button" id="delete" value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                                    <!--<input type="button" id="io_btn" value="IO" class="btn" style="background-color: #CCDDFF; color:#194284" />-->
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group" style="margin-bottom:10px">
-                            <label for="pipelineName" class="required">管路名稱: </label>
-                            <select id="pipeline_Name" name="PipelineName" required validationMessage="請選擇管路名稱" style="width: 100%;"></select>
-                            <div>
-                                <span class="k-invalid-msg" data-for="pipelineName"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px">
-                            <label for="bought_datepicker" class="required">放置日期:</label>
-                            <input type="text" data-role='datepicker' id="start_datepicker" name="startdatepicker"
-                                   data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
-                            <span data-for='startdatepicker' class='k-invalid-msg'></span>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px">
-                            <label for="bought_datepicker" class="required">到期日期:</label>
-                            <input type="text" data-role='datepicker' id="expiry_datepicker" name="expirydatepicker"
-                                   data-type="date" style="width: 100%;" required validationMessage="請輸入正確日期格式" />
-                            <span data-for='expirydatepicker' class='k-invalid-msg'></span>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px">
-                            <label for="caliber" class="required"> 管路口徑(french):</label>
-                            <input id="caliber" name="Caliber" style="width: 100%;" type="text" min="1" max="34" value="1" required data-max-msg="Enter french between 1 and 34" />
-                            <span class="k-invalid-msg" data-for="Caliber"></span>
-                        </div>
-                        <div class="form-group" style="margin-bottom:10px">
-                            <label for="inbodycm" class="required">管路埋入公分數:</label>
-                            <input id="inbodycm" name="Inbodycm" style="width: 100%;" type="text" min="1" max="100" value="1" required data-max-msg="Enter cm between 1 and 34" />
-                            <span class="k-invalid-msg" data-for="Inbodycm"></span>
-                        </div>
-                        <div class="form-group" style="margin-bottom:50px">
-                            <label for="caliber" class="required">備註：</label>
-                            <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 95%;" cols="100" rows="2"></textarea>
-                        </div>
-                        <div class="col-md-10">
-                            <input type="button" id="insert" value="Insert" class="btn" style="background-color: #99b2db; color:#194284" />
-                            <input type="button" id="save" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
-                            <input type="button" id="delete" value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
-                            <input type="button" id="io_btn" value="IO" class="btn" style="background-color: #CCDDFF; color:#194284" />
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
+            <div>
+                <span class="io_tag">&nbsp;</span>
+                <div class="grid_box" id="io_grid" style="width:900px;"></div>
+            </div>
         </div>
+
     </div>
 
-    <div class="uk-card  uk-text-left" id="andy_io_window" style="display:none">
-        <div class="row">
-            <h1>Hello World</h1>
-        </div>
-    </div>
+
 }
 <script type="text/javascript">
     var locatoinX=[0];
@@ -697,7 +712,7 @@
         debugger
         $("#andy_io_window").data("kendoWindow").open();
     });
-    
+
 
 
     //管路備註字數限制
@@ -709,6 +724,32 @@
             alert("超過字數限制(1000字)，多出的字將被移除！");
         }
     }
+
+    //小人圖標籤
+    $(document).ready(function () {
+        $("#tabstrip").kendoTabStrip({
+            animation: {
+                open: {
+                    effects: "fadeIn"
+                }
+            }
+        });
+    });
+
+    //io_grid
+    $("#io_grid").kendoGrid({
+        height: "200px",
+        columns: [
+                { field: "IoTubeName", title: "藥名", width: "20%" },
+                { field: "DayShift", title: "早班",subtitle:"(07:00~15:00)", width: "20%" },
+                { field: "LaterShift", title: "小夜班",subtitle:"(15:00~23:00)", width: "20%" },
+                { field: "GraveyardShift", title: "大夜班",subtitle:"(23:00~07:00)", width: "20%" },
+                { field: "Total", title: "總計",subtitle:"(07:00~07:00)", width: "20%" },
+
+
+
+        ]
+    })
 </script>
 <!--I/O圖 CSS-->
 <style type="text/css">
@@ -716,6 +757,34 @@
         background: center no-repeat url('../content/shared/styles/world-map.png');
         width: 1150px;
         height: 250px;
+    }
+
+    .andy_tag, .io_tag {
+        display: block;
+        width: 0px;
+        height: 0px;
+    }
+
+
+
+    #tabstrip h2 {
+        font-weight: lighter;
+        font-size: 5em;
+        line-height: 1;
+        padding: 0 0 0 30px;
+        margin: 0;
+    }
+
+        #tabstrip h2 span {
+            background: none;
+            padding-left: 5px;
+            font-size: .3em;
+            vertical-align: top;
+        }
+
+    #tabstrip p {
+        margin: 0;
+        padding: 0;
     }
 </style>
 
