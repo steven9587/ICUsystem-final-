@@ -71,6 +71,7 @@
                 <li style="resize:none; " cols="50" rows="50">
                     test2
                 </li>
+                <button type="button" id="btn_mhistory" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Medicine History</button>
             </div>
             <div class="inspection" id="check" style="border:none;">
                 <div class="grid_box" id="check_grid"></div>
@@ -707,10 +708,19 @@
         });
     })
 
-    // I/O圖
-    $("#io_btn").click(function(){
-        debugger
-        $("#andy_io_window").data("kendoWindow").open();
+    // 轉藥歷圖
+    $("#btn_mhistory").click(function(){
+        var PatientId = patient_id_search
+        $.ajax({
+            type: "post",
+            url: "Getifo",
+            data: { "PatientId": PatientId },
+            success: function (response) {
+                if (response == true) {
+                    window.location.href = "MHistory"
+                }
+            }
+        });
     });
 
 
