@@ -12,56 +12,26 @@
     <div class="row">
         <div class="row" style="width:auto;height:auto;">
             <div class="Full_column">
-                <canvas id="full" width="1300" height="450" style="border:5px solid"></canvas>
+                <canvas id="full" width="1200" height="450" style="border:5px solid"></canvas>
             </div>
 
-            <div class="demo-section k-content" style="height:100px;">
+            <div class="demo-section k-content" style="height:425px; overflow-y:scroll; overflow-x:hidden;">
                 <div>
-                    <h4>曾經使用過的藥品</h4>
-                    <div id="m_important_treeview"></div>
+                    <h4>曾經使用過的藥品</h4> 
                     <div id="m_treeview"></div>
                 </div>
-                <input type="button" id="delete" value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
+
                 <div style="padding-top: 2em;">
                     <h4>Status</h4>
                     <p id="result">No nodes checked.</p>
                 </div>
             </div>
+            <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284" />
         </div>
         <div class="grid_box" id="history_grid" style="margin-top:30px"></div>
     </div>
     <script>
-        //重要藥物treeview
-        $("#m_important_treeview").kendoTreeView({
-            checkboxes: {
-                checkChildren: true
-            },
-            check: onCheck,
-            dataSource: [{
-                id: 1, text: "重點藥物", /*expanded: true,*/ spriteCssClass: "rootfolder", items: [
-                    {
-                        id: 2, text: "抗生素", expanded: true, spriteCssClass: "folder", items: [
-                            { id: 3, text: "about.html", spriteCssClass: "html" },
-                            { id: 4, text: "index.html", spriteCssClass: "html" },
-                            { id: 5, text: "logo.png", spriteCssClass: "image" }
-                        ]
-                    },
-                    {
-                        id: 6, text: "抗凝血劑", expanded: true, spriteCssClass: "folder", items: [
-                            { id: 7, text: "mockup.jpg", spriteCssClass: "image" },
-                            { id: 8, text: "Research.pdf", spriteCssClass: "pdf" },
-                        ]
-                    },
-                    {
-                        id: 9, text: "Reports", expanded: true, spriteCssClass: "folder", items: [
-                            { id: 10, text: "February.pdf", spriteCssClass: "pdf" },
-                            { id: 11, text: "March.pdf", spriteCssClass: "pdf" },
-                            { id: 12, text: "April.pdf", spriteCssClass: "pdf" }
-                        ]
-                    }
-                ]
-            }]
-        });
+
         //一般藥物treeview
         $("#m_treeview").kendoTreeView({
             checkboxes: {
@@ -69,7 +39,7 @@
             },
             check: onCheck,
             dataSource: [{
-                id: 1, text: "一般藥物", /*expanded: true,*/ spriteCssClass: "rootfolder", items: [
+                id: 1, text: "病人姓名", /*expanded: true,*/ spriteCssClass: "rootfolder", items: [
                     {
                         id: 2, text: "抗生素", expanded: true, spriteCssClass: "folder", items: [
                             { id: 3, text: "about.html", spriteCssClass: "html" },
@@ -150,15 +120,30 @@
 
     <!--treeView style-->
     <style>
-           #treeview .k-sprite {
+        #treeview .k-sprite {
             background-image: url("../content/web/treeview/coloricons-sprite.png");
+            overflow: hidden;
         }
 
-        .rootfolder { background-position: 0 0; }
-        .folder     { background-position: 0 -16px; }
-        .pdf        { background-position: 0 -32px; }
-        .html       { background-position: 0 -48px; }
-        .image      { background-position: 0 -64px; }
+        .rootfolder {
+            background-position: 0 0;
+        }
+
+        .folder {
+            background-position: 0 -16px;
+        }
+
+        .pdf {
+            background-position: 0 -32px;
+        }
+
+        .html {
+            background-position: 0 -48px;
+        }
+
+        .image {
+            background-position: 0 -64px;
+        }
     </style>
 
-    }
+}
