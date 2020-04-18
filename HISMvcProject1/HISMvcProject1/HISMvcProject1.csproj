@@ -537,6 +537,7 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Home\Switch.cshtml" />
     <Content Include="Views\Home\MHistory.cshtml" />
+    <Content Include="Views\Shared\LoginLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Site.css" />

@@ -27,7 +27,6 @@ namespace HISMvcProject1.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-
             return View();
         }
 
@@ -57,7 +56,6 @@ namespace HISMvcProject1.Controllers
         public ActionResult Search()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-
             return View();
         }
 
@@ -73,7 +71,6 @@ namespace HISMvcProject1.Controllers
             ViewBag.tube_insertname = tubeservice.GetTubeInsertName(search_id);
             ViewBag.date = tubeservice.GetTubeDate(search_id);
             ViewBag.search_id = search_id;
-
             return View("Switch");
         }
 
