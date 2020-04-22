@@ -177,7 +177,21 @@
                 </div>
             </div>
             <div>
-                <span class="io_tag">&nbsp;</span>
+                <span class="fullio_tag">&nbsp;</span>
+                <div class="form-group" style="margin-bottom:10px">
+                    <label for="bought_datepicker" class="required">查詢區間:</label>
+
+                    <input type="text" data-role='datepicker' id="iostart_datepicker" name="iostartdatepicker"
+                           data-type="date" style="width: 30%;" required validationMessage="請輸入正確日期格式" />
+                    <span data-for='iostartdatepicker' class='k-invalid-msg'></span>
+
+                    <b>~</b>
+
+                    <input type="text" data-role='datepicker' id="ioend_datepicker" name="ioenddatepicker"
+                           data-type="date" style="width: 30%;" required validationMessage="請輸入正確日期格式" />
+                    <span data-for='ioenddatepicker' class='k-invalid-msg'></span>
+
+                </div>
                 <div class="grid_box" id="io_grid" style="width:900px;"></div>
             </div>
         </div>
@@ -354,7 +368,22 @@
             dateInput: true,
             format: "yyyy-MM-dd"
         });
+
         $("#expiry_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+
+        $("#iostart_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+
+        $("#ioend_datepicker").kendoDatePicker({
             value: new Date(),
             min: "1900-01-01",
             dateInput: true,
@@ -790,6 +819,7 @@
         ]
     })
 </script>
+
 <!--I/O圖 CSS-->
 <style type="text/css">
     #chart {
@@ -798,7 +828,7 @@
         height: 250px;
     }
 
-    .andy_tag, .io_tag {
+    .andy_tag, .fullio_tag {
         display: block;
         width: 0px;
         height: 0px;
