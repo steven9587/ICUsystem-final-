@@ -192,7 +192,10 @@
                     <span data-for='ioenddatepicker' class='k-invalid-msg'></span>
 
                 </div>
-                <div class="grid_box" id="io_grid" style="width:900px;"></div>
+                <div class="fulliorow">
+                    <div class="fulliogrid_box" id="fullioin_grid" style=""></div>
+                    <div class="fulliogrid_box" id="fullioout_grid" style=""></div>
+                </div>
             </div>
         </div>
 
@@ -326,6 +329,7 @@
         })
         $("#andy_open").parent().find(".k-window-action").css("visibility","hidden");
 
+
         $("#andy_window").kendoWindow({
             title: "病人插管資料",
             width: "75  %",
@@ -337,7 +341,10 @@
             action: ["Minimize",
                      "Maximize",
                      "Close"],
-        })
+        });
+
+        //  $("#andy_window").data("kendoWindow").center();
+
         $("#check_grid").kendoGrid({
             width:"700px",
             height:"200px",
@@ -804,18 +811,28 @@
         });
     });
 
-    //io_grid
-    $("#io_grid").kendoGrid({
+    //fullio_grid
+    $("#fullioin_grid").kendoGrid({
         height: "200px",
         columns: [
-                { field: "IoTubeName", title: "藥名", width: "20%" },
-                { field: "DayShift", title: "早班",subtitle:"(07:00~15:00)", width: "20%" },
-                { field: "LaterShift", title: "小夜班",subtitle:"(15:00~23:00)", width: "20%" },
-                { field: "GraveyardShift", title: "大夜班",subtitle:"(23:00~07:00)", width: "20%" },
-                { field: "Total", title: "總計",subtitle:"(07:00~07:00)", width: "20%" },
+                { field: "FullIoDate", title: "日期", width: "20%" },
+                { field: "FullIoTime", title: "時間", width: "20%" },
+                { field: "FullIoName", title: "項目名稱", width: "20%" },
+                { field: "FullIoIn", title: "輸入量", width: "20%" },
+                { field: "FullIoUser", title: "輸入者", width: "20%" },
+        ]
+    })
 
 
 
+    $("#fullioout_grid").kendoGrid({
+        height: "200px",
+        columns: [
+                { field: "FullIoDate", title: "日期", width: "20%" },
+                { field: "FullIoTime", title: "時間", width: "20%" },
+                { field: "IoTubeName", title: "項目名稱", width: "20%" },
+                { field: "FullIoOut", title: "輸出量", width: "20%" },
+                { field: "FullIoUser", title: "輸入者", width: "20%" },
         ]
     })
 </script>
@@ -883,7 +900,17 @@
         margin: 0;
         padding: 0;
     }
+
+    /* Three image containers (use 25% for four, and 50% for two, etc) */
+    .fulliogrid_box {
+        float: left;
+        width: 49%;
+    }
+
+    /* Clear floats after image containers */
+    .fulliorow::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
 </style>
-
-
-
