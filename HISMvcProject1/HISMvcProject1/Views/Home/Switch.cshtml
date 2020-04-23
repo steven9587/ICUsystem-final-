@@ -95,7 +95,6 @@
                 <li>
                     總I/O表格
                 </li>
-
             </ul>
             <div>
                 <span class="andy_tag">&nbsp;</span>
@@ -112,7 +111,6 @@
                                 <li>
                                     管路I/O
                                 </li>
-
                             </ul>
                             <div>
                                 <span class="tube_tag">&nbsp;</span>
@@ -154,7 +152,7 @@
                                             <input id="inbodycm" name="Inbodycm" style="width: 100%;" type="text" min="1" max="100" value="1" required data-max-msg="Enter cm between 1 and 34" />
                                             <span class="k-invalid-msg" data-for="Inbodycm"></span>
                                         </div>
-                                        <div class="form-group" style="margin-bottom:50px">
+                                        <div class="form-group" style="">
                                             <label for="caliber" class="required">備註：</label>
                                             <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 95%;" cols="100" rows="2"></textarea>
                                         </div>
@@ -179,29 +177,25 @@
                                 <div class="tubeiogrid_box" id="tubeioallday_grid" style=""></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
+                <div class="tubeiogrid_box" id="alltubeio_grid" style="width:900px"></div>
             </div>
             <div>
                 <span class="fullio_tag">&nbsp;</span>
                 <div class="form-group" style="margin-bottom:10px">
                     <label for="bought_datepicker" class="required">查詢區間:</label>
-
                     <input type="text" data-role='datepicker' id="iostart_datepicker" name="iostartdatepicker"
                            data-type="date" style="width: 30%;" required validationMessage="請輸入正確日期格式" />
                     <span data-for='iostartdatepicker' class='k-invalid-msg'></span>
-
                     <b>~</b>
-
                     <input type="text" data-role='datepicker' id="ioend_datepicker" name="ioenddatepicker"
                            data-type="date" style="width: 30%;" required validationMessage="請輸入正確日期格式" />
                     <span data-for='ioenddatepicker' class='k-invalid-msg'></span>
-
                 </div>
                 <div class="fulliorow">
-                    <div class="fulliogrid_box" id="fullioin_grid" style=""></div>
-                    <div class="fulliogrid_box" id="fullioout_grid" style=""></div>
+                    <div class="fulliogrid_box" id="fullioin_grid" style="width:450px"></div>
+                    <div class="fulliogrid_box" id="fullioout_grid" style="width:450px"></div>
                 </div>
             </div>
         </div>
@@ -797,7 +791,7 @@
         }
     }
 
-    //小人圖標籤
+    //小人圖總io標籤
     $(document).ready(function () {
         $("#tabstrip_andyfullio").kendoTabStrip({
             animation: {
@@ -808,6 +802,7 @@
         });
     });
 
+    //管路資料管路io標籤
     $(document).ready(function () {
         $("#tabstrip_tubeio").kendoTabStrip({
             animation: {
@@ -818,7 +813,7 @@
         });
     });
 
-    //fullio_grid 所有管路io資料
+    //第三io fullio_grid 所有管路io資料
     $("#fullioin_grid").kendoGrid({
         height: "200px",
         columns: [
@@ -841,7 +836,7 @@
         ]
     })
 
-    //fullio_grid 特定管路早班夜班小夜班全日資料
+    //第二io fullio_grid 特定管路早班夜班小夜班全日資料
     $("#tubeiomorning_grid").kendoGrid({
         height: "30%",
         columns: [
@@ -874,6 +869,18 @@
                  { field: "", title: "差異", width: "20%" },
         ]
     })
+
+    //第一io
+    $("#alltubeio_grid").kendoGrid({
+        height: "30%",
+        columns: [
+                 { field: "", title: "日期", width: "10%" },
+                 { field: "", title: "Intake", width: "10%" },
+                 { field: "", title: "Output", width: "10%" },
+                 { field: "", title: "差異", width: "10%" },
+        ]
+    })
+
 </script>
 
 <!--I/O圖 CSS-->
