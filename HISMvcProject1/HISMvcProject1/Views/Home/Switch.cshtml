@@ -168,8 +168,15 @@
                                 </div>
                             </div>
                             <div>
-                                <span class="io2_tag">&nbsp;</span>
-
+                                <span class="tubeio_tag">&nbsp;</span>
+                                <b>早班07:01~15:00</b>
+                                <div class="tubeiogrid_box" id="tubeiomorning_grid" style=""></div>
+                                <b>小夜班15:01~23:00</b>
+                                <div class="tubeiogrid_box" id="tubeionight_grid" style=""></div>
+                                <b>大夜班23:01~07:00</b>
+                                <div class="tubeiogrid_box" id="tubeiograveyard_grid" style=""></div>
+                                <b>全日07:01~07:00</b>
+                                <div class="tubeiogrid_box" id="tubeioallday_grid" style=""></div>
                             </div>
                         </div>
 
@@ -811,7 +818,7 @@
         });
     });
 
-    //fullio_grid
+    //fullio_grid 所有管路io資料
     $("#fullioin_grid").kendoGrid({
         height: "200px",
         columns: [
@@ -823,8 +830,6 @@
         ]
     })
 
-
-
     $("#fullioout_grid").kendoGrid({
         height: "200px",
         columns: [
@@ -833,6 +838,40 @@
                 { field: "IoTubeName", title: "項目名稱", width: "20%" },
                 { field: "FullIoOut", title: "輸出量", width: "20%" },
                 { field: "FullIoUser", title: "輸入者", width: "20%" },
+        ]
+    })
+
+    //fullio_grid 特定管路早班夜班小夜班全日資料
+    $("#tubeiomorning_grid").kendoGrid({
+        height: "30%",
+        columns: [
+                 { field: "", title: "Intake", width: "20%" },
+                 { field: "", title: "Output", width: "20%" },
+                 { field: "", title: "差異", width: "20%" },
+        ]
+    })
+    $("#tubeionight_grid").kendoGrid({
+        height: "30%",
+        columns: [
+                 { field: "", title: "Intake", width: "20%" },
+                 { field: "", title: "Output", width: "20%" },
+                 { field: "", title: "差異", width: "20%" },
+        ]
+    })
+    $("#tubeiograveyard_grid").kendoGrid({
+        height: "30%",
+        columns: [
+                 { field: "", title: "Intake", width: "20%" },
+                 { field: "", title: "Output", width: "20%" },
+                 { field: "", title: "差異", width: "20%" },
+        ]
+    })
+    $("#tubeioallday_grid").kendoGrid({
+        height: "30%",
+        columns: [
+                 { field: "", title: "Intake", width: "20%" },
+                 { field: "", title: "Output", width: "20%" },
+                 { field: "", title: "差異", width: "20%" },
         ]
     })
 </script>
@@ -873,7 +912,7 @@
         padding: 0;
     }
 
-    .tube_tag, .io2_tag {
+    .tube_tag, .tubeio_tag {
         display: block;
         width: 0px;
         height: 0px;
