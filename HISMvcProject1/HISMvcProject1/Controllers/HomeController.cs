@@ -22,6 +22,7 @@ namespace HISMvcProject1.Controllers
         readonly Models.TubeService tubeservice = new Models.TubeService();
         readonly Models.LoginService loginservice = new Models.LoginService();
         readonly Models.InfoService infoservice = new Models.InfoService();
+        readonly Models.TubeIoService tubeioservice = new Models.TubeIoService();
         String patientId = "";
 
         public ActionResult Index()
@@ -139,6 +140,7 @@ namespace HISMvcProject1.Controllers
         {
             return Json(this.infoservice.GetInfoByCondtioin(data));
         }
+
         /// <summary>
         /// GetTubePartNameDropDownList
         /// </summary>
@@ -242,6 +244,17 @@ namespace HISMvcProject1.Controllers
                 return this.Json(false);
             }
 
+        }
+
+        /// <summary>
+        /// GetFirstIoGridData
+        /// </summary>
+        /// <param =""></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetFirstIoGridData(Models.TubeIoData data)
+        {
+            return Json(this.tubeioservice.GetFirstIo(data));
         }
     }
 }

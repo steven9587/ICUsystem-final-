@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -21,6 +22,7 @@ namespace HISMvcProject1.Models
          
         [DisplayName("科別")]
         public string Division { get; set; }
+
         [DisplayName("科別Id")]
         public string DivisionId { get; set; }
 
@@ -46,6 +48,6 @@ namespace HISMvcProject1.Models
         public string PatientHeight { get; set; }
         [DisplayName("病人體重")]
         public string PatientWeight { get; set; }
-
+        public static IEnumerable<DataRow> Rows { get; internal set; }
     }
 }

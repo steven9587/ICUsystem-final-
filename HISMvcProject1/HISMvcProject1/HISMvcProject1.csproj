@@ -253,11 +253,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\TubeIoService.cs" />
     <Compile Include="Models\InfoData.cs" />
     <Compile Include="Models\InfoService.cs" />
     <Compile Include="Models\LoginService.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\TubeData.cs" />
+    <Compile Include="Models\TubeIoData.cs" />
     <Compile Include="Models\TubeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

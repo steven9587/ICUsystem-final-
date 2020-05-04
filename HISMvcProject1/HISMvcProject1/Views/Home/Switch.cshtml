@@ -458,6 +458,7 @@
         patient_id = {
             "PatientId":patient_id_search
         }
+
         $.ajax({
             type: "POST",
             url: "GetPatientData",
@@ -620,6 +621,30 @@
                     }
                 }
             };
+
+           
+
+            //第一io
+            $("#alltubeio_grid").kendoGrid({
+                height: "30%",
+                columns: [
+                         { field: "IoDate", title: "日期", width: "10%" },
+                         { field: "IoIntake", title: "Intake", width: "10%" },
+                         { field: "IoOutput", title: "Output", width: "10%" },
+                         { field: "Difference", title: "差異", width: "10%" },
+
+                ],dataSource: {
+                    transport: {
+                        read: {
+                            url: "GetFirstIoGridData",
+                            type: "post",
+                            dataType: "json",
+                            data:patient_id
+                        }
+                    }
+                }
+            })
+
         })
 
         //save data to database
@@ -870,16 +895,7 @@
         ]
     })
 
-    //第一io
-    $("#alltubeio_grid").kendoGrid({
-        height: "30%",
-        columns: [
-                 { field: "", title: "日期", width: "10%" },
-                 { field: "", title: "Intake", width: "10%" },
-                 { field: "", title: "Output", width: "10%" },
-                 { field: "", title: "差異", width: "10%" },
-        ]
-    })
+   
 
 </script>
 
