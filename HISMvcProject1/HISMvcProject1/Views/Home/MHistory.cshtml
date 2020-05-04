@@ -10,14 +10,10 @@
 @section body
 {
     <div class="row">
-        <div class="row" style="width:auto;height:auto;">
-            <div class="Full_column">
-                <canvas id="full" width="1200" height="450" style="border:5px solid"></canvas>
-            </div>
-
-            <div class="demo-section k-content" style="height:425px; overflow-y:scroll; overflow-x:hidden;">
+        <div class="column" style="height:auto;">
+            <div class="demo-section k-content" style="height:500px;width:250px; overflow-y:scroll; overflow-x:hidden;">
                 <div>
-                    <h4>曾經使用過的藥品</h4> 
+                    <h4>曾經使用過的藥品</h4>
                     <div id="m_treeview"></div>
                 </div>
 
@@ -26,10 +22,17 @@
                     <p id="result">No nodes checked.</p>
                 </div>
             </div>
-            <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284" />
         </div>
-        <div class="grid_box" id="history_grid" style="margin-top:30px"></div>
+        <!-- <div class="column">
+             <canvas id="full" width="1200" height="450" style="border:5px solid"></canvas>
+         </div>-->
+        <div class="column">
+            <div id="m_scheduler"></div>
+        </div>
+
     </div>
+    <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
+    <div class="grid_box" id="history_grid" style="margin-top:30px"></div>
     <script>
 
         //一般藥物treeview
@@ -44,7 +47,7 @@
                         id: 2, text: "抗生素", expanded: true, spriteCssClass: "folder", items: [
                             { id: 3, text: "about.html", spriteCssClass: "html" },
                             { id: 4, text: "index.html", spriteCssClass: "html" },
-                            { id: 5, text: "logo.png", spriteCssClass: "image" }
+                            { id: 5, text: "logo.png", spriteCssClxass: "image" }
                         ]
                     },
                     {
@@ -74,10 +77,12 @@
                     checkedNodeIds(nodes[i].children.view(), checkedNodes);
                 }
             }
+
         }
 
         // show checked node IDs on datasource change
         function onCheck() {
+            debugger
             var checkedNodes = [],
                 treeView = $("#m_treeview").data("kendoTreeView"),
                 message;
@@ -115,11 +120,35 @@
 
             ]
         })
+
+        //medicine scheduler
+        $("#m_scheduler").kendoScheduler({
+            date: new Date(),
+            startTime: new Date(),
+            eventHight: 30,
+            majorTick: 1440,
+            view: [{
+                type: "week",
+                majorTick: 1440
+            }],
+            timezone: "Etc/UTC",
+            dataSourse: {
+            }
+        });
     </script>
 
 
     <!--treeView style-->
     <style>
+        .row {
+            display: flex;
+        }
+
+        /* Create three equal columns that sits next to each other */
+        .column {
+            float: left;
+        }
+
         #treeview .k-sprite {
             background-image: url("../content/web/treeview/coloricons-sprite.png");
             overflow: hidden;
@@ -147,3 +176,5 @@
     </style>
 
 }
+
+
