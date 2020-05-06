@@ -167,6 +167,17 @@
                             </div>
                             <div>
                                 <span class="tubeio_tag">&nbsp;</span>
+                                <div class="row">
+                                    <div class="Full_column">
+                                        <label for="bought_datepicker" class="required">日期:</label>
+                                        <input type="text" data-role='datepicker' id="io_datepicker" name="iodatepicker"
+                                               data-type="date" style="width: 40%;" required validationMessage="請輸入正確日期格式" />
+                                        <span data-for='iodatepicker' class='k-invalid-msg'></span>
+
+                                        <input type="button" id="secondIoSearch" value="Search" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                                    </div>
+                                </div>
+                                <br>
                                 <b>早班07:01~15:00</b>
                                 <div class="tubeiogrid_box" id="tubeiomorning_grid" style=""></div>
                                 <b>小夜班15:01~23:00</b>
@@ -398,6 +409,13 @@
             format: "yyyy-MM-dd"
         });
 
+        $("#io_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+
         //kendropdownList
         $("#pipeline_Location").change(function(){
             tubepart = $(this).val();
@@ -608,12 +626,13 @@
                             }
                         });
 
-                        //第二io fullio_grid 
+                        //第二io fullio_grid
                         iopointlocation = {
                             "LocationX":location_point_x,
                             "LocationY":location_point_y,
                             "PatientId":patient_id_search,
                             "IoDate":"2020-04-23"
+                            //"IoDate":$("io_datepicker").datepicker("getDate")
                         }
 
                         //第二io fullio_grid 特定管路早班夜班小夜班全日資料
@@ -701,7 +720,7 @@
                 }
             };
 
-           
+
 
             //第一io
             $("#alltubeio_grid").kendoGrid({
@@ -944,7 +963,7 @@
 
 
 
-   
+
 
 </script>
 
