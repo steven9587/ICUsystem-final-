@@ -249,12 +249,23 @@ namespace HISMvcProject1.Controllers
         /// <summary>
         /// GetFirstIoGridData
         /// </summary>
-        /// <param =""></param>
+        /// <param name="data"></param>
         /// <returns></returns>
         [HttpPost]
         public JsonResult GetFirstIoGridData(Models.TubeIoData data)
         {
             return Json(this.tubeioservice.GetFirstIo(data));
+        }
+
+        /// <summary>
+        /// /GetSecMorningIoGridData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetSecMorningIoGridData(Models.TubeIoData data)
+        {
+            return Json(this.tubeioservice.GetSecMorningIoGridData(data));
         }
     }
 }

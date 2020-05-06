@@ -18,32 +18,54 @@ namespace HISMvcProject1.Models
         public string PatientID { get; set; }
 
         /// <summary>
-        /// 第一IO日期
+        /// Location_X
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("X座標")]
+        public int LocationX { get; set; }
+
+
+        /// <summary>
+        /// Location_Y
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("Y座標")]
+        public int LocationY { get; set; }
+
+        /// <summary>
+        /// IO日期
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("日期")]
         public string IoDate { get; set; }
 
         /// <summary>
-        /// 第一IO Intake
+        /// IO Intake
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("Intake")]
         public int IoIntake { get; set; }
 
         /// <summary>
-        /// 第一IO Output
+        /// IO Output
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("Output")]
         public int IoOutput { get; set; }
 
         /// <summary>
-        /// 第一IO差異
+        /// IO差異
         /// </summary>
         ///[MaxLength(5)]
         [DisplayName("差異")]
         public int Difference { get; set; }
-        public static IEnumerable<DataRow> Rows { get; internal set; }
+      //  public static IEnumerable<DataRow> Rows { get; internal set; }
+
+        /// <summary>
+        /// IO 輸入者
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("輸入者")]
+        public string Operator { get; set; }
     }
 }

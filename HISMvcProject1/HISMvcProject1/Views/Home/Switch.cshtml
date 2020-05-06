@@ -607,6 +607,85 @@
                                 $("#pipeline_Note").val(data.TubeNote);
                             }
                         });
+
+                        //第二io fullio_grid 
+                        iopointlocation = {
+                            "LocationX":location_point_x,
+                            "LocationY":location_point_y,
+                            "PatientId":patient_id_search,
+                            "IoDate":"2020-04-23"
+                        }
+
+                        //第二io fullio_grid 特定管路早班夜班小夜班全日資料
+                        $("#tubeiomorning_grid").kendoGrid({
+                            height: "30%",
+                            columns: [
+                                     { field: "IoIntake", title: "Intake", width: "20%" },
+                                     { field: "IoOutput", title: "Output", width: "20%" },
+                                     { field: "Difference", title: "差異", width: "20%" },
+                            ],dataSource: {
+                                transport: {
+                                    read: {
+                                        url: "GetSecMorningIoGridData",
+                                        type: "post",
+                                        dataType: "json",
+                                        data:iopointlocation
+                                    }
+                                }
+                            }
+                        })
+                        $("#tubeionight_grid").kendoGrid({
+                            height: "30%",
+                            columns: [
+                                     { field: "", title: "Intake", width: "20%" },
+                                     { field: "", title: "Output", width: "20%" },
+                                     { field: "", title: "差異", width: "20%" },
+                            ],dataSource: {
+                                transport: {
+                                    read: {
+                                        url: "GetSecNightIoGridData",
+                                        type: "post",
+                                        dataType: "json",
+                                        data:patient_id
+                                    }
+                                }
+                            }
+                        })
+                        $("#tubeiograveyard_grid").kendoGrid({
+                            height: "30%",
+                            columns: [
+                                     { field: "", title: "Intake", width: "20%" },
+                                     { field: "", title: "Output", width: "20%" },
+                                     { field: "", title: "差異", width: "20%" },
+                            ],dataSource: {
+                                transport: {
+                                    read: {
+                                        url: "GetSecGraveyardIoGridData",
+                                        type: "post",
+                                        dataType: "json",
+                                        data:patient_id
+                                    }
+                                }
+                            }
+                        })
+                        $("#tubeioallday_grid").kendoGrid({
+                            height: "30%",
+                            columns: [
+                                     { field: "", title: "Intake", width: "20%" },
+                                     { field: "", title: "Output", width: "20%" },
+                                     { field: "", title: "差異", width: "20%" },
+                            ],dataSource: {
+                                transport: {
+                                    read: {
+                                        url: "GetSecAllDayIoGridData",
+                                        type: "post",
+                                        dataType: "json",
+                                        data:patient_id
+                                    }
+                                }
+                            }
+                        })
+
                     }else{
                         //return to the default
                         Insert.enable(true);
@@ -644,6 +723,8 @@
                     }
                 }
             })
+
+
 
         })
 
@@ -861,39 +942,7 @@
         ]
     })
 
-    //第二io fullio_grid 特定管路早班夜班小夜班全日資料
-    $("#tubeiomorning_grid").kendoGrid({
-        height: "30%",
-        columns: [
-                 { field: "", title: "Intake", width: "20%" },
-                 { field: "", title: "Output", width: "20%" },
-                 { field: "", title: "差異", width: "20%" },
-        ]
-    })
-    $("#tubeionight_grid").kendoGrid({
-        height: "30%",
-        columns: [
-                 { field: "", title: "Intake", width: "20%" },
-                 { field: "", title: "Output", width: "20%" },
-                 { field: "", title: "差異", width: "20%" },
-        ]
-    })
-    $("#tubeiograveyard_grid").kendoGrid({
-        height: "30%",
-        columns: [
-                 { field: "", title: "Intake", width: "20%" },
-                 { field: "", title: "Output", width: "20%" },
-                 { field: "", title: "差異", width: "20%" },
-        ]
-    })
-    $("#tubeioallday_grid").kendoGrid({
-        height: "30%",
-        columns: [
-                 { field: "", title: "Intake", width: "20%" },
-                 { field: "", title: "Output", width: "20%" },
-                 { field: "", title: "差異", width: "20%" },
-        ]
-    })
+
 
    
 
