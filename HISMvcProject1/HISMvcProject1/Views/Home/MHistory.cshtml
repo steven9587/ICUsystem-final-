@@ -98,14 +98,13 @@
             checkedNodeIds(treeView.dataSource.view(), checkedNodes);
 
             if (checkedNodes.length > 0 && checkedNodes[0]!= 1) {
-                message =checkedNodes;
+                message = checkedNodes;
+                medclassid = message.join();
             } else {
-                message = "ALL";
+                message = "";
+                medclassid = message;
             }
-
-            $("#result").html(message);
-      //      console.log(message)
-            medclassid = message.join();
+           // $("#result").html(message);
             $.ajax({
                 type: "post",
                 url: "GetMedHistoryData",
