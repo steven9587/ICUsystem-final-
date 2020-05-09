@@ -16,16 +16,12 @@
                     <h4>曾經使用過的藥品</h4>
                     <div id="m_treeview"></div>
                 </div>
-
                 <div style="padding-top: 2em;">
                     <h4>Status</h4>
                     <p id="result">No nodes checked.</p>
                 </div>
             </div>
         </div>
-        <!-- <div class="column">
-             <canvas id="full" width="1200" height="450" style="border:5px solid"></canvas>
-         </div>-->
         <div class="column">
             <div id="m_scheduler"></div>
         </div>
@@ -34,15 +30,15 @@
     <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
     <div class="grid_box" id="history_grid" style="margin-top:30px"></div>
     <script>
-
-        //一般藥物treeview
+        var medclassid = [0];
+        //藥物treeview
         $("#m_treeview").kendoTreeView({
             checkboxes: {
                 checkChildren: true
             },
             check: onCheck,
             dataSource: [{
-                id: 1, text: "病人姓名", /*expanded: true,*/ spriteCssClass: "rootfolder", items: [
+                id: 1, text: "病人姓名", expanded: true, spriteCssClass: "rootfolder", items: [
                     {
                         id: 2, text: "抗生素", expanded: true, spriteCssClass: "folder"
                     },
@@ -77,6 +73,7 @@
                 ]
             }]
         });
+
         // function that gathers IDs of checked nodes
         function checkedNodeIds(nodes, checkedNodes) {
             for (var i = 0; i < nodes.length; i++) {
@@ -105,9 +102,40 @@
             } else {
                 message = "ALL";
             }
-            console.log(message)
+
             $("#result").html(message);
+      //      console.log(message)
+            medclassid = message.join();
+            $.ajax({
+                type: "post",
+                url: "GetMedHistoryData",
+                data: { "MedId": medclassid }
+            
+            });
         }
+
+        //medicine scheduler
+        $("#m_scheduler").kendoScheduler({
+            date: new Date(),
+            startTime: new Date(),
+            eventHight: 30,
+            majorTick: 1440,
+            view: [{
+                type: "week",
+                majorTick: 1440
+            }],
+            timezone: "Etc/UTC",
+            dataSourse: {
+                transport: {
+                    url: "GetMedHistoryData",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        "MedId":medclassid
+                    }
+                }
+            }
+        });
 
         //history grid
         $("#history_grid").kendoGrid({
@@ -131,21 +159,6 @@
 
             ]
         })
-
-        //medicine scheduler
-        $("#m_scheduler").kendoScheduler({
-            date: new Date(),
-            startTime: new Date(),
-            eventHight: 30,
-            majorTick: 1440,
-            view: [{
-                type: "week",
-                majorTick: 1440
-            }],
-            timezone: "Etc/UTC",
-            dataSourse: {
-            }
-        });
     </script>
 
 

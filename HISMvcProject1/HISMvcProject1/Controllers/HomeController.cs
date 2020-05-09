@@ -267,5 +267,11 @@ namespace HISMvcProject1.Controllers
         {
             return Json(this.tubeioservice.GetSecMorningIoGridData(data));
         }
+
+        [HttpPost]
+        public JsonResult GetMedHistoryData(Models.MedData data)
+        {
+            return Json(true);
+        }
     }
 }
