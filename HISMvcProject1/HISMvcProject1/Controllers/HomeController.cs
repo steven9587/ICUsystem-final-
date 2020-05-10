@@ -23,6 +23,7 @@ namespace HISMvcProject1.Controllers
         readonly Models.LoginService loginservice = new Models.LoginService();
         readonly Models.InfoService infoservice = new Models.InfoService();
         readonly Models.TubeIoService tubeioservice = new Models.TubeIoService();
+        readonly Models.MedService medservice = new Models.MedService();
         String patientId = "";
 
         public ActionResult Index()
@@ -271,7 +272,7 @@ namespace HISMvcProject1.Controllers
         [HttpPost]
         public JsonResult GetMedHistoryData(Models.MedData data)
         {
-            return Json(true);
+            return Json(this.medservice.GetMedDataByClass(data));
         }
     }
 }

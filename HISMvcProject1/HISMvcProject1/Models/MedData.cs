@@ -13,14 +13,49 @@ namespace HISMvcProject1.Models
         /// 病人編號
         /// </summary>
         [DisplayName("病人編號")]
-        public string PatientID { get; set; }
+        public string PatientId { get; set; }
+
+
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物名稱ID")]
+        public int MedNameId { get; set; }
+
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物名稱")]
+        public string MedName { get; set; }
 
         /// <summary>
         /// 藥物類別ID
         /// </summary>
         [DisplayName("藥物類別ID")]
-        public string MedID { get; set; }
+        public int MedClassId { get; set; }
 
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物類別")]
+        public string MedClass { get; set; }
 
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物開藥時間")]
+        public string MedStart { get; set; }
+
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物結束時間")]
+        public string MedEnd { get; set; }
+
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("開藥來源")]
+        public string MedSource { get; set; }
     }
 }
