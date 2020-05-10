@@ -37,13 +37,21 @@ namespace HISMvcProject1.Models
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
                           inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
-                          where mc.MEDCLASS_ID = @MedClassId
+                          where mc.MEDCLASS_ID  IN ("+ string.Join(",", medclassidlist.ToArray()) + ")
                           and patient_hisid = @PatientId
                           order by mh.ITEM";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                string[] medclassid = data.MedClassId.Split(',');
+                int count = 0;
+                List<string> medclassidlist = new List<string>();
+                foreach (string id in medclassid) {
+                    string classid = "@MedClassId" + count++;
+                    cmd.Parameters.Add(classid, SqlDbType.Int).Value = id;
+                    medclassidlist.Add(classid);
+                }
                 cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
 
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
@@ -58,7 +66,7 @@ namespace HISMvcProject1.Models
             Models.MedData result = new Models.MedData();
             result.MedNameId = (int)dt.Rows[0]["MedNameId"];
             result.MedName = dt.Rows[0]["MedName"].ToString();
-            result.MedClassId = (int)dt.Rows[0]["MedClassId"];
+            result.MedClassId = dt.Rows[0]["MedClassId"].ToString();
             result.MedClass = dt.Rows[0]["MedClass"].ToString();
             result.MedStart = dt.Rows[0]["MedStart"].ToString();
             result.MedEnd = dt.Rows[0]["MedEnd"].ToString();

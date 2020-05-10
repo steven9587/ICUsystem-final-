@@ -31,6 +31,8 @@
     <div class="grid_box" id="history_grid" style="margin-top:30px"></div>
     <script>
         var medclassid = [0];
+        var patient_id_search = "";
+        patient_id_search = @Html.Raw(Json.Encode(ViewBag.search_id));
         //藥物treeview
         $("#m_treeview").kendoTreeView({
             checkboxes: {
@@ -103,38 +105,45 @@
                 message = "";
                 medclassid = message;
             }
+            debugger
+            med_sch_history = {
+                "PatientId":patient_id_search,
+                "MedClassId":medclassid
+            }
            // $("#result").html(message);
             $.ajax({
                 type: "post",
                 url: "GetMedHistoryData",
-                data: { "MedId": medclassid }
-            
+                data: med_sch_history
+
             });
+
+            $("#m_scheduler").kendoScheduler({
+                date: new Date(),
+                startTime: new Date(),
+                eventHight: 30,
+                majorTick: 1440,
+                view: [{
+                    type: "week",
+                    majorTick: 1440
+                }],
+                timezone: "Etc/UTC",
+                dataSourse: {
+                    transport: {
+                        url: "GetMedHistoryData",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            "MedId":medclassid
+                        }
+                    }
+                }
+            });
+
         }
 
         //medicine scheduler
-        $("#m_scheduler").kendoScheduler({
-            date: new Date(),
-            startTime: new Date(),
-            eventHight: 30,
-            majorTick: 1440,
-            view: [{
-                type: "week",
-                majorTick: 1440
-            }],
-            timezone: "Etc/UTC",
-            dataSourse: {
-                transport: {
-                    url: "GetMedHistoryData",
-                    type: "post",
-                    dataType: "json",
-                    data: {
-                        "MedId":medclassid
-                    }
-                }
-            }
-        });
-
+     
         //history grid
         $("#history_grid").kendoGrid({
             height: "200px",

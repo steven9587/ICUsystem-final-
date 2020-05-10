@@ -16,7 +16,7 @@ using Kendo.Mvc.UI;
 
 namespace HISMvcProject1.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         readonly Models.TubeService tubeservice = new Models.TubeService();
@@ -61,7 +61,7 @@ namespace HISMvcProject1.Controllers
             return View();
         }
 
-        
+
         public ActionResult Switch(string id)
         {
             //var search_id = TempData["id"] as string;
@@ -76,8 +76,11 @@ namespace HISMvcProject1.Controllers
             return View("Switch");
         }
 
-        public ActionResult MHistory() {
-
+        public ActionResult MHistory(string id)
+        {
+            //var search_id = TempData["id"] as string;
+            var search_id = "406570123";
+            ViewBag.search_id = search_id;
             return View("MHistory");
 
         }
@@ -183,7 +186,7 @@ namespace HISMvcProject1.Controllers
 
         }
 
-      
+
 
         /// <summary>
         /// editdata

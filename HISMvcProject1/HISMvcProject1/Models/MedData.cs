@@ -32,7 +32,7 @@ namespace HISMvcProject1.Models
         /// 藥物類別ID
         /// </summary>
         [DisplayName("藥物類別ID")]
-        public int MedClassId { get; set; }
+        public string MedClassId { get; set; }
 
         /// <summary>
         /// 藥物類別ID
