@@ -26,6 +26,7 @@ namespace HISMvcProject1.Models
         /// <returns></returns>
         public Models.MedData GetMedDataByClass(Models.MedData data)
         {
+            
             DataTable dt = new DataTable();
             string sql = @"select mh.MEDNAME_ID as MedNameId,
 	                              mn.MED_NAME as MedName,
@@ -37,21 +38,12 @@ namespace HISMvcProject1.Models
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
                           inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
-                          where mc.MEDCLASS_ID  IN ("+ string.Join(",", medclassidlist.ToArray()) + ")
-                          and patient_hisid = @PatientId
-                          order by mh.ITEM";
+                          where mc.MEDCLASS_ID  IN (@MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                string[] medclassid = data.MedClassId.Split(',');
-                int count = 0;
-                List<string> medclassidlist = new List<string>();
-                foreach (string id in medclassid) {
-                    string classid = "@MedClassId" + count++;
-                    cmd.Parameters.Add(classid, SqlDbType.Int).Value = id;
-                    medclassidlist.Add(classid);
-                }
+                cmd.Parameters.Add(new SqlParameter("@MedClassId", data.MedClassId));
                 cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
 
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
