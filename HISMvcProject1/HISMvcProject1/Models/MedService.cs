@@ -17,10 +17,9 @@ namespace HISMvcProject1.Models
         {
             return System.Configuration.ConfigurationManager.ConnectionStrings["DBConn"].ConnectionString.ToString();
         }
-        static string cnStr =
-           "Data Source=(local);Integrated Security=SSPI;Initial Catalog=Northwind";
+        
 
-        static DataTable GetTVPValue<T>(params T[] args)
+        private DataTable GetTVPValue<T>(params T[] args)
         {
             DataTable t = new DataTable();
             t.Columns.Add("Item", typeof(T));
