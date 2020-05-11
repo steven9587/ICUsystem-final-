@@ -38,7 +38,11 @@ namespace HISMvcProject1.Models
         /// <returns></returns>
         public List<Models.MedData> GetMedDataByClass(Models.MedData data)
         {
-
+            string[] MedclassIdString = data.MedClassId.Split(',');
+            int[] MedclassIdInt = new int[MedclassIdString.Length];
+            for (int i = 0;i< MedclassIdString.Length; i++) {
+                MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
+            }
             DataTable dt = new DataTable();
             string sql = @"select mh.MEDNAME_ID as MedNameId,
 	                              mn.MED_NAME as MedName,
@@ -58,7 +62,7 @@ namespace HISMvcProject1.Models
                 var medclassid = cmd.Parameters.Add(new SqlParameter("@MedClassId", SqlDbType.Structured));
                 cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
                 medclassid.TypeName = "IntArray";
-                medclassid.Value = GetTVPValue<int>(2, 4);
+                medclassid.Value = GetTVPValue<int>(MedclassIdInt);
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
