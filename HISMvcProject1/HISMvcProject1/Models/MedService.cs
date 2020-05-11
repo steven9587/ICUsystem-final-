@@ -17,16 +17,28 @@ namespace HISMvcProject1.Models
         {
             return System.Configuration.ConfigurationManager.ConnectionStrings["DBConn"].ConnectionString.ToString();
         }
+        static string cnStr =
+           "Data Source=(local);Integrated Security=SSPI;Initial Catalog=Northwind";
 
+        static DataTable GetTVPValue<T>(params T[] args)
+        {
+            DataTable t = new DataTable();
+            t.Columns.Add("Item", typeof(T));
+            foreach (T item in args)
+            {
+                t.Rows.Add(item);
+            }
+            return t;
+        }
 
         /// <summary>
         /// GetPatientData
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public Models.MedData GetMedDataByClass(Models.MedData data)
+        public List<Models.MedData> GetMedDataByClass(Models.MedData data)
         {
-            
+
             DataTable dt = new DataTable();
             string sql = @"select mh.MEDNAME_ID as MedNameId,
 	                              mn.MED_NAME as MedName,
@@ -38,32 +50,45 @@ namespace HISMvcProject1.Models
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
                           inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
-                          where mc.MEDCLASS_ID  IN (@MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
+                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add(new SqlParameter("@MedClassId", data.MedClassId));
+                var medclassid = cmd.Parameters.Add(new SqlParameter("@MedClassId", SqlDbType.Structured));
                 cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
-
-                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
-                sqlAdapter.Fill(dt);
+                medclassid.TypeName = "IntArray";
+                medclassid.Value = GetTVPValue<int>(2, 4);
+                var dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    Console.WriteLine(dr["MedClassId"]);
+                }
+                //Console.Read();
+                
+                //SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                //sqlAdapter.Fill(dt);
                 conn.Close();
             }
             return MapData(dt);
         }
-
-        private Models.MedData MapData(DataTable dt)
+        private List<Models.MedData> MapData(DataTable InfoData)
         {
-            Models.MedData result = new Models.MedData();
-            result.MedNameId = (int)dt.Rows[0]["MedNameId"];
-            result.MedName = dt.Rows[0]["MedName"].ToString();
-            result.MedClassId = dt.Rows[0]["MedClassId"].ToString();
-            result.MedClass = dt.Rows[0]["MedClass"].ToString();
-            result.MedStart = dt.Rows[0]["MedStart"].ToString();
-            result.MedEnd = dt.Rows[0]["MedEnd"].ToString();
-            result.MedSource = dt.Rows[0]["MedSource"].ToString();
-            return result;
+            List<Models.MedData> resultModify = new List<MedData>();
+            foreach (DataRow row in InfoData.Rows)
+            {
+                resultModify.Add(new MedData()
+                {
+                    MedNameId = (int)row["MedNameId"],
+                    MedName = row["MedName"].ToString(),
+                    MedClassId = row["MedClassId"].ToString(),
+                    MedClass = row["MedClass"].ToString(),
+                    MedStart = row["MedStart"].ToString(),
+                    MedEnd = row["MedEnd"].ToString(),
+                    MedSource = row["MedSource"].ToString()
+                });
+            }
+            return resultModify;
         }
     }
 }

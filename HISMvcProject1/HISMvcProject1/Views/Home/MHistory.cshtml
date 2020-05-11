@@ -80,7 +80,7 @@
         function checkedNodeIds(nodes, checkedNodes) {
             for (var i = 0; i < nodes.length; i++) {
                 if (nodes[i].checked) {
-                    checkedNodes.push(nodes[i].id);
+                    checkedNodes.push(nodes[i].id );
                 }
 
                 if (nodes[i].hasChildren) {
@@ -100,7 +100,7 @@
             checkedNodeIds(treeView.dataSource.view(), checkedNodes);
             if (checkedNodes.length > 0 && checkedNodes[0]!= 1) {
                 message = checkedNodes;
-                medclassid = message.join();
+                medclassid = message.join(" ");
             } else {
                 message = "";
                 medclassid = message;
