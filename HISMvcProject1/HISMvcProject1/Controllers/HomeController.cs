@@ -19,7 +19,7 @@ namespace HISMvcProject1.Controllers
 
     public class HomeController : Controller
     {
-        readonly Models.TubeService tubeservice = new Models.TubeService();
+            readonly Models.TubeService tubeservice = new Models.TubeService();
         readonly Models.LoginService loginservice = new Models.LoginService();
         readonly Models.InfoService infoservice = new Models.InfoService();
         readonly Models.TubeIoService tubeioservice = new Models.TubeIoService();

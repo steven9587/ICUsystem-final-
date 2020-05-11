@@ -59,15 +59,8 @@ namespace HISMvcProject1.Models
                 cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
                 medclassid.TypeName = "IntArray";
                 medclassid.Value = GetTVPValue<int>(2, 4);
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    Console.WriteLine(dr["MedClassId"]);
-                }
-                //Console.Read();
-                
-                //SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
-                //sqlAdapter.Fill(dt);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
                 conn.Close();
             }
             return MapData(dt);
