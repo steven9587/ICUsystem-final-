@@ -272,6 +272,41 @@ namespace HISMvcProject1.Controllers
             return Json(this.tubeioservice.GetSecMorningIoGridData(data));
         }
 
+        /// <summary>
+        /// GetSecNightIoGridData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetSecNightIoGridData(Models.TubeIoData data)
+        {
+            return Json(this.tubeioservice.GetSecNightIoGridData(data));
+        }
+
+
+        /// <summary>
+        /// GetSecGraveyardIoGridData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetSecGraveyardIoGridData(Models.TubeIoData data)
+        {
+            return Json(this.tubeioservice.GetSecGraveyardIoGridData(data));
+        }
+
+
+        /// <summary>
+        /// GetSecAllDayIoGridData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetSecAllDayIoGridData(Models.TubeIoData data)
+        {
+            return Json(this.tubeioservice.GetSecAllDayIoGridData(data));
+        }
+
         [HttpPost]
         public JsonResult GetMedHistoryData(Models.MedData data)
         {

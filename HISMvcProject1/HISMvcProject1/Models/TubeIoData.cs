@@ -40,6 +40,13 @@ namespace HISMvcProject1.Models
         public string IoDate { get; set; }
 
         /// <summary>
+        /// IO 輸入者
+        /// </summary>
+        ///[MaxLength(5)]
+        [DisplayName("日期加一")]
+        public string IoDateAddOne { get; set; }
+
+        /// <summary>
         /// IO Intake
         /// </summary>
         ///[MaxLength(5)]

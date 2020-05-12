@@ -66,7 +66,6 @@ namespace HISMvcProject1.Models
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-
         public List<Models.TubeIoData> GetSecMorningIoGridData(Models.TubeIoData data)
         {
             DataTable dt = new DataTable();
@@ -75,7 +74,7 @@ namespace HISMvcProject1.Models
                                   SUM(tio.In_amount-Out_amount) as Difference 
                           FROM TUBEIO_INFO tio
 						     left join TUBE_INSERT t on tio.Tube_Info_ID = t.Tube_Info_ID
-                          where location_x = @LocationX and @LocationY = @LocationY
+                          where location_x = @LocationX and location_y = @LocationY
                           AND tio.patient_id = @PatientId 
                           AND tio.In_date = @IoDate
                           AND tio.In_Time BETWEEN '07:01:00' AND '15:00:00'
@@ -114,6 +113,194 @@ namespace HISMvcProject1.Models
 
         }
 
+        /// <summary>
+        /// 第二io小夜班
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public List<Models.TubeIoData> GetSecNightIoGridData(Models.TubeIoData data)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"SELECT SUM(tio.In_amount) as IoIntake ,
+                                  SUM(tio.Out_amount) as IoOutput ,
+                                  SUM(tio.In_amount-Out_amount) as Difference 
+                          FROM TUBEIO_INFO tio
+						     left join TUBE_INSERT t on tio.Tube_Info_ID = t.Tube_Info_ID
+                          where location_x = @LocationX and location_y = @LocationY
+                          AND tio.patient_id = @PatientId 
+                          AND tio.In_date = @IoDate
+                          AND tio.In_Time BETWEEN '15:01:00' AND '23:00:00'
+                          GROUP BY tio.In_date
+                           ;";
+
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientID));
+                cmd.Parameters.Add(new SqlParameter("@LocationX", data.LocationX));
+                cmd.Parameters.Add(new SqlParameter("@LocationY", data.LocationY));
+                cmd.Parameters.Add(new SqlParameter("@IoDate", data.IoDate));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return this.MapSecIoNightgData(dt);
+        }
+
+        private List<Models.TubeIoData> MapSecIoNightgData(DataTable dt)
+        {
+            List<Models.TubeIoData> resultModify = new List<TubeIoData>();
+            foreach (DataRow row in dt.Rows)
+            {
+                resultModify.Add(new TubeIoData()
+                {
+                    IoIntake = (int)row["IoIntake"],
+                    IoOutput = (int)row["IoOutput"],
+                    Difference = (int)row["Difference"],
+
+                });
+            }
+            return resultModify;
+
+        }
+
+
+        /// <summary>
+        /// 第二io大夜班
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public List<Models.TubeIoData> GetSecGraveyardIoGridData(Models.TubeIoData data)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"SELECT  SUM(Io_Intake) as IoIntake ,SUM(Io_Output) as IoOutput,SUM(Difference_table) as Difference
+                                   FROM( 
+                          (SELECT SUM(tio.In_amount) as Io_Intake ,
+                                   SUM(tio.Out_amount) as Io_Output ,
+                                   SUM(tio.In_amount-Out_amount) as Difference_table 
+                                   FROM TUBEIO_INFO tio
+                                   left join TUBE_INSERT t on tio.Tube_Info_ID = t.Tube_Info_ID
+                                   where location_x = @LocationX and location_y = @LocationY
+                                   AND tio.patient_id = @PatientId 
+                                   AND tio.In_date = @IoDate
+                                   AND tio.In_Time BETWEEN '23:01:00' AND '23:59:59'
+                                   GROUP BY tio.In_date)
+                                   union all
+                           (SELECT SUM(tio.In_amount) as Io_Intake ,
+                                   SUM(tio.Out_amount) as Io_Output ,
+                                   SUM(tio.In_amount-Out_amount) as Difference_table 
+                                   FROM TUBEIO_INFO tio
+                                   left join TUBE_INSERT t on tio.Tube_Info_ID = t.Tube_Info_ID
+                                  where location_x = @LocationX and @LocationY = @LocationY
+                                  AND tio.patient_id = @PatientId 
+                                  AND tio.In_date = @IoDateAddOne
+                                  AND tio.In_Time BETWEEN '00:00:00' AND '07:00:00'
+                                  GROUP BY tio.In_date)
+                                  )
+                          as subquery
+                           ;";
+
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientID));
+                cmd.Parameters.Add(new SqlParameter("@LocationX", data.LocationX));
+                cmd.Parameters.Add(new SqlParameter("@LocationY", data.LocationY));
+                cmd.Parameters.Add(new SqlParameter("@IoDate", data.IoDate));
+                cmd.Parameters.Add(new SqlParameter("@IoDateAddOne", data.IoDateAddOne));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return this.MapSecIoNightData(dt);
+        }
+
+        private List<Models.TubeIoData> MapSecIoNightData(DataTable dt)
+        {
+            List<Models.TubeIoData> resultModify = new List<TubeIoData>();
+            foreach (DataRow row in dt.Rows)
+            {
+                resultModify.Add(new TubeIoData()
+                {
+                    IoIntake = (int)row["IoIntake"],
+                    IoOutput = (int)row["IoOutput"],
+                    Difference = (int)row["Difference"],
+
+                });
+            }
+            return resultModify;
+
+        }
+
+         /// <summary>
+        /// 第二io全天
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public List<Models.TubeIoData> GetSecAllDayIoGridData(Models.TubeIoData data)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"SELECT  SUM(Io_Intake) as IoIntake ,SUM(Io_Output) as IoOutput,SUM(Difference_table) as Difference
+                                   FROM( 
+                          (SELECT SUM(tio.In_amount) as Io_Intake ,
+                                   SUM(tio.Out_amount) as Io_Output ,
+                                   SUM(tio.In_amount-Out_amount) as Difference_table 
+                                   FROM TUBEIO_INFO tio
+                                   left join TUBE_INSERT t on tio.Tube_Info_ID = t.Tube_Info_ID
+                                   where location_x = @LocationX and location_y = @LocationY
+                                   AND tio.patient_id = @PatientId 
+                                   AND tio.In_date = @IoDate
+                                   AND tio.In_Time BETWEEN '07:01:00' AND '23:59:59'
+                                   GROUP BY tio.In_date)
+                                   union all
+                           (SELECT SUM(tio.In_amount) as Io_Intake ,
+                                   SUM(tio.Out_amount) as Io_Output ,
+                                   SUM(tio.In_amount-Out_amount) as Difference_table 
+                                   FROM TUBEIO_INFO tio
+                                   left join TUBE_INSERT t on tio.Tube_Info_ID = t.Tube_Info_ID
+                                  where location_x = @LocationX and @LocationY = @LocationY
+                                  AND tio.patient_id = @PatientId 
+                                  AND tio.In_date = @IoDateAddOne
+                                  AND tio.In_Time BETWEEN '00:00:00' AND '07:00:00'
+                                  GROUP BY tio.In_date)
+                                  )
+                          as subquery
+                           ;";
+
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientID));
+                cmd.Parameters.Add(new SqlParameter("@LocationX", data.LocationX));
+                cmd.Parameters.Add(new SqlParameter("@LocationY", data.LocationY));
+                cmd.Parameters.Add(new SqlParameter("@IoDate", data.IoDate));
+                cmd.Parameters.Add(new SqlParameter("@IoDateAddOne", data.IoDateAddOne));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return this.MapSecIoAllDayData(dt);
+        }
+
+        private List<Models.TubeIoData> MapSecIoAllDayData(DataTable dt)
+        {
+            List<Models.TubeIoData> resultModify = new List<TubeIoData>();
+            foreach (DataRow row in dt.Rows)
+            {
+                resultModify.Add(new TubeIoData()
+                {
+                    IoIntake = (int)row["IoIntake"],
+                    IoOutput = (int)row["IoOutput"],
+                    Difference = (int)row["Difference"],
+
+                });
+            }
+            return resultModify;
+
+        }
 
     }
 }

@@ -174,7 +174,7 @@
                                                data-type="date" style="width: 40%;" required validationMessage="請輸入正確日期格式" />
                                         <span data-for='iodatepicker' class='k-invalid-msg'></span>
 
-                                        <input type="button" id="secondIoSearch" value="Search" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                                        <input type="button" id="btn_secIoSearch" value="Search" class="btn" style="background-color: #CCDDFF; color:#194284" />
                                     </div>
                                 </div>
                                 <br>
@@ -251,6 +251,7 @@
             icon: "ungroup",
             //enable: false
         }).data("kendoButton");
+
 
         //交班頁面Window
         $("#patient_window").kendoWindow({
@@ -499,6 +500,7 @@
         });
 
 
+
         //小人圖window開啟
         $("#andy_open").click(function (e) {
             Insert.enable(true);
@@ -546,6 +548,7 @@
 
             //insert tube
             lc.onclick = function () {
+               
                 if (intubation == 'insert') {
                     //draw tube from insert
                     x = event.clientX - 313 - 10;
@@ -626,16 +629,19 @@
                             }
                         });
 
+                       
                         //第二io fullio_grid
                         iopointlocation = {
                             "LocationX":location_point_x,
                             "LocationY":location_point_y,
                             "PatientId":patient_id_search,
-                            "IoDate":"2020-04-23"
-                            //"IoDate":$("io_datepicker").datepicker("getDate")
+                            //"IoDate":"2020-04-23",
+                            "IoDate": kendo.toString($("#io_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                            "IoDateAddOne": kendo.toString(kendo.date.nextDay($("#io_datepicker").data("kendoDatePicker").value()), "yyyy-MM-dd")
                         }
 
-                        //第二io fullio_grid 特定管路早班夜班小夜班全日資料
+                
+                       //第二io fullio_grid 特定管路早班夜班小夜班全日資料
                         $("#tubeiomorning_grid").kendoGrid({
                             height: "30%",
                             columns: [
@@ -656,16 +662,16 @@
                         $("#tubeionight_grid").kendoGrid({
                             height: "30%",
                             columns: [
-                                     { field: "", title: "Intake", width: "20%" },
-                                     { field: "", title: "Output", width: "20%" },
-                                     { field: "", title: "差異", width: "20%" },
+                                     { field: "IoIntake", title: "Intake", width: "20%" },
+                                     { field: "IoOutput", title: "Output", width: "20%" },
+                                     { field: "Difference", title: "差異", width: "20%" },
                             ],dataSource: {
                                 transport: {
                                     read: {
                                         url: "GetSecNightIoGridData",
                                         type: "post",
                                         dataType: "json",
-                                        data:patient_id
+                                        data:iopointlocation
                                     }
                                 }
                             }
@@ -673,16 +679,16 @@
                         $("#tubeiograveyard_grid").kendoGrid({
                             height: "30%",
                             columns: [
-                                     { field: "", title: "Intake", width: "20%" },
-                                     { field: "", title: "Output", width: "20%" },
-                                     { field: "", title: "差異", width: "20%" },
+                                     { field: "IoIntake", title: "Intake", width: "20%" },
+                                     { field: "IoOutput", title: "Output", width: "20%" },
+                                     { field: "Difference", title: "差異", width: "20%" },
                             ],dataSource: {
                                 transport: {
                                     read: {
                                         url: "GetSecGraveyardIoGridData",
                                         type: "post",
                                         dataType: "json",
-                                        data:patient_id
+                                        data:iopointlocation
                                     }
                                 }
                             }
@@ -690,16 +696,16 @@
                         $("#tubeioallday_grid").kendoGrid({
                             height: "30%",
                             columns: [
-                                     { field: "", title: "Intake", width: "20%" },
-                                     { field: "", title: "Output", width: "20%" },
-                                     { field: "", title: "差異", width: "20%" },
+                                     { field: "IoIntake", title: "Intake", width: "20%" },
+                                     { field: "IoOutput", title: "Output", width: "20%" },
+                                     { field: "Difference", title: "差異", width: "20%" },
                             ],dataSource: {
                                 transport: {
                                     read: {
                                         url: "GetSecAllDayIoGridData",
                                         type: "post",
                                         dataType: "json",
-                                        data:patient_id
+                                        data:iopointlocation
                                     }
                                 }
                             }
@@ -888,6 +894,8 @@
 
         });
     })
+
+   
 
     // 轉藥歷圖
     $("#btn_mhistory").click(function(){
