@@ -9,26 +9,29 @@
 }
 @section body
 {
-    <div class="row">
-        <div class="column" style="height:auto;">
-            <div class="demo-section k-content" style="height:500px;width:250px; overflow-y:scroll; overflow-x:hidden;">
+    <div class="row" style="background:black; width:100%;height:500px;">
+        <div class="column" style="height:500px;width:20%; background:red;  overflow-y:scroll; overflow-x:hidden;">
+            <div class="demo-section k-content" style="height:400px;width:100%; background:purple;">
                 <div>
                     <h4>曾經使用過的藥品</h4>
                     <div id="m_treeview"></div>
                 </div>
-                <div style="padding-top: 2em;">
+                <!--
+                <div style="padding-top: 2em; ">
                     <h4>Status</h4>
                     <p id="result">No nodes checked.</p>
-                </div>
+                </div>-->
             </div>
+            <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284;" />
         </div>
-        <div class="column">
-            <div id="m_scheduler"></div>
+        <div class="column" style="width:80%; height:auto;background:green">
+            <div id="m_scheduler" style="width:auto; height:500px;"></div>
         </div>
 
     </div>
-    <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
-    <div class="grid_box" id="history_grid" style="margin-top:30px"></div>
+
+  
+    <div class="grid_box" id="history_grid" style="margin-top:30px "></div>
     <script>
         var medclassid = [0];
         var patient_id_search = "";
@@ -110,7 +113,7 @@
                 "PatientId":patient_id_search,
                 "MedClassId":medclassid
             }
-           // $("#result").html(message);
+            // $("#result").html(message);
             $.ajax({
                 type: "post",
                 url: "GetMedHistoryData",
@@ -118,32 +121,81 @@
 
             });
 
-            $("#m_scheduler").kendoScheduler({
-                date: new Date(),
-                startTime: new Date(),
-                eventHight: 30,
-                majorTick: 1440,
-                view: [{
-                    type: "week",
-                    majorTick: 1440
-                }],
-                timezone: "Etc/UTC",
-                dataSourse: {
-                    transport: {
-                        url: "GetMedHistoryData",
-                        type: "post",
-                        dataType: "json",
-                        data: {
-                            "MedId":medclassid
-                        }
-                    }
-                }
-            });
+
 
         }
 
         //medicine scheduler
-     
+        var data = [{
+            id: 1,
+            user: "Jon",
+            from: new Date("2020/05/01 11:30").getDate(),
+            to: new Date("2020/05/02 14:45").getDate(),
+            color: "Red"
+        }, {
+            id: 2,
+            user: "Joe",
+            from: new Date("2020/05/03").getDate(),
+            to: new Date("2020/05/04").getDate(),
+            color: "Purple"
+        }, {
+            id: 3,
+            user: "Joe",
+            from: new Date("2020/05/01").getDate(),
+            to: new Date("2020/05/02").getDate(),
+            color: "Yellow"
+        }, {
+            id: 4,
+            user: "Joe",
+            from: new Date("2020/05/02").getDate(),
+            to: new Date("2020/05/03").getDate(),
+            color: "Red"
+        }, {
+            id: 5,
+            user: "Joe",
+            from: new Date("2020/05/04").getDate(),
+            to: new Date("2020/05/05").getDate(),
+            color: "Green"
+        }, {
+            id: 6,
+            user: "Joe",
+            from: new Date("2014/01/01 15:45").getTime(),
+            to: new Date("2014/01/01 16:00").getTime(),
+            color: "Red"
+        }];
+
+        $("#m_scheduler").kendoChart({
+
+            dataSource: {
+                data: data,
+                group: {
+                    field: "id",
+                    dir: "desc"
+                }
+
+            },
+            series: [{
+
+                type: "rangeBar",
+                fromField: "from",
+                toField: "to",
+                categoryField: "user",
+                spacing: -1
+            }],
+            valueAxis: {
+                min: new Date("2020/05/01").getDate(),
+                max: new Date("2020/05/13").getDate(),
+                baseUnit: "days",
+                majorUnit: 1,
+                labels: {
+                    template: "#= kendo.toString(new Date(value), 'HH:mm') #"
+                }
+            },
+            legend: {
+                visible: true
+
+            }
+        });
         //history grid
         $("#history_grid").kendoGrid({
             height: "200px",
@@ -171,9 +223,7 @@
 
     <!--treeView style-->
     <style>
-        .row {
-            display: flex;
-        }
+    
 
         /* Create three equal columns that sits next to each other */
         .column {
