@@ -203,6 +203,7 @@
                     <input type="text" data-role='datepicker' id="ioend_datepicker" name="ioenddatepicker"
                            data-type="date" style="width: 30%;" required validationMessage="請輸入正確日期格式" />
                     <span data-for='ioenddatepicker' class='k-invalid-msg'></span>
+                    <input type="button" value="查詢" class="btn btn_io_search" style="background-color: #99b2db; color:#194284" />
                 </div>
                 <div class="fulliorow">
                     <div class="fulliogrid_box" id="fullioin_grid" style="width:450px"></div>
@@ -749,7 +750,56 @@
                 }
             })
 
-
+            //按下搜尋鍵取得搜尋條件
+            $(".btn_io_search").click(function () {
+                var io_search_data = {
+                    "PatientID": patient_id_search,
+                    "IoStartDate": kendo.toString($("#iostart_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                    "IoEndDate": kendo.toString($("#ioend_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                };
+                //第三io fullio_grid 所有管路io資料(in)
+                $("#fullioin_grid").kendoGrid({
+                    height: "200px",
+                    columns: [
+                            { field: "FullIoDate", title: "日期", width: "20%" },
+                            { field: "FullIoTime", title: "時間", width: "20%" },
+                            { field: "FullIoName", title: "項目名稱", width: "20%" },
+                            { field: "FullIoIn", title: "輸入量", width: "20%" },
+                            { field: "FullIoUser", title: "輸入者", width: "20%" },
+                    ],
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "GetIoInGridData",
+                                type: "post",
+                                dataType: "json",
+                                data: io_search_data
+                            }
+                        }
+                    }
+                })
+                //第三io fullio_grid 所有管路io資料(out)
+                $("#fullioout_grid").kendoGrid({
+                    height: "200px",
+                    columns: [
+                            { field: "FullIoDate", title: "日期", width: "20%" },
+                            { field: "FullIoTime", title: "時間", width: "20%" },
+                            { field: "FullIoName", title: "項目名稱", width: "20%" },
+                            { field: "FullIoOut", title: "輸出量", width: "20%" },
+                            { field: "FullIoUser", title: "輸入者", width: "20%" },
+                    ],
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "GetIoOutGridData",
+                                type: "post",
+                                dataType: "json",
+                                data: io_search_data
+                            }
+                        }
+                    }
+                })
+            });
 
         })
 
@@ -945,33 +995,6 @@
             }
         });
     });
-
-    //第三io fullio_grid 所有管路io資料
-    $("#fullioin_grid").kendoGrid({
-        height: "200px",
-        columns: [
-                { field: "FullIoDate", title: "日期", width: "20%" },
-                { field: "FullIoTime", title: "時間", width: "20%" },
-                { field: "FullIoName", title: "項目名稱", width: "20%" },
-                { field: "FullIoIn", title: "輸入量", width: "20%" },
-                { field: "FullIoUser", title: "輸入者", width: "20%" },
-        ]
-    })
-
-    $("#fullioout_grid").kendoGrid({
-        height: "200px",
-        columns: [
-                { field: "FullIoDate", title: "日期", width: "20%" },
-                { field: "FullIoTime", title: "時間", width: "20%" },
-                { field: "IoTubeName", title: "項目名稱", width: "20%" },
-                { field: "FullIoOut", title: "輸出量", width: "20%" },
-                { field: "FullIoUser", title: "輸入者", width: "20%" },
-        ]
-    })
-
-
-
-
 
 </script>
 

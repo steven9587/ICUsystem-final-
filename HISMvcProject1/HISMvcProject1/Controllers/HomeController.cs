@@ -19,7 +19,7 @@ namespace HISMvcProject1.Controllers
 
     public class HomeController : Controller
     {
-            readonly Models.TubeService tubeservice = new Models.TubeService();
+        readonly Models.TubeService tubeservice = new Models.TubeService();
         readonly Models.LoginService loginservice = new Models.LoginService();
         readonly Models.InfoService infoservice = new Models.InfoService();
         readonly Models.TubeIoService tubeioservice = new Models.TubeIoService();
@@ -143,6 +143,26 @@ namespace HISMvcProject1.Controllers
         public JsonResult GetGridData(Models.InfoData data)
         {
             return Json(this.infoservice.GetInfoByCondtioin(data));
+        }
+
+        /// <summary>
+        /// getioinsearchgrid
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public JsonResult GetIoInGridData(Models.TubeIoData data)
+        {
+            return Json(this.tubeioservice.GetIoInByCondtioin(data));
+        }
+
+        /// <summary>
+        /// getiooutsearchgrid
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public JsonResult GetIoOutGridData(Models.TubeIoData data)
+        {
+            return Json(this.tubeioservice.GetIoOutByCondtioin(data));
         }
 
         /// <summary>

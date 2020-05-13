@@ -302,5 +302,90 @@ namespace HISMvcProject1.Models
 
         }
 
+        /// <summary>
+        /// 第三ioin
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public List<Models.TubeIoData> GetIoInByCondtioin(Models.TubeIoData data)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"select In_date,In_time,Note,In_amount,In_user 
+                            from TUBEIO_INFO 
+                            where In_date in(@IoStartDate,@IoEndDate) and patient_id = @PatientId;";
+
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientID));
+                cmd.Parameters.Add(new SqlParameter("@IoStartDate", data.IoStartDate));
+                cmd.Parameters.Add(new SqlParameter("@IoEndDate", data.IoEndDate));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return this.MapIoInData(dt);
+        }
+
+        private List<Models.TubeIoData> MapIoInData(DataTable dt)
+        {
+            List<Models.TubeIoData> resultModify = new List<TubeIoData>();
+            foreach (DataRow row in dt.Rows)
+            {
+                resultModify.Add(new TubeIoData()
+                {
+                    FullIoDate = row["In_date"].ToString(),
+                    FullIoTime = row["In_time"].ToString(),
+                    FullIoName = row["Note"].ToString(),
+                    FullIoIn = row["In_amount"].ToString(),
+                    FullIoUser = row["In_user"].ToString(),
+                });
+            }
+            return resultModify;
+        }
+
+        /// <summary>
+        /// 第三ioout
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public List<Models.TubeIoData> GetIoOutByCondtioin(Models.TubeIoData data)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"select In_date, In_time, Note, Out_amount, In_user
+                            from TUBEIO_INFO
+                            where In_date in(@IoStartDate, @IoEndDate) and patient_id = @PatientId; ";
+
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientID));
+                cmd.Parameters.Add(new SqlParameter("@IoStartDate", data.IoStartDate));
+                cmd.Parameters.Add(new SqlParameter("@IoEndDate", data.IoEndDate));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return this.MapIoOutData(dt);
+        }
+
+        private List<Models.TubeIoData> MapIoOutData(DataTable dt)
+        {
+            List<Models.TubeIoData> resultModify = new List<TubeIoData>();
+            foreach (DataRow row in dt.Rows)
+            {
+                resultModify.Add(new TubeIoData()
+                {
+                    FullIoDate = row["In_date"].ToString(),
+                    FullIoTime = row["In_time"].ToString(),
+                    FullIoName = row["Note"].ToString(),
+                    FullIoOut = row["Out_amount"].ToString(),
+                    FullIoUser = row["In_user"].ToString(),
+                });
+            }
+            return resultModify;
+        }
     }
 }
