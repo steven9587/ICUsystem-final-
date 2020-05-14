@@ -113,7 +113,7 @@
                                 </li>
                             </ul>
                             <div>
-                                <span class="tube_tag">&nbsp;</span>
+                                <span class="tube_tag" style="overflow: auto;">&nbsp;</span>
                                 <div class="form-group">
                                     <form id="addTubeForm" data-role="validator" novalidate="novalidate">
                                         <div class="form-group" style="margin-bottom:10px">
@@ -190,7 +190,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tubeiogrid_box" id="alltubeio_grid" style="width:900px"></div>
+                <div class="tubeiogrid_box" id="alltubeio_grid" style="width:900px;height:300px"></div>
             </div>
             <div>
                 <span class="fullio_tag">&nbsp;</span>
@@ -206,8 +206,8 @@
                     <input type="button" value="查詢" class="btn btn_io_search" style="background-color: #99b2db; color:#194284" />
                 </div>
                 <div class="fulliorow">
-                    <div class="fulliogrid_box" id="fullioin_grid" style="width:450px"></div>
-                    <div class="fulliogrid_box" id="fullioout_grid" style="width:450px"></div>
+                    <div class="fulliogrid_box" id="fullioin_grid" style="width:450px;height:500px"></div>
+                    <div class="fulliogrid_box" id="fullioout_grid" style="width:450px;height:500px"></div>
                 </div>
             </div>
         </div>
@@ -330,8 +330,6 @@
 
         $("#andy_open").kendoWindow({
             title: "小人圖",
-            width:"400px",
-            height:"400px",
             Draggable: false,
             resizable:false,
             visible:true,
@@ -346,7 +344,7 @@
 
         $("#andy_window").kendoWindow({
             title: "病人插管資料",
-            width: "75  %",
+            height:"600px",
             Draggable: false,
             resizable:false,
             visible:false,
@@ -731,7 +729,6 @@
 
             //第一io
             $("#alltubeio_grid").kendoGrid({
-                height: "30%",
                 columns: [
                          { field: "IoDate", title: "日期", width: "10%" },
                          { field: "IoIntake", title: "Intake", width: "10%" },
@@ -759,7 +756,6 @@
                 };
                 //第三io fullio_grid 所有管路io資料(in)
                 $("#fullioin_grid").kendoGrid({
-                    height: "200px",
                     columns: [
                             { field: "FullIoDate", title: "日期", width: "20%" },
                             { field: "FullIoTime", title: "時間", width: "20%" },
@@ -780,7 +776,7 @@
                 })
                 //第三io fullio_grid 所有管路io資料(out)
                 $("#fullioout_grid").kendoGrid({
-                    height: "200px",
+                    height: "500px",
                     columns: [
                             { field: "FullIoDate", title: "日期", width: "20%" },
                             { field: "FullIoTime", title: "時間", width: "20%" },
