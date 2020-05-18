@@ -192,7 +192,7 @@ namespace HISMvcProject1.Models
                                    SUM(tio.In_amount-Out_amount) as Difference_table 
                                    FROM TUBEIO_INFO tio
                                    left join TUBE_INSERT t on tio.Tube_Info_ID = t.Tube_Info_ID
-                                  where location_x = @LocationX and @LocationY = @LocationY
+                                  where location_x = @LocationX and location_y = @LocationY
                                   AND tio.patient_id = @PatientId 
                                   AND tio.In_date = @IoDateAddOne
                                   AND tio.In_Time BETWEEN '00:00:00' AND '07:00:00'

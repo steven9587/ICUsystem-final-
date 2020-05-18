@@ -105,94 +105,100 @@
                 message = "2,3,4,5,6,7,8,9,10,11";
                 medclassid = message;
             }
-            debugger
+            
             med_sch_history = {
                 "PatientId":patient_id_search,
                 "MedClassId":medclassid
             }
             // $("#result").html(message);
-            $.ajax({
-                type: "post",
-                url: "GetMedHistoryData",
-                data: med_sch_history
+            
+            /*var data = [{
+                id: 1,
+                user: "Jon",
+                from: new Date("2020/05/01 11:30").getDate(),
+                to: new Date("2020/05/02 14:45").getDate(),
+                color: "Red"
+            }, {
+                id: 2,
+                user: "Joe",
+                from: new Date("2020/05/03").getDate(),
+                to: new Date("2020/05/04").getDate(),
+                color: "Purple"
+            }, {
+                id: 3,
+                user: "Joe",
+                from: new Date("2020/05/01").getDate(),
+                to: new Date("2020/05/02").getDate(),
+                color: "Yellow"
+            }, {
+                id: 4,
+                user: "Joe",
+                from: new Date("2020/05/02").getDate(),
+                to: new Date("2020/05/03").getDate(),
+                color: "Red"
+            }, {
+                id: 5,
+                user: "Joe",
+                from: new Date("2020/05/04").getDate(),
+                to: new Date("2020/05/05").getDate(),
+                color: "Green"
+            }, {
+                id: 6,
+                user: "Joe",
+                from: new Date("2014/01/01 15:45").getTime(),
+                to: new Date("2014/01/01 16:00").getTime(),
+                color: "Red"
+            }];*/
+            
+            $("#m_scheduler").kendoChart({
+                dataSource: {
+                    transport: {
+                        read: {
+                            url: "GetMedHistoryData",
+                            type: "post",
+                            data: med_sch_history
+                        }
+                    }
+                    ,
+                    group: {
+                        field: "Item",
+                        dir: "desc"
+                    }
 
+                },
+                series: [{
+                    type: "rangeBar",
+                    fromField: "MedStart",
+                    toField: "MedEnd",
+                    categoryField: "MedName",
+                    spacing: -1
+                }],
+                valueAxis: {
+                    min: new Date("2020/04/25").getDate(),
+                    max: new Date("2020/05/01").getDate(),
+                    baseUnit: "days",
+                    majorUnit: 1,
+                    labels: {
+                        template: "#= kendo.toString(new Date(value), 'HH:mm') #"
+                    }
+                },
+                legend: {
+                    visible: true
+
+                }
             });
-
-
+            //toDo:string 轉 date
+            debugger
+            var date = Date.parse("2019/02/25");
+            var meddate = new Date("MedStart").toDateString("yyy/MM/dd");
+           
+            console.log(date);
+            console.log(meddate)
 
         }
 
         //medicine scheduler
-        var data = [{
-            id: 1,
-            user: "Jon",
-            from: new Date("2020/05/01 11:30").getDate(),
-            to: new Date("2020/05/02 14:45").getDate(),
-            color: "Red"
-        }, {
-            id: 2,
-            user: "Joe",
-            from: new Date("2020/05/03").getDate(),
-            to: new Date("2020/05/04").getDate(),
-            color: "Purple"
-        }, {
-            id: 3,
-            user: "Joe",
-            from: new Date("2020/05/01").getDate(),
-            to: new Date("2020/05/02").getDate(),
-            color: "Yellow"
-        }, {
-            id: 4,
-            user: "Joe",
-            from: new Date("2020/05/02").getDate(),
-            to: new Date("2020/05/03").getDate(),
-            color: "Red"
-        }, {
-            id: 5,
-            user: "Joe",
-            from: new Date("2020/05/04").getDate(),
-            to: new Date("2020/05/05").getDate(),
-            color: "Green"
-        }, {
-            id: 6,
-            user: "Joe",
-            from: new Date("2014/01/01 15:45").getTime(),
-            to: new Date("2014/01/01 16:00").getTime(),
-            color: "Red"
-        }];
-
-        $("#m_scheduler").kendoChart({
-
-            dataSource: {
-                data: data,
-                group: {
-                    field: "id",
-                    dir: "desc"
-                }
-
-            },
-            series: [{
-
-                type: "rangeBar",
-                fromField: "from",
-                toField: "to",
-                categoryField: "user",
-                spacing: -1
-            }],
-            valueAxis: {
-                min: new Date("2020/05/01").getDate(),
-                max: new Date("2020/05/13").getDate(),
-                baseUnit: "days",
-                majorUnit: 1,
-                labels: {
-                    template: "#= kendo.toString(new Date(value), 'HH:mm') #"
-                }
-            },
-            legend: {
-                visible: true
-
-            }
-        });
+       
         //history grid
         $("#history_grid").kendoGrid({
             height: "200px",

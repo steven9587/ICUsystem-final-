@@ -10,6 +10,12 @@ namespace HISMvcProject1.Models
     public class MedData
     {
         /// <summary>
+        /// 藥歷編號
+        /// </summary>
+        [DisplayName("藥歷編號")]
+        public int Item { get; set; }
+
+        /// <summary>
         /// 病人編號
         /// </summary>
         [DisplayName("病人編號")]

@@ -43,12 +43,13 @@ namespace HISMvcProject1.Models
                 MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
             }
             DataTable dt = new DataTable();
-            string sql = @"select mh.MEDNAME_ID as MedNameId,
+            string sql = @"select mh.Item as Item,
+                                  mh.MEDNAME_ID as MedNameId,
 	                              mn.MED_NAME as MedName,
 	                              mc.MEDCLASS_ID as MedClassId,
 	                              mc.MED_CLASS as MedClass,
-	                              mh.MED_STARTDATE as MedStart,
-	                              mh.MED_OVERDATE as MedEnd,
+	                              Convert(varchar(10),mh.MED_STARTDATE,111)as MedStart,
+	                              Convert(varchar(10),mh.MED_OVERDATE,111)as MedEnd,
 	                              mh.MED_SOURCE as MedSource
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
@@ -75,6 +76,7 @@ namespace HISMvcProject1.Models
             {
                 resultModify.Add(new MedData()
                 {
+                    Item = (int)row["Item"],
                     MedNameId = (int)row["MedNameId"],
                     MedName = row["MedName"].ToString(),
                     MedClassId = row["MedClassId"].ToString(),
