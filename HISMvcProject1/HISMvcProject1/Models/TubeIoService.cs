@@ -312,7 +312,7 @@ namespace HISMvcProject1.Models
             DataTable dt = new DataTable();
             string sql = @"select In_date,In_time,Note,In_amount,In_user 
                             from TUBEIO_INFO 
-                            where In_date in(@IoStartDate,@IoEndDate) and patient_id = @PatientId;";
+                            where In_date in(@IoStartDate,@IoEndDate) and patient_id = @PatientId and In_amount!=0;";
 
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
@@ -355,7 +355,7 @@ namespace HISMvcProject1.Models
             DataTable dt = new DataTable();
             string sql = @"select In_date, In_time, Note, Out_amount, In_user
                             from TUBEIO_INFO
-                            where In_date in(@IoStartDate, @IoEndDate) and patient_id = @PatientId; ";
+                            where In_date in(@IoStartDate, @IoEndDate) and patient_id = @PatientId and Out_amount!=0; ";
 
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
