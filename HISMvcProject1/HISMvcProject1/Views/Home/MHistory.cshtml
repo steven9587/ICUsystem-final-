@@ -105,13 +105,13 @@
                 message = "2,3,4,5,6,7,8,9,10,11";
                 medclassid = message;
             }
-            
+
             med_sch_history = {
                 "PatientId":patient_id_search,
                 "MedClassId":medclassid
             }
             // $("#result").html(message);
-            
+
             /*var data = [{
                 id: 1,
                 user: "Jon",
@@ -149,56 +149,49 @@
                 to: new Date("2014/01/01 16:00").getTime(),
                 color: "Red"
             }];*/
-            
+
             $("#m_scheduler").kendoChart({
-                dataSource: {
-                    transport: {
-                        read: {
-                            url: "GetMedHistoryData",
-                            type: "post",
-                            data: med_sch_history
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "GetMedHistoryData",
+                                type: "post",
+                                data: med_sch_history
+                            }
                         }
-                    }
-                    ,
-                    group: {
-                        field: "Item",
-                        dir: "desc"
-                    }
+                        ,
+                        group: {
+                            field: "Item",
+                            dir: "desc"
+                        }
 
-                },
-                series: [{
-                    type: "rangeBar",
-                    fromField: "MedStart",
-                    toField: "MedEnd",
-                    categoryField: "MedName",
-                    spacing: -1
-                }],
-                valueAxis: {
-                    min: new Date("2020/04/25").getDate(),
-                    max: new Date("2020/05/01").getDate(),
-                    baseUnit: "days",
-                    majorUnit: 1,
-                    labels: {
-                        template: "#= kendo.toString(new Date(value), 'HH:mm') #"
-                    }
-                },
-                legend: {
-                    visible: true
+                    },
+                    series: [{
+                        type: "rangeBar",
+                        fromField: new Date("MedStart").getDate(),
+                        toField: new Date("MedStart").getDate()+1,
+                        categoryField: "MedName",
+                        spacing: -1
+                    }],
+                    valueAxis: {
+                        min: new Date("2020/04/25").getDate(),
+                        max: new Date("2020/05/01").getDate(),
+                        baseUnit: "days",
+                        majorUnit: 1,
+                        labels: {
+                            template: "#= kendo.toString(new Date(value), 'HH:mm') #"
+                        }
+                    },
+                    legend: {
+                        visible: true
 
-                }
-            });
-            //toDo:string 轉 date
-            debugger
-            var date = Date.parse("2019/02/25");
-            var meddate = new Date("MedStart").toDateString("yyy/MM/dd");
-           
-            console.log(date);
-            console.log(meddate)
+                    },
 
+                });
         }
 
         //medicine scheduler
-       
+
         //history grid
         $("#history_grid").kendoGrid({
             height: "200px",
