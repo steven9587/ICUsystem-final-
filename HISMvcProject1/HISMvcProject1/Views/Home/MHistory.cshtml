@@ -16,6 +16,26 @@
                 <div id="m_treeview"></div>
 
             </div>
+           <!--mdatepicker-->
+           <div id="Mdatepicker" style="float:left; width:80%;">
+                <div style="float:left;padding:0px;">
+                    <h4 style="margin-top: 1em;">
+                        開始時間:
+                        <input id="datepickerstr" value="06/17/2020" title="datepicker" style="width: 600px" />
+                    </h4>
+                </div>
+                <div style="float:left">
+                    <h4 style="margin-top: 1em;">
+                        結束時間:
+                        <input id="datepickerend" value="06/18/2020" title="datepicker" style="width: 600px" />
+                    </h4>
+                </div>
+                <div style="float:left;padding:18px; ">
+                    <input type="button" class="btn" value="Search" style="background-color: #CCDDFF; color:#194284;" />
+                </div>
+
+            </div>
+            <!--mdatepicker-->
             <!--------->
             <div id="my_dataviz"></div>
             <!--<div id="m_scheduler" style="float:left; width:80%"></div>-->
@@ -24,7 +44,14 @@
                 <h4>Status</h4>
                 <p id="result">No nodes checked.</p>
             </div>-->
+            <script>
+                        $(document).ready(function() {
 
+                            $("#datepickerstr").kendoDatePicker();
+                            $("#datepickerend").kendoDatePicker();
+
+                        });
+            </script>
         </div>
         <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
     </div>
