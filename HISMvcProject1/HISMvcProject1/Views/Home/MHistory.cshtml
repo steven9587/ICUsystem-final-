@@ -36,6 +36,7 @@
         var medclassid = [0];
         var patient_id_search = "";
         patient_id_search = @Html.Raw(Json.Encode(ViewBag.search_id));
+        var medname_search = [0];
         //藥物treeview
         $("#m_treeview").kendoTreeView({
             checkboxes: {
@@ -114,146 +115,134 @@
                 "MedClassId":medclassid
             }
 
-
-
-            var meddata = new kendo.data.DataSource({
-                transport: {
-                    read: {
-                        url: "GetMedHistoryData",
-                        type: "post",
-                        data: med_sch_history
-                    }
+            $.ajax({
+                type: "GET",
+                url: "GetMedHistoryData",
+                data: med_sch_history,
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    medname_search = result.medname;
+                    heatmap();
                 },
-                group: {
-                    field: "Item"
-                },
-
-                sort: {
-                    field: "MedStart",
-                    dir: "desc"
-                },
-                schema: {
-                    model: {
-                        fields: {
-                            date: {
-                                type: "date"
-                            }
-                        }
-                    }
+                error: function (response) {
+                    debugger;
+                    alert('eror');
                 }
             });
-            console.log(meddata._pristineData);
-            //medicine scheduler
 
-            // set the dimensions and margins of the graph
-            var margin = {top: 30, right: 30, bottom: 30, left: 30},
-              width = (window.screen.width*0.78) - margin.left - margin.right,
-              height = 450 - margin.top - margin.bottom;
+            //history grid
+            $("#history_grid").kendoGrid({
+                height: "200px",
+                columns: [
+                        { field: "Item", title: "項", width: "5%" },
+                        { field: "MName", title: "藥名", width: "10%" },
+                        { field: "MClass", title: "藥品分類", width: "7%" },
+                        { field: "MAmount", title: "藥量", width: "7%" },
+                        { field: "MUnit", title: "單位", width: "7%" },
+                        { field: "MFrequency", title: "頻次", width: "7%" },
+                        { field: "MWay", title: "途徑", width: "7%" },
+                        { field: "MDay", title: "天數", width: "7%" },
+                        { field: "MTotal", title: "總量", width: "7%" },
+                        { field: "MStart", title: "開始", width: "7%" },
+                        { field: "MEnd", title: "結束", width: "7%" },
+                        { field: "MO", title: "來源", width: "7%" },
+                        { field: "MBranch", title: "開藥科別", width: "7%" },
+                        { field: "MDoctor", title: "開藥醫師", width: "7%" }
 
-            // append the svg object to the body of the page
-            $("#my_dataviz").empty();
-            var svg = d3.select("#my_dataviz")
-            .append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-              .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");
 
-            // Labels of row and columns
-            var myGroups = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-            var myVars = ["v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10"]
-
-            // Build X scales and axis:
-            var x = d3.scaleBand()
-              .range([ 0, width ])
-              .domain(myGroups)
-              .padding(0.01);
-            svg.append("g")
-              .attr("transform", "translate(0," + height + ")")
-              .call(d3.axisBottom(x))
-
-            // Build X scales and axis:
-            var y = d3.scaleBand()
-              .range([ height, 0 ])
-              .domain(myVars)
-              .padding(0.01);
-            svg.append("g")
-              .call(d3.axisLeft(y));
-
-            // Build color scale
-            var myColor = d3.scaleLinear()
-              .range(["white", "#69b3a2"])
-              .domain([1,100])
-
-            //Read the data
-            d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function(data) {
-
-                // create a tooltip
-                var tooltip = d3.select("#my_dataviz")
-                  .append("div")
-                  .style("opacity", 0)
-                  .attr("class", "tooltip")
-                  .style("background-color", "white")
-                  .style("border", "solid")
-                  .style("border-width", "2px")
-                  .style("border-radius", "5px")
-                  .style("padding", "5px")
-
-                // Three function that change the tooltip when user hover / move / leave a cell
-                var mouseover = function(d) {
-                    tooltip.style("opacity", 1)
-                }
-                var mousemove = function(d) {
-                    tooltip
-                      .html("The exact value of<br>this cell is: " + d.value)
-                      .style("left", (d3.mouse(this)[0]+70) + "px")
-                      .style("top", (d3.mouse(this)[1]) + "px")
-                }
-                var mouseleave = function(d) {
-                    tooltip.style("opacity", 0)
-                }
-
-                // add the squares
-                svg.selectAll()
-                  .data(data, function(d) {return d.group+':'+d.variable;})
-                  .enter()
-                  .append("rect")
-                    .attr("x", function(d) { return x(d.group) })
-                    .attr("y", function(d) { return y(d.variable) })
-                    .attr("width", x.bandwidth() )
-                    .attr("height", y.bandwidth() )
-                    .style("fill", function(d) { return myColor(d.value)} )
-                  .on("mouseover", mouseover)
-                  .on("mousemove", mousemove)
-                  .on("mouseleave", mouseleave)
+                ]
             })
 
+            function heatmap(){
+                // set the dimensions and margins of the graph
+                var margin = {top: 30, right: 30, bottom: 30, left: 30},
+                  width = (window.screen.width*0.78) - margin.left - margin.right,
+                  height = 450 - margin.top - margin.bottom;
 
+                // append the svg object to the body of the page
+                $("#my_dataviz").empty();
+                var svg = d3.select("#my_dataviz")
+                .append("svg")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                  .attr("transform",
+                        "translate(" + margin.left + "," + margin.top + ")");
+
+                debugger
+                // Labels of row and columns
+                var myGroups = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+                var myVars = medname_search
+
+                // Build X scales and axis:
+                var x = d3.scaleBand()
+                  .range([ 0, width ])
+                  .domain(myGroups)
+                  .padding(0.01);
+                svg.append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x))
+
+                // Build X scales and axis:
+                var y = d3.scaleBand()
+                  .range([ height, 0 ])
+                  .domain(myVars)
+                  .padding(0.01);
+                svg.append("g")
+                  .call(d3.axisLeft(y));
+
+                // Build color scale
+                var myColor = d3.scaleLinear()
+                  .range(["white", "#69b3a2"])
+                  .domain([1,100])
+
+                //Read the data
+                d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function(data) {
+
+                    // create a tooltip
+                    var tooltip = d3.select("#my_dataviz")
+                      .append("div")
+                      .style("opacity", 0)
+                      .attr("class", "tooltip")
+                      .style("background-color", "white")
+                      .style("border", "solid")
+                      .style("border-width", "2px")
+                      .style("border-radius", "5px")
+                      .style("padding", "5px")
+
+                    // Three function that change the tooltip when user hover / move / leave a cell
+                    var mouseover = function(d) {
+                        tooltip.style("opacity", 1)
+                    }
+                    var mousemove = function(d) {
+                        tooltip
+                          .html("The exact value of<br>this cell is: " + d.value)
+                          .style("left", (d3.mouse(this)[0]+70) + "px")
+                          .style("top", (d3.mouse(this)[1]) + "px")
+                    }
+                    var mouseleave = function(d) {
+                        tooltip.style("opacity", 0)
+                    }
+
+                    // add the squares
+                    svg.selectAll()
+                      .data(data, function(d) {return d.group+':'+d.variable;})
+                      .enter()
+                      .append("rect")
+                        .attr("x", function(d) { return x(d.group) })
+                        .attr("y", function(d) { return y(d.variable) })
+                        .attr("width", x.bandwidth() )
+                        .attr("height", y.bandwidth() )
+                        .style("fill", function(d) { return myColor(d.value)} )
+                      .on("mouseover", mouseover)
+                      .on("mousemove", mousemove)
+                      .on("mouseleave", mouseleave)
+                })
+
+
+            }
         }
-
-        //history grid
-        $("#history_grid").kendoGrid({
-            height: "200px",
-            columns: [
-                    { field: "Item", title: "項", width: "5%" },
-                    { field: "MName", title: "藥名", width: "10%" },
-                    { field: "MClass", title: "藥品分類", width: "7%" },
-                    { field: "MAmount", title: "藥量", width: "7%" },
-                    { field: "MUnit", title: "單位", width: "7%" },
-                    { field: "MFrequency", title: "頻次", width: "7%" },
-                    { field: "MWay", title: "途徑", width: "7%" },
-                    { field: "MDay", title: "天數", width: "7%" },
-                    { field: "MTotal", title: "總量", width: "7%" },
-                    { field: "MStart", title: "開始", width: "7%" },
-                    { field: "MEnd", title: "結束", width: "7%" },
-                    { field: "MO", title: "來源", width: "7%" },
-                    { field: "MBranch", title: "開藥科別", width: "7%" },
-                    { field: "MDoctor", title: "開藥醫師", width: "7%" }
-
-
-            ]
-        })
     </script>
 
 

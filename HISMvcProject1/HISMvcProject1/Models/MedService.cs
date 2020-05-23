@@ -88,5 +88,52 @@ namespace HISMvcProject1.Models
             }
             return resultModify;
         }
+
+
+        /// <summary>
+        /// GetMedNameData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public List<string> GetMedNameData(Models.MedData data)
+        {
+            string[] MedclassIdString = data.MedClassId.Split(',');
+            int[] MedclassIdInt = new int[MedclassIdString.Length];
+            for (int i = 0; i < MedclassIdString.Length; i++)
+            {
+                MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
+            }
+            DataTable dt = new DataTable();
+            string sql = @"select mh.MEDNAME_ID as MedNameId,
+	                              mn.MED_NAME as MedName
+                          from MEDNAME_INFO mn 
+                          inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
+                          inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
+                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var medclassid = cmd.Parameters.Add(new SqlParameter("@MedClassId", SqlDbType.Structured));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
+                medclassid.TypeName = "IntArray";
+                medclassid.Value = GetTVPValue<int>(MedclassIdInt);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return mapdata(dt);
+        }
+        private List<string> mapdata(DataTable InfoData)
+        {
+            List<string> resultModify = new List<string>();
+            foreach (DataRow row in InfoData.Rows)
+            {
+                resultModify.Add(
+                    row["MedName"].ToString()
+                );
+            }
+            return resultModify;
+        }
     }
 }

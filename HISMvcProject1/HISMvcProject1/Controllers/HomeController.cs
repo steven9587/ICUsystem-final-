@@ -25,7 +25,7 @@ namespace HISMvcProject1.Controllers
         readonly Models.TubeIoService tubeioservice = new Models.TubeIoService();
         readonly Models.MedService medservice = new Models.MedService();
         String patientId = "";
-
+        List<string> medname = new List<string>();
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
@@ -327,10 +327,14 @@ namespace HISMvcProject1.Controllers
             return Json(this.tubeioservice.GetSecAllDayIoGridData(data));
         }
 
-        [HttpPost]
+        [HttpGet]
         public JsonResult GetMedHistoryData(Models.MedData data)
         {
-            return Json(this.medservice.GetMedDataByClass(data));
+            foreach (string item in medservice.GetMedNameData(data)) {
+                medname.Add(item); 
+
+            }
+            return Json(new { medname = medname }, JsonRequestBehavior.AllowGet);
         }
     }
 }
