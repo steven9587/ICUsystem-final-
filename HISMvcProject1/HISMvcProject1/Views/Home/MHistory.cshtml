@@ -21,13 +21,13 @@
                 <div style="float:left;padding:0px;">
                     <h4 style="margin-top: 1em;">
                         開始時間:
-                        <input id="datepickerstr" value="06/17/2020" title="datepicker" style="width: 600px" />
+                        <input id="start_datepicker" title="datepicker" style="width: 600px" />
                     </h4>
                 </div>
                 <div style="float:left">
                     <h4 style="margin-top: 1em;">
                         結束時間:
-                        <input id="datepickerend" value="06/18/2020" title="datepicker" style="width: 600px" />
+                        <input id="end_datepicker"  title="datepicker" style="width: 600px" />
                     </h4>
                 </div>
                 <div style="float:left;padding:18px; ">
@@ -45,12 +45,7 @@
                 <p id="result">No nodes checked.</p>
             </div>-->
             <script>
-                        $(document).ready(function() {
-
-                            $("#datepickerstr").kendoDatePicker();
-                            $("#datepickerend").kendoDatePicker();
-
-                        });
+                       
             </script>
         </div>
         <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
@@ -64,7 +59,26 @@
         var patient_id_search = "";
         patient_id_search = @Html.Raw(Json.Encode(ViewBag.search_id));
         var medname_search = [0];
-        //藥物treeview
+        //kendo mhistory datepicker(以下影響排版)
+        $("#start_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+        $("#end_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+        //藥物treeview 
+        $(document).ready(function() {
+
+            $("#start_datepicker").kendoDatePicker();
+            $("#end_datepicker").kendoDatePicker();
+
+        });
         $("#m_treeview").kendoTreeView({
             checkboxes: {
                 checkChildren: true
