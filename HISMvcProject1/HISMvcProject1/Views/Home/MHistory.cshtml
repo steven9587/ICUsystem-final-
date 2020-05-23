@@ -16,8 +16,8 @@
                 <div id="m_treeview"></div>
 
             </div>
-           <!--mdatepicker-->
-           <div id="Mdatepicker" style="float:left; width:80%;">
+            <!--mdatepicker-->
+            <div id="Mdatepicker" style="float:left; width:80%;">
                 <div style="float:left;padding:0px;">
                     <h4 style="margin-top: 1em;">
                         開始時間:
@@ -27,11 +27,11 @@
                 <div style="float:left">
                     <h4 style="margin-top: 1em;">
                         結束時間:
-                        <input id="end_datepicker"  title="datepicker" style="width: 600px" />
+                        <input id="end_datepicker" title="datepicker" style="width: 600px" />
                     </h4>
                 </div>
                 <div style="float:left;padding:18px; ">
-                    <input type="button" class="btn" value="Search" style="background-color: #CCDDFF; color:#194284;" />
+                    <input type="button" value="查詢" id ="btn_med_search" class="btn" style="background-color: #99b2db; color:#194284" />
                 </div>
 
             </div>
@@ -45,7 +45,7 @@
                 <p id="result">No nodes checked.</p>
             </div>-->
             <script>
-                       
+
             </script>
         </div>
         <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
@@ -59,68 +59,70 @@
         var patient_id_search = "";
         patient_id_search = @Html.Raw(Json.Encode(ViewBag.search_id));
         var medname_search = [0];
+        var med_start_date = "";
+        var med_end_date = "";
+        var med_date = "";
         //kendo mhistory datepicker(以下影響排版)
-        $("#start_datepicker").kendoDatePicker({
-            value: new Date(),
-            min: "1900-01-01",
-            dateInput: true,
-            format: "yyyy-MM-dd"
-        });
-        $("#end_datepicker").kendoDatePicker({
-            value: new Date(),
-            min: "1900-01-01",
-            dateInput: true,
-            format: "yyyy-MM-dd"
-        });
-        //藥物treeview 
-        $(document).ready(function() {
+        $(function() {
+            $("#start_datepicker").kendoDatePicker({
+                value: new Date(),
+                min: "1900-01-01",
+                dateInput: true,
+                format: "yyyy-MM-dd"
+            });
+            $("#end_datepicker").kendoDatePicker({
+                value: new Date(),
+                min: "1900-01-01",
+                dateInput: true,
+                format: "yyyy-MM-dd"
+            });
+         
 
-            $("#start_datepicker").kendoDatePicker();
-            $("#end_datepicker").kendoDatePicker();
+            //藥物treeview
+            $("#m_treeview").kendoTreeView({
+                checkboxes: {
+                    checkChildren: true
+                },
+                check: onCheck,
+                dataSource: [{
+                    id: 1, text: "病人姓名", expanded: true, spriteCssClass: "rootfolder", items: [
+                        {
+                            id: 2, text: "抗生素", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 3, text: "抗凝血劑", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 4, text: "抗結核病用藥", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 5, text: "癌症用藥", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 6, text: "高警訊用藥", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 7, text: "胰島素", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 8, text: "電解質", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 9, text: "管制藥品", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 10, text: "HIV用藥", expanded: true, spriteCssClass: "folder"
+                        },
+                        {
+                            id: 11, text: "一般用藥", expanded: true, spriteCssClass: "folder"
+                        }
 
+                    ]
+                }]
+            });
         });
-        $("#m_treeview").kendoTreeView({
-            checkboxes: {
-                checkChildren: true
-            },
-            check: onCheck,
-            dataSource: [{
-                id: 1, text: "病人姓名", expanded: true, spriteCssClass: "rootfolder", items: [
-                    {
-                        id: 2, text: "抗生素", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 3, text: "抗凝血劑", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 4, text: "抗結核病用藥", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 5, text: "癌症用藥", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 6, text: "高警訊用藥", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 7, text: "胰島素", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 8, text: "電解質", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 9, text: "管制藥品", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 10, text: "HIV用藥", expanded: true, spriteCssClass: "folder"
-                    },
-                    {
-                        id: 11, text: "一般用藥", expanded: true, spriteCssClass: "folder"
-                    }
-
-                ]
-            }]
-        });
-
+       
+     
         // function that gathers IDs of checked nodes
         function checkedNodeIds(nodes, checkedNodes) {
             for (var i = 0; i < nodes.length; i++) {
@@ -150,12 +152,33 @@
                 message = "2,3,4,5,6,7,8,9,10,11";
                 medclassid = message;
             }
+               
+        }
 
+        $("#btn_med_search").click(function () {
+            med_start_date = kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+            med_end_date = kendo.toString($("#end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+            
             med_sch_history = {
                 "PatientId":patient_id_search,
                 "MedClassId":medclassid
             }
-
+            //日期轉換陣列
+            var excludeDates=[""];
+            function getDates(startDate, stopDate, excludeDates) {
+                var dateArray = [];
+                var currentDate = moment(startDate);
+                var stopDate = moment(stopDate);
+                while (currentDate <= stopDate) {
+                    let currentDateString=moment(currentDate).format('YYYY-MM-DD');
+                    if(!excludeDates.includes(currentDateString)){
+                        dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
+                    }
+                    currentDate = moment(currentDate).add(1, 'days');
+                }
+                return dateArray;
+            }
+            med_date=getDates(new Date(med_start_date),new Date(med_end_date), excludeDates);
             $.ajax({
                 type: "GET",
                 url: "GetMedHistoryData",
@@ -171,119 +194,118 @@
                     alert('eror');
                 }
             });
+          
+        })
+        function heatmap(){
+            // set the dimensions and margins of the graph
+            var margin = {top: 30, right: 30, bottom: 30, left: 30},
+              width = (window.screen.width*0.78) - margin.left - margin.right,
+              height = 450 - margin.top - margin.bottom;
 
-            //history grid
-            $("#history_grid").kendoGrid({
-                height: "200px",
-                columns: [
-                        { field: "Item", title: "項", width: "5%" },
-                        { field: "MName", title: "藥名", width: "10%" },
-                        { field: "MClass", title: "藥品分類", width: "7%" },
-                        { field: "MAmount", title: "藥量", width: "7%" },
-                        { field: "MUnit", title: "單位", width: "7%" },
-                        { field: "MFrequency", title: "頻次", width: "7%" },
-                        { field: "MWay", title: "途徑", width: "7%" },
-                        { field: "MDay", title: "天數", width: "7%" },
-                        { field: "MTotal", title: "總量", width: "7%" },
-                        { field: "MStart", title: "開始", width: "7%" },
-                        { field: "MEnd", title: "結束", width: "7%" },
-                        { field: "MO", title: "來源", width: "7%" },
-                        { field: "MBranch", title: "開藥科別", width: "7%" },
-                        { field: "MDoctor", title: "開藥醫師", width: "7%" }
+            // append the svg object to the body of the page
+            $("#my_dataviz").empty();
+            var svg = d3.select("#my_dataviz")
+            .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
 
+            debugger
+            // Labels of row and columns
+            var myGroups = med_date
+            var myVars = medname_search
 
-                ]
+            // Build X scales and axis:
+            var x = d3.scaleBand()
+              .range([ 0, width ])
+              .domain(myGroups)
+              .padding(0.01);
+            svg.append("g")
+              .attr("transform", "translate(0," + height + ")")
+              .call(d3.axisBottom(x))
+
+            // Build X scales and axis:
+            var y = d3.scaleBand()
+              .range([ height, 0 ])
+              .domain(myVars)
+              .padding(0.01);
+            svg.append("g")
+              .call(d3.axisLeft(y));
+
+            // Build color scale
+            var myColor = d3.scaleLinear()
+              .range(["white", "#69b3a2"])
+              .domain([1,100])
+
+            //Read the data
+            d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function(data) {
+
+                // create a tooltip
+                var tooltip = d3.select("#my_dataviz")
+                  .append("div")
+                  .style("opacity", 0)
+                  .attr("class", "tooltip")
+                  .style("background-color", "white")
+                  .style("border", "solid")
+                  .style("border-width", "2px")
+                  .style("border-radius", "5px")
+                  .style("padding", "5px")
+
+                // Three function that change the tooltip when user hover / move / leave a cell
+                var mouseover = function(d) {
+                    tooltip.style("opacity", 1)
+                }
+                var mousemove = function(d) {
+                    tooltip
+                      .html("The exact value of<br>this cell is: " + d.value)
+                      .style("left", (d3.mouse(this)[0]+70) + "px")
+                      .style("top", (d3.mouse(this)[1]) + "px")
+                }
+                var mouseleave = function(d) {
+                    tooltip.style("opacity", 0)
+                }
+
+                // add the squares
+                svg.selectAll()
+                  .data(data, function(d) {return d.group+':'+d.variable;})
+                  .enter()
+                  .append("rect")
+                    .attr("x", function(d) { return x(d.group) })
+                    .attr("y", function(d) { return y(d.variable) })
+                    .attr("width", x.bandwidth() )
+                    .attr("height", y.bandwidth() )
+                    .style("fill", function(d) { return myColor(d.value)} )
+                  .on("mouseover", mouseover)
+                  .on("mousemove", mousemove)
+                  .on("mouseleave", mouseleave)
             })
 
-            function heatmap(){
-                // set the dimensions and margins of the graph
-                var margin = {top: 30, right: 30, bottom: 30, left: 30},
-                  width = (window.screen.width*0.78) - margin.left - margin.right,
-                  height = 450 - margin.top - margin.bottom;
 
-                // append the svg object to the body of the page
-                $("#my_dataviz").empty();
-                var svg = d3.select("#my_dataviz")
-                .append("svg")
-                  .attr("width", width + margin.left + margin.right)
-                  .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                  .attr("transform",
-                        "translate(" + margin.left + "," + margin.top + ")");
-
-                debugger
-                // Labels of row and columns
-                var myGroups = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-                var myVars = medname_search
-
-                // Build X scales and axis:
-                var x = d3.scaleBand()
-                  .range([ 0, width ])
-                  .domain(myGroups)
-                  .padding(0.01);
-                svg.append("g")
-                  .attr("transform", "translate(0," + height + ")")
-                  .call(d3.axisBottom(x))
-
-                // Build X scales and axis:
-                var y = d3.scaleBand()
-                  .range([ height, 0 ])
-                  .domain(myVars)
-                  .padding(0.01);
-                svg.append("g")
-                  .call(d3.axisLeft(y));
-
-                // Build color scale
-                var myColor = d3.scaleLinear()
-                  .range(["white", "#69b3a2"])
-                  .domain([1,100])
-
-                //Read the data
-                d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function(data) {
-
-                    // create a tooltip
-                    var tooltip = d3.select("#my_dataviz")
-                      .append("div")
-                      .style("opacity", 0)
-                      .attr("class", "tooltip")
-                      .style("background-color", "white")
-                      .style("border", "solid")
-                      .style("border-width", "2px")
-                      .style("border-radius", "5px")
-                      .style("padding", "5px")
-
-                    // Three function that change the tooltip when user hover / move / leave a cell
-                    var mouseover = function(d) {
-                        tooltip.style("opacity", 1)
-                    }
-                    var mousemove = function(d) {
-                        tooltip
-                          .html("The exact value of<br>this cell is: " + d.value)
-                          .style("left", (d3.mouse(this)[0]+70) + "px")
-                          .style("top", (d3.mouse(this)[1]) + "px")
-                    }
-                    var mouseleave = function(d) {
-                        tooltip.style("opacity", 0)
-                    }
-
-                    // add the squares
-                    svg.selectAll()
-                      .data(data, function(d) {return d.group+':'+d.variable;})
-                      .enter()
-                      .append("rect")
-                        .attr("x", function(d) { return x(d.group) })
-                        .attr("y", function(d) { return y(d.variable) })
-                        .attr("width", x.bandwidth() )
-                        .attr("height", y.bandwidth() )
-                        .style("fill", function(d) { return myColor(d.value)} )
-                      .on("mouseover", mouseover)
-                      .on("mousemove", mousemove)
-                      .on("mouseleave", mouseleave)
-                })
-
-
-            }
         }
+        //history grid
+        $("#history_grid").kendoGrid({
+            height: "200px",
+            columns: [
+                    { field: "Item", title: "項", width: "5%" },
+                    { field: "MName", title: "藥名", width: "10%" },
+                    { field: "MClass", title: "藥品分類", width: "7%" },
+                    { field: "MAmount", title: "藥量", width: "7%" },
+                    { field: "MUnit", title: "單位", width: "7%" },
+                    { field: "MFrequency", title: "頻次", width: "7%" },
+                    { field: "MWay", title: "途徑", width: "7%" },
+                    { field: "MDay", title: "天數", width: "7%" },
+                    { field: "MTotal", title: "總量", width: "7%" },
+                    { field: "MStart", title: "開始", width: "7%" },
+                    { field: "MEnd", title: "結束", width: "7%" },
+                    { field: "MO", title: "來源", width: "7%" },
+                    { field: "MBranch", title: "開藥科別", width: "7%" },
+                    { field: "MDoctor", title: "開藥醫師", width: "7%" }
+
+
+            ]
+        })
     </script>
 
 
