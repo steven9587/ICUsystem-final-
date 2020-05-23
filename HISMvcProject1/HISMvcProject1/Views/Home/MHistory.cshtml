@@ -59,7 +59,9 @@
         var patient_id_search = "";
         patient_id_search = @Html.Raw(Json.Encode(ViewBag.search_id));
         var medname_search = [0];
-        var meddata_search = [0];
+        var medname_hm = [0];
+        var medsource_hm = [0];
+        var medstart_hm = [0];
         var med_start_date = "";
         var med_end_date = "";
         var med_date = "";
@@ -157,8 +159,8 @@
         }
 
         $("#btn_med_search").click(function () {
-            med_start_date = kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
-            med_end_date = kendo.toString($("#end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+            med_start_date = kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy/MM/dd");
+            med_end_date = kendo.toString($("#end_datepicker").data("kendoDatePicker").value(), "yyyy/MM/dd");
             
             med_sch_history = {
                 "PatientId":patient_id_search,
@@ -180,20 +182,45 @@
                 return dateArray;
             }
             med_date=getDates(new Date(med_start_date),new Date(med_end_date), excludeDates);
-            
+
+            debugger
             $.ajax({
-                type: "POST",
-                url: "GetMedData",
+                type: "GET",
+                url: "GetMedNameHM",
                 data: med_sch_history,
                 dataType: "json",
                 success: function (result) {
-                    meddata_search = result;
+                    medname_hm = result.mednamehm;
                 },
                 error: function (response) {
-                    debugger;
                     alert('eror');
                 }
             });
+            $.ajax({
+                type: "GET",
+                url: "GetMedSourceHM",
+                data: med_sch_history,
+                dataType: "json",
+                success: function (result) {
+                    medsource_hm = result.medsourse;
+                },
+                error: function (response) {
+                    alert('eror');
+                }
+            });
+            $.ajax({
+                type: "GET",
+                url: "GetMedStartHM",
+                data: med_sch_history,
+                dataType: "json",
+                success: function (result) {
+                    medstart_hm = result.medstart;
+                },
+                error: function (response) {
+                    alert('eror');
+                }
+            });
+            
             $.ajax({
                 type: "GET",
                 url: "GetMedMedName",
@@ -205,20 +232,23 @@
                     heatmap();
                 },
                 error: function (response) {
-                    debugger;
                     alert('eror');
                 }
             });
           
         })
+        
 
         function heatmap(){
+            var meddatahm = {
+                "x":medstart_hm,
+                "y":medname_hm,
+                "value":medsource_hm
+            }
             // set the dimensions and margins of the graph
             var margin = {top: 30, right: 30, bottom: 30, left: 30},
               width = (window.screen.width*0.78) - margin.left - margin.right,
               height = 450 - margin.top - margin.bottom;
-            debugger
-            var meddata_search_heatmap = meddata_search;
             // append the svg object to the body of the page
             $("#my_dataviz").empty();
             var svg = d3.select("#my_dataviz")
@@ -254,11 +284,11 @@
             var myColor = d3.scaleLinear()
               .range(["white", "#69b3a2"])
               .domain([1,100])
-
+            
             //Read the data
-            d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/heatmap_data.csv", function(data) {
+         
 
-                // create a tooltip
+            // create a tooltip
                 var tooltip = d3.select("#my_dataviz")
                   .append("div")
                   .style("opacity", 0)
@@ -269,38 +299,38 @@
                   .style("border-radius", "5px")
                   .style("padding", "5px")
 
-                // Three function that change the tooltip when user hover / move / leave a cell
+            // Three function that change the tooltip when user hover / move / leave a cell
                 var mouseover = function(d) {
                     tooltip.style("opacity", 1)
-                }
+        }
                 var mousemove = function(d) {
                     tooltip
                       .html("The exact value of<br>this cell is: " + d.value)
                       .style("left", (d3.mouse(this)[0]+70) + "px")
                       .style("top", (d3.mouse(this)[1]) + "px")
-                }
+        }
                 var mouseleave = function(d) {
                     tooltip.style("opacity", 0)
-                }
-
-                // add the squares
+        }
+            debugger
+            // add the squares
                 svg.selectAll()
-                  .data(data, function(d) {return d.group+':'+d.variable;})
+                  .data(meddatahm, function(d) {return d.x+':'+d.value;})
                   .enter()
                   .append("rect")
-                    .attr("x", function(d) { return x(d.group) })
-                    .attr("y", function(d) { return y(d.variable) })
+                    .attr("x", function(d) { return x(d.x) })
+                    .attr("y", function(d) { return y(d.y) })
                     .attr("width", x.bandwidth() )
                     .attr("height", y.bandwidth() )
                     .style("fill", function(d) { return myColor(d.value)} )
                   .on("mouseover", mouseover)
                   .on("mousemove", mousemove)
                   .on("mouseleave", mouseleave)
-            })
+            
 
 
         }
-        //history grid
+            //history grid
         $("#history_grid").kendoGrid({
             height: "200px",
             columns: [

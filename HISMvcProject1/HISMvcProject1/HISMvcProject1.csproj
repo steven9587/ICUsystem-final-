@@ -296,6 +296,7 @@
     <Content Include="Content\jquery-ui-1.12.1.css" />
     <Content Include="Content\jquery-ui.css" />
     <None Include="Content\jquery-ui.css.original" />
+    <Content Include="Content\json2.js" />
     <Content Include="Content\kendo\2017.2.621\BlueOpal\editor.png" />
     <Content Include="Content\kendo\2017.2.621\BlueOpal\imagebrowser.png" />
     <Content Include="Content\kendo\2017.2.621\BlueOpal\indeterminate.gif" />

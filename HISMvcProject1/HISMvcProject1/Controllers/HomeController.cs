@@ -26,6 +26,9 @@ namespace HISMvcProject1.Controllers
         readonly Models.MedService medservice = new Models.MedService();
         String patientId = "";
         List<string> medname = new List<string>();
+        List<string> medstart = new List<string>();
+        List<string> mednamehm = new List<string>();
+        List<string> medsourse = new List<string>();
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
@@ -338,11 +341,39 @@ namespace HISMvcProject1.Controllers
             return Json(new { medname = medname }, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public JsonResult GetMedData(Models.MedData data)
-        {
 
-            return Json(this.medservice.GetMedData(data));
+        [HttpGet]
+        public JsonResult GetMedNameHM(Models.MedData data)
+        {
+            
+              foreach (string item in medservice.GetMedNameHMData(data))
+         {
+                mednamehm.Add(item);
+
+            }
+            return Json(new { mednamehm = mednamehm }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetMedSourceHM(Models.MedData data)
+        {
+            foreach (string item in medservice.GetMedSourceData(data))
+            {
+                medsourse.Add(item);
+
+            }
+            return Json(new { medsourse = medsourse }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetMedStartHM(Models.MedData data)
+        {
+            foreach (string item in medservice.GetMedStartData(data))
+            {
+                medstart.Add(item);
+
+            }
+            return Json(new { medstart = medstart }, JsonRequestBehavior.AllowGet);
         }
     }
 }

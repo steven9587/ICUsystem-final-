@@ -178,15 +178,160 @@ namespace HISMvcProject1.Models
             List<Models.MedData> resultModify = new List<MedData>();
             foreach (DataRow row in InfoData.Rows)
             {
+                var source = "";
+                if (row["MedSource"].ToString() == "門診")
+                {
+                    source = "1";
+                }
+                if (row["MedSource"].ToString() == "急診")
+                {
+                    source = "3";
+                }
+                if (row["MedSource"].ToString() == "住院")
+                {
+                    source = "5";
+                }
                 resultModify.Add(new MedData()
                 {
                     MedName = row["MedName"].ToString(),
                     MedStart = row["MedStart"].ToString(),
-                    MedSource = row["MedSource"].ToString()
-                });
+                    MedSource = source 
+            });
             }
             return resultModify;
         }
+        public List<string> GetMedNameHMData(Models.MedData data)
+        {
+            string[] MedclassIdString = data.MedClassId.Split(',');
+            int[] MedclassIdInt = new int[MedclassIdString.Length];
+            for (int i = 0; i < MedclassIdString.Length; i++)
+            {
+                MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
+            }
+            DataTable dt = new DataTable();
+            string sql = @"select mn.MED_NAME as MedName
+                          from MEDNAME_INFO mn 
+                          inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
+                          inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
+                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var medclassid = cmd.Parameters.Add(new SqlParameter("@MedClassId", SqlDbType.Structured));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
+                medclassid.TypeName = "IntArray";
+                medclassid.Value = GetTVPValue<int>(MedclassIdInt);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return mapdataname(dt);
+        }
+        private List<string> mapdataname(DataTable InfoData)
+        {
+            List<string> resultModify = new List<string>();
+            foreach (DataRow row in InfoData.Rows)
+            {
+                resultModify.Add(
+                    row["MedName"].ToString()
+                );
+            }
+            return resultModify;
+        }
+        public List<string> GetMedStartData(Models.MedData data)
+        {
+            string[] MedclassIdString = data.MedClassId.Split(',');
+            int[] MedclassIdInt = new int[MedclassIdString.Length];
+            for (int i = 0; i < MedclassIdString.Length; i++)
+            {
+                MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
+            }
+            DataTable dt = new DataTable();
+            string sql = @"select 
+						          Convert(varchar(10),mh.MED_STARTDATE,111)as MedStart
+						          
+                          from MEDNAME_INFO mn 
+                          inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
+                          inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
+                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var medclassid = cmd.Parameters.Add(new SqlParameter("@MedClassId", SqlDbType.Structured));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
+                medclassid.TypeName = "IntArray";
+                medclassid.Value = GetTVPValue<int>(MedclassIdInt);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return mapdatastart(dt);
+        }
+        private List<string> mapdatastart(DataTable InfoData)
+        {
+            List<string> resultModify = new List<string>();
+            foreach (DataRow row in InfoData.Rows)
+            {
+                resultModify.Add(
+                    row["MedStart"].ToString()
+                );
+            }
+            return resultModify;
+        }
+        public List<string> GetMedSourceData(Models.MedData data)
+        {
+            string[] MedclassIdString = data.MedClassId.Split(',');
+            int[] MedclassIdInt = new int[MedclassIdString.Length];
+            for (int i = 0; i < MedclassIdString.Length; i++)
+            {
+                MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
+            }
+            DataTable dt = new DataTable();
+            string sql = @"select mh.MED_SOURCE as MedSource
+                          from MEDNAME_INFO mn 
+                          inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
+                          inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
+                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var medclassid = cmd.Parameters.Add(new SqlParameter("@MedClassId", SqlDbType.Structured));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
+                medclassid.TypeName = "IntArray";
+                medclassid.Value = GetTVPValue<int>(MedclassIdInt);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return mapdatasource(dt);
+        }
+        private List<string> mapdatasource(DataTable InfoData)
+        {
+            List<string> resultModify = new List<string>();
 
+            foreach (DataRow row in InfoData.Rows)
+            {
+                var source = "";
+                if (row["MedSource"].ToString() == "門診")
+                {
+                    source = "1";
+                }
+                if (row["MedSource"].ToString() == "急診")
+                {
+                    source = "3";
+                }
+                if (row["MedSource"].ToString() == "住院")
+                {
+                    source = "5";
+                }
+                resultModify.Add(
+                    source
+                );
+            }
+            return resultModify;
+        }
     }
 }
