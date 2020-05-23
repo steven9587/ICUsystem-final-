@@ -17,7 +17,7 @@ namespace HISMvcProject1.Models
         {
             return System.Configuration.ConfigurationManager.ConnectionStrings["DBConn"].ConnectionString.ToString();
         }
-        
+
 
         private DataTable GetTVPValue<T>(params T[] args)
         {
@@ -31,7 +31,7 @@ namespace HISMvcProject1.Models
         }
 
         /// <summary>
-        /// GetPatientData
+        /// GetMedDataByClass
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -39,7 +39,8 @@ namespace HISMvcProject1.Models
         {
             string[] MedclassIdString = data.MedClassId.Split(',');
             int[] MedclassIdInt = new int[MedclassIdString.Length];
-            for (int i = 0;i< MedclassIdString.Length; i++) {
+            for (int i = 0; i < MedclassIdString.Length; i++)
+            {
                 MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
             }
             DataTable dt = new DataTable();
@@ -135,5 +136,57 @@ namespace HISMvcProject1.Models
             }
             return resultModify;
         }
+
+        /// <summary>
+        /// GetMedNameData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public List<Models.MedData> GetMedData(Models.MedData data)
+        {
+            string[] MedclassIdString = data.MedClassId.Split(',');
+            int[] MedclassIdInt = new int[MedclassIdString.Length];
+            for (int i = 0; i < MedclassIdString.Length; i++)
+            {
+                MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
+            }
+            DataTable dt = new DataTable();
+            string sql = @"select mn.MED_NAME as MedName,
+						          Convert(varchar(10),mh.MED_STARTDATE,111)as MedStart,
+						          mh.MED_SOURCE as MedSource
+                          from MEDNAME_INFO mn 
+                          inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
+                          inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
+                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                var medclassid = cmd.Parameters.Add(new SqlParameter("@MedClassId", SqlDbType.Structured));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
+                medclassid.TypeName = "IntArray";
+                medclassid.Value = GetTVPValue<int>(MedclassIdInt);
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return map(dt);
+        }
+
+        private List<Models.MedData> map(DataTable InfoData)
+        {
+            List<Models.MedData> resultModify = new List<MedData>();
+            foreach (DataRow row in InfoData.Rows)
+            {
+                resultModify.Add(new MedData()
+                {
+                    MedName = row["MedName"].ToString(),
+                    MedStart = row["MedStart"].ToString(),
+                    MedSource = row["MedSource"].ToString()
+                });
+            }
+            return resultModify;
+        }
+
     }
 }

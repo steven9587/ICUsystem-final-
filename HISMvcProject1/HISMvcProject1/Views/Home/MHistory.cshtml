@@ -59,6 +59,7 @@
         var patient_id_search = "";
         patient_id_search = @Html.Raw(Json.Encode(ViewBag.search_id));
         var medname_search = [0];
+        var meddata_search = [0];
         var med_start_date = "";
         var med_end_date = "";
         var med_date = "";
@@ -179,9 +180,23 @@
                 return dateArray;
             }
             med_date=getDates(new Date(med_start_date),new Date(med_end_date), excludeDates);
+            
+            $.ajax({
+                type: "POST",
+                url: "GetMedData",
+                data: med_sch_history,
+                dataType: "json",
+                success: function (result) {
+                    meddata_search = result;
+                },
+                error: function (response) {
+                    debugger;
+                    alert('eror');
+                }
+            });
             $.ajax({
                 type: "GET",
-                url: "GetMedHistoryData",
+                url: "GetMedMedName",
                 data: med_sch_history,
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
@@ -196,12 +211,14 @@
             });
           
         })
+
         function heatmap(){
             // set the dimensions and margins of the graph
             var margin = {top: 30, right: 30, bottom: 30, left: 30},
               width = (window.screen.width*0.78) - margin.left - margin.right,
               height = 450 - margin.top - margin.bottom;
-
+            debugger
+            var meddata_search_heatmap = meddata_search;
             // append the svg object to the body of the page
             $("#my_dataviz").empty();
             var svg = d3.select("#my_dataviz")
@@ -212,7 +229,6 @@
               .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
 
-            debugger
             // Labels of row and columns
             var myGroups = med_date
             var myVars = medname_search

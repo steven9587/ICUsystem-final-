@@ -328,7 +328,7 @@ namespace HISMvcProject1.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetMedHistoryData(Models.MedData data)
+        public JsonResult GetMedMedName(Models.MedData data)
         {
             foreach (string item in medservice.GetMedNameData(data))
             {
@@ -336,6 +336,13 @@ namespace HISMvcProject1.Controllers
 
             }
             return Json(new { medname = medname }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetMedData(Models.MedData data)
+        {
+
+            return Json(this.medservice.GetMedData(data));
         }
     }
 }
