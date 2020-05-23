@@ -62,7 +62,7 @@ namespace HISMvcProject1.Controllers
         }
 
 
-        public ActionResult Switch(string id)
+        public ActionResult Switch()
         {
             //var search_id = TempData["id"] as string;
             var search_id = "406570123";
@@ -76,7 +76,7 @@ namespace HISMvcProject1.Controllers
             return View("Switch");
         }
 
-        public ActionResult MHistory(string id)
+        public ActionResult MHistory()
         {
             //var search_id = TempData["id"] as string;
             var search_id = "406570123";
@@ -330,8 +330,9 @@ namespace HISMvcProject1.Controllers
         [HttpGet]
         public JsonResult GetMedHistoryData(Models.MedData data)
         {
-            foreach (string item in medservice.GetMedNameData(data)) {
-                medname.Add(item); 
+            foreach (string item in medservice.GetMedNameData(data))
+            {
+                medname.Add(item);
 
             }
             return Json(new { medname = medname }, JsonRequestBehavior.AllowGet);
