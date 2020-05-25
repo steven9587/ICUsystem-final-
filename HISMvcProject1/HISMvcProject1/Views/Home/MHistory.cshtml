@@ -69,13 +69,13 @@
         //kendo mhistory datepicker(以下影響排版)
         $(function() {
             $("#start_datepicker").kendoDatePicker({
-                value: new Date(),
+                value: "2020-04-25",
                 min: "1900-01-01",
                 dateInput: true,
                 format: "yyyy-MM-dd"
             });
             $("#end_datepicker").kendoDatePicker({
-                value: new Date(),
+                value: "2020-04-27",
                 min: "1900-01-01",
                 dateInput: true,
                 format: "yyyy-MM-dd"
@@ -211,7 +211,6 @@
 
 
         function heatmap(){
-
             // set the dimensions and margins of the graph
             var margin = {top: 30, right: 30, bottom: 30, left: 30},
               width = (window.screen.width*0.78) - margin.left - margin.right,
@@ -269,43 +268,66 @@
                 // Three function that change the tooltip when user hover / move / leave a cell
                 var mouseover = function(d) {
                     tooltip.style("opacity", 1)
+                    d3.select(this)
+                        .style("stroke", "black")
+                        .style("stroke-width", 5)
+                        .style("opacity", 1)
                 }
 
                 var mouseleave = function(d) {
                     tooltip.style("opacity", 0)
+                    d3.select(this)
+                        .style("stroke", "none")
                 }
                 // add the squares
 
                 var mousemove = function(d) {
                     tooltip
-                        .html("The exact value of<br>this cell is: " + d.MedSource)
-                      .style("left", (d3.mouse(this)[0]+70) + "px")
-                      .style("top", (d3.mouse(this)[1]) + "px")
+                        .html("來源：" + d.MedSource + "<br>" +
+                              "藥名：" + d.MedSource + "<br>" +
+                              "天數：" + d.MedSource + "<br>" +
+                              "生效日期：" + d.MedSource + "<br>" +
+                              "結束日期：" + d.MedSource)
+                      .style("left", (d3.mouse(this)[0]+220) + "px")
+                      .style("top", (d3.mouse(this)[1]+150) + "px")
                 }
 
                 svg.selectAll()
-             .data(data, function(d) {return d.MedStart+':'+d.MedSource;})
-             .enter()
-             .append("rect")
-               .attr("x", function(d) { return x(d.MedStart) })
-               .attr("y", function(d) { return y(d.MedName) })
-               .attr("width", x.bandwidth() )
-               .attr("height", y.bandwidth() )
-               .style("fill", function (d) {
+                    .data(data, function(d) {return d.MedStart+':'+d.MedSource;})
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) { return x(d.MedStart) })
+                    .attr("y", function(d) { return y(d.MedName) })
+                    .attr("width", x.bandwidth() )
+                    .attr("height", y.bandwidth() )
+                    .style("fill", function (d) {
+                        if(d.MedSource == 1){
+                            return myColor(0);
+                        }else if(d.MedSource == 3){
+                            return myColor(1);
+                        }else{
+                            return myColor(2);
+                        }
+                    })
+                    .on("mouseover", mouseover)
+                    .on("mousemove", mousemove)
+                    .on("mouseleave", mouseleave)
+
+                svg.selectAll()
+                .data(data)
+                .enter().append("text")
+                .attr("x", function(d) { return x(d.MedStart)+x.bandwidth()/2-10 })
+                .attr("y", function(d) { return y(d.MedName)+y.bandwidth()/2+10 })
+                .style("font-size",20)
+                .text(function(d) {
                     if(d.MedSource == 1){
-                        return myColor(0);
+                        return "門診";
                     }else if(d.MedSource == 3){
-                        return myColor(1);
+                        return "急診";
                     }else{
-                        return myColor(2);
+                        return "住院";
                     }
-                })
-             .on("mouseover", mouseover)
-             .on("mousemove", mousemove)
-             .on("mouseleave", mouseleave)
-
-
-
+                });
             })
 
         }
