@@ -1,4 +1,4 @@
-﻿
+﻿3
 @{
     ViewBag.Title = "MHistory";
 }
@@ -31,7 +31,7 @@
                     </h4>
                 </div>
                 <div style="float:left;padding:18px; ">
-                    <input type="button" value="查詢" id ="btn_med_search" class="btn" style="background-color: #99b2db; color:#194284" />
+                    <input type="button" value="查詢" id="btn_med_search" class="btn" style="background-color: #99b2db; color:#194284" />
                 </div>
 
             </div>
@@ -65,6 +65,7 @@
         var med_start_date = "";
         var med_end_date = "";
         var med_date = "";
+
         //kendo mhistory datepicker(以下影響排版)
         $(function() {
             $("#start_datepicker").kendoDatePicker({
@@ -79,7 +80,7 @@
                 dateInput: true,
                 format: "yyyy-MM-dd"
             });
-         
+
 
             //藥物treeview
             $("#m_treeview").kendoTreeView({
@@ -124,8 +125,8 @@
                 }]
             });
         });
-       
-     
+
+
         // function that gathers IDs of checked nodes
         function checkedNodeIds(nodes, checkedNodes) {
             for (var i = 0; i < nodes.length; i++) {
@@ -155,13 +156,13 @@
                 message = "2,3,4,5,6,7,8,9,10,11";
                 medclassid = message;
             }
-               
+
         }
 
         $("#btn_med_search").click(function () {
-            med_start_date = kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy/MM/dd");
-            med_end_date = kendo.toString($("#end_datepicker").data("kendoDatePicker").value(), "yyyy/MM/dd");
-            
+            med_start_date = kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+            med_end_date = kendo.toString($("#end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+
             med_sch_history = {
                 "PatientId":patient_id_search,
                 "MedClassId":medclassid
@@ -183,44 +184,14 @@
             }
             med_date=getDates(new Date(med_start_date),new Date(med_end_date), excludeDates);
 
-            debugger
             $.ajax({
-                type: "GET",
-                url: "GetMedNameHM",
+                type: "Post",
+                url: "GetMedData",
                 data: med_sch_history,
                 dataType: "json",
-                success: function (result) {
-                    medname_hm = result.mednamehm;
-                },
-                error: function (response) {
-                    alert('eror');
-                }
+
+
             });
-            $.ajax({
-                type: "GET",
-                url: "GetMedSourceHM",
-                data: med_sch_history,
-                dataType: "json",
-                success: function (result) {
-                    medsource_hm = result.medsourse;
-                },
-                error: function (response) {
-                    alert('eror');
-                }
-            });
-            $.ajax({
-                type: "GET",
-                url: "GetMedStartHM",
-                data: med_sch_history,
-                dataType: "json",
-                success: function (result) {
-                    medstart_hm = result.medstart;
-                },
-                error: function (response) {
-                    alert('eror');
-                }
-            });
-            
             $.ajax({
                 type: "GET",
                 url: "GetMedMedName",
@@ -235,16 +206,12 @@
                     alert('eror');
                 }
             });
-          
+
         })
-        
+
 
         function heatmap(){
-            var meddatahm = {
-                "x":medstart_hm,
-                "y":medname_hm,
-                "value":medsource_hm
-            }
+
             // set the dimensions and margins of the graph
             var margin = {top: 30, right: 30, bottom: 30, left: 30},
               width = (window.screen.width*0.78) - margin.left - margin.right,
@@ -282,13 +249,13 @@
 
             // Build color scale
             var myColor = d3.scaleLinear()
-              .range(["white", "#69b3a2"])
-              .domain([1,100])
-            
-            //Read the data
-         
+              .domain([0, 1, 2])
+              .range(["#FFCCCC", "#CCEEFF", "#CCFF99"]);
 
-            // create a tooltip
+            //Read the data
+            d3.json("/Home/PushDataToHM", function (data) {
+                debugger
+                // create a tooltip
                 var tooltip = d3.select("#my_dataviz")
                   .append("div")
                   .style("opacity", 0)
@@ -299,38 +266,50 @@
                   .style("border-radius", "5px")
                   .style("padding", "5px")
 
-            // Three function that change the tooltip when user hover / move / leave a cell
+                // Three function that change the tooltip when user hover / move / leave a cell
                 var mouseover = function(d) {
                     tooltip.style("opacity", 1)
-        }
-                var mousemove = function(d) {
-                    tooltip
-                      .html("The exact value of<br>this cell is: " + d.value)
-                      .style("left", (d3.mouse(this)[0]+70) + "px")
-                      .style("top", (d3.mouse(this)[1]) + "px")
-        }
+                }
+
                 var mouseleave = function(d) {
                     tooltip.style("opacity", 0)
-        }
-            debugger
-            // add the squares
+                }
+                // add the squares
+
+                var mousemove = function(d) {
+                    tooltip
+                        .html("The exact value of<br>this cell is: " + d.MedSource)
+                      .style("left", (d3.mouse(this)[0]+70) + "px")
+                      .style("top", (d3.mouse(this)[1]) + "px")
+                }
+
                 svg.selectAll()
-                  .data(meddatahm, function(d) {return d.x+':'+d.value;})
-                  .enter()
-                  .append("rect")
-                    .attr("x", function(d) { return x(d.x) })
-                    .attr("y", function(d) { return y(d.y) })
-                    .attr("width", x.bandwidth() )
-                    .attr("height", y.bandwidth() )
-                    .style("fill", function(d) { return myColor(d.value)} )
-                  .on("mouseover", mouseover)
-                  .on("mousemove", mousemove)
-                  .on("mouseleave", mouseleave)
-            
+             .data(data, function(d) {return d.MedStart+':'+d.MedSource;})
+             .enter()
+             .append("rect")
+               .attr("x", function(d) { return x(d.MedStart) })
+               .attr("y", function(d) { return y(d.MedName) })
+               .attr("width", x.bandwidth() )
+               .attr("height", y.bandwidth() )
+               .style("fill", function (d) {
+                    if(d.MedSource == 1){
+                        return myColor(0);
+                    }else if(d.MedSource == 3){
+                        return myColor(1);
+                    }else{
+                        return myColor(2);
+                    }
+                })
+             .on("mouseover", mouseover)
+             .on("mousemove", mousemove)
+             .on("mouseleave", mouseleave)
 
+
+
+            })
 
         }
-            //history grid
+        //history grid
         $("#history_grid").kendoGrid({
             height: "200px",
             columns: [

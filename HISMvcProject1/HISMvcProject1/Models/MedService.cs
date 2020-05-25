@@ -152,7 +152,7 @@ namespace HISMvcProject1.Models
             }
             DataTable dt = new DataTable();
             string sql = @"select mn.MED_NAME as MedName,
-						          Convert(varchar(10),mh.MED_STARTDATE,111)as MedStart,
+						          Convert(varchar(10),mh.MED_STARTDATE,20)as MedStart,
 						          mh.MED_SOURCE as MedSource
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID

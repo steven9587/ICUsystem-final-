@@ -342,38 +342,18 @@ namespace HISMvcProject1.Controllers
         }
 
 
-        [HttpGet]
-        public JsonResult GetMedNameHM(Models.MedData data)
+        [HttpPost]
+        public ActionResult GetMedData(Models.MedData data)
         {
-            
-              foreach (string item in medservice.GetMedNameHMData(data))
-         {
-                mednamehm.Add(item);
-
-            }
-            return Json(new { mednamehm = mednamehm }, JsonRequestBehavior.AllowGet);
+            var test = medservice.GetMedData(data);
+            TempData["meddata"] = test;
+            return this.Json(true);
         }
 
-        [HttpGet]
-        public JsonResult GetMedSourceHM(Models.MedData data)
+        public ActionResult PushDataToHM()
         {
-            foreach (string item in medservice.GetMedSourceData(data))
-            {
-                medsourse.Add(item);
-
-            }
-            return Json(new { medsourse = medsourse }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public JsonResult GetMedStartHM(Models.MedData data)
-        {
-            foreach (string item in medservice.GetMedStartData(data))
-            {
-                medstart.Add(item);
-
-            }
-            return Json(new { medstart = medstart }, JsonRequestBehavior.AllowGet);
+            var test = TempData["meddata"];
+            return Json(test, JsonRequestBehavior.AllowGet);
         }
     }
 }

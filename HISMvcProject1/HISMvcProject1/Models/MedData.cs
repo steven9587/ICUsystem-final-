@@ -63,5 +63,23 @@ namespace HISMvcProject1.Models
         /// </summary>
         [DisplayName("開藥來源")]
         public string MedSource { get; set; }
+
+        public String[] ToArray()
+        {
+            List<string> arr = new List<string>();
+
+            foreach (var prop in typeof(MedData).GetProperties())
+            {
+                string value = "";
+                if (prop.GetValue(this, null) != null)
+                {
+                    value = prop.GetValue(this, null).ToString();
+                }
+
+                arr.Add(value);
+            }
+
+            return arr.ToArray();
+        }
     }
 }
