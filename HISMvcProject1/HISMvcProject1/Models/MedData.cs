@@ -61,6 +61,12 @@ namespace HISMvcProject1.Models
         /// <summary>
         /// 藥物類別ID
         /// </summary>
+        [DisplayName("藥物途徑")]
+        public string MedWay { get; set; }
+
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
         [DisplayName("開藥來源")]
         public string MedSource { get; set; }
 

@@ -349,7 +349,11 @@ namespace HISMvcProject1.Controllers
             TempData["meddata"] = test;
             return this.Json(true);
         }
-
+        [HttpPost]
+        public JsonResult GetMedDayData(Models.MedData data)
+        {
+            return Json(this.medservice.GetMedDataByMedName(data));
+        }
         public ActionResult PushDataToHM()
         {
             var test = TempData["meddata"];
