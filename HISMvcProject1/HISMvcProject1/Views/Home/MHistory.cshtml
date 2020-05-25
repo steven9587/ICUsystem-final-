@@ -69,13 +69,13 @@
         //kendo mhistory datepicker(以下影響排版)
         $(function() {
             $("#start_datepicker").kendoDatePicker({
-                value: "2020-04-25",
+                value: "2020-06-14",
                 min: "1900-01-01",
                 dateInput: true,
                 format: "yyyy-MM-dd"
             });
             $("#end_datepicker").kendoDatePicker({
-                value: "2020-04-27",
+                value: "2020-06-19",
                 min: "1900-01-01",
                 dateInput: true,
                 format: "yyyy-MM-dd"
@@ -165,7 +165,9 @@
 
             med_sch_history = {
                 "PatientId":patient_id_search,
-                "MedClassId":medclassid
+                "MedClassId":medclassid,
+                "MedStart":med_start_date,
+                "MedEnd":med_end_date
             }
             //日期轉換陣列
             var excludeDates=[""];
@@ -250,7 +252,7 @@
             var myColor = d3.scaleLinear()
               .domain([0, 1, 2])
               .range(["#FFCCCC", "#CCEEFF", "#CCFF99"]);
-
+            debugger
             //Read the data
             d3.json("/Home/PushDataToHM", function (data) {
                 debugger
@@ -282,14 +284,27 @@
                 // add the squares
 
                 var mousemove = function(d) {
+                    var source;
+                    if (d.MedSource == "1"){
+                        source = "門診"
+                    }else if(d.MedSource == "3"){
+                        source = "急診"
+                    }else{
+                        source = "住院"
+                    }
                     tooltip
-                        .html("來源：" + d.MedSource + "<br>" +
-                              "藥名：" + d.MedSource + "<br>" +
-                              "天數：" + d.MedSource + "<br>" +
-                              "生效日期：" + d.MedSource + "<br>" +
-                              "結束日期：" + d.MedSource)
+                        .html("來源：" + source + "<br>" +
+                              "藥名：" + d.MedName + "<br>" +
+                              "天數：" + d.MedDay + "<br>" +
+                              "生效日期：" + d.MedStart + "<br>" +
+                              "結束日期：" + d.MedEnd)
                       .style("left", (d3.mouse(this)[0]+220) + "px")
                       .style("top", (d3.mouse(this)[1]+150) + "px")
+                }
+
+                var mouseclick = function(d) {
+                    //here
+                    alert("grid")
                 }
 
                 svg.selectAll()
@@ -312,7 +327,7 @@
                     .on("mouseover", mouseover)
                     .on("mousemove", mousemove)
                     .on("mouseleave", mouseleave)
-
+                    .on("click", mouseclick)
                 svg.selectAll()
                 .data(data)
                 .enter().append("text")

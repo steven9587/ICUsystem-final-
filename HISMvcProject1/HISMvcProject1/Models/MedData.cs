@@ -64,6 +64,44 @@ namespace HISMvcProject1.Models
         [DisplayName("開藥來源")]
         public string MedSource { get; set; }
 
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物天數")]
+        public string MedDay { get; set; }
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物單位ㄏ")]
+        public string MUnit { get; set; }
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物總量")]
+        public string MAmount { get; set; }
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物總量")]
+        public string MFrequency { get; set; }
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物類別ID")]
+        public string MWay { get; set; }
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物總量")]
+        public string MTotal { get; set; }
+
+
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("開藥醫師")]
+        public string MDoctor { get; set; }
+
         public String[] ToArray()
         {
             List<string> arr = new List<string>();

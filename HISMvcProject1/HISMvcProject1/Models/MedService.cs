@@ -151,19 +151,34 @@ namespace HISMvcProject1.Models
                 MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
             }
             DataTable dt = new DataTable();
-            string sql = @"select mn.MED_NAME as MedName,
-						          Convert(varchar(10),mh.MED_STARTDATE,20)as MedStart,
-						          mh.MED_SOURCE as MedSource
+            string sql = @"select mh.Item as Item,
+                                  mh.MEDNAME_ID as MedNameId,
+	                              mn.MED_NAME as MedName,
+	                              mc.MEDCLASS_ID as MedClassId,
+	                              mc.MED_CLASS as MedClass,
+	                              Convert(varchar(10),mh.MED_STARTDATE,20)as MedStart,
+	                              Convert(varchar(10),mh.MED_OVERDATE,20)as MedEnd,
+								  mh.MED_DAY as MedDay,
+	                              mh.MED_SOURCE as MedSource,
+								  mh.MED_DOSAGE as MAmount,
+								  mh.MED_UNIT as MUnit,
+								  mh.MED_FREQUENCY as MFrequency,
+								  mh.MED_TOTAL as MTotal,
+								  mh.DOCTOR_NAME as MDoctor
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
                           inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
-                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
+                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) 
+						  and mh.PATIENT_HISID = @PatientId
+						  and mh.MED_STARTDATE between @MedStart and @MedEnd order by mh.ITEM";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 var medclassid = cmd.Parameters.Add(new SqlParameter("@MedClassId", SqlDbType.Structured));
                 cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
+                cmd.Parameters.Add(new SqlParameter("@MedStart", data.MedStart));
+                cmd.Parameters.Add(new SqlParameter("@MedEnd", data.MedEnd));
                 medclassid.TypeName = "IntArray";
                 medclassid.Value = GetTVPValue<int>(MedclassIdInt);
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
@@ -195,8 +210,17 @@ namespace HISMvcProject1.Models
                 {
                     MedName = row["MedName"].ToString(),
                     MedStart = row["MedStart"].ToString(),
-                    MedSource = source 
-            });
+                    MedSource = source,
+                    MedClass = row["MedClass"].ToString(),
+                    MedEnd = row["MedEnd"].ToString(),
+                    MedDay = row["MedDay"].ToString(),
+                    MUnit = row["MUnit"].ToString(),
+                    MAmount = row["MAmount"].ToString(),
+                    MFrequency = row["MFrequency"].ToString(),
+                    MTotal = row["MTotal"].ToString(),
+                    MDoctor = row["MDoctor"].ToString(),
+                    Item = (int)row["Item"]
+                });
             }
             return resultModify;
         }
