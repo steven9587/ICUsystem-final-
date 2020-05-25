@@ -1,5 +1,4 @@
-﻿3
-@{
+﻿@{
     ViewBag.Title = "MHistory";
 }
 
@@ -9,50 +8,46 @@
 }
 @section body
 {
-    <div>
-        <div>
-            <div style="float:left; width:20%; background:red;">
-                <h4>曾經使用過的藥品</h4>
-                <div id="m_treeview"></div>
+<!--上面-->
+<div style="height:80vh;background-color:mediumvioletred;">
+    <!--左邊-->
+    <div style="float:left;width:20%;height:80vh;background-color:blue;">
 
-            </div>
-            <!--mdatepicker-->
-            <div id="Mdatepicker" style="float:left; width:80%;">
-                <div style="float:left;padding:0px;">
-                    <h4 style="margin-top: 1em;">
-                        開始時間:
-                        <input id="start_datepicker" title="datepicker" style="width: 600px" />
-                    </h4>
-                </div>
-                <div style="float:left">
-                    <h4 style="margin-top: 1em;">
-                        結束時間:
-                        <input id="end_datepicker" title="datepicker" style="width: 600px" />
-                    </h4>
-                </div>
-                <div style="float:left;padding:18px; ">
-                    <input type="button" value="查詢" id="btn_med_search" class="btn" style="background-color: #99b2db; color:#194284" />
-                </div>
-
-            </div>
-            <!--mdatepicker-->
-            <!--------->
-            <div id="my_dataviz"></div>
-            <!--<div id="m_scheduler" style="float:left; width:80%"></div>-->
-            <!--
-            <div style="padding-top: 2em; ">
-                <h4>Status</h4>
-                <p id="result">No nodes checked.</p>
-            </div>-->
-            <script>
-
-            </script>
+        <div style="height:70vh;">
+            <h4 style="margin-top:30px;margin-left:10px">曾經使用過的藥品</h4>
+            <div id="m_treeview" style="margin-top:10px;margin-left:10px;background-color:forestgreen;"></div>
         </div>
-        <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
+        <div style="height:30vh;">
+            <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
+        </div>
+
     </div>
-
-
-    <div class="grid_box" id="history_grid" style="margin-top:30px "></div>
+    <!--右邊-->
+    <div style="float:left;width:80%;height:80vh;">
+        <!--mdatepicker-->
+        <div style="margin-top:20px;height:5vh;">
+            <h4 style="float:left;">開始時間:</h4>
+            <div style="margin-left: 10px;float:left;">
+                <input style=" float:left;" id="start_datepicker" title="datepicker" />
+            </div>
+            <div style="margin-left: 20px;float:left;">
+                <h4 style="float:left;">結束時間:</h4>
+            </div>
+            <div style="margin-left: 10px;float:left;">
+                <input id="end_datepicker" title="datepicker" />
+            </div>
+            <div style="margin-left: 20px;float:left;">
+                <input type="button" value="查詢" id="btn_med_search" class="btn" style="background-color: #99b2db; color:#194284" />
+            </div>
+            <div style="margin-left: 20px;float:left;margin-left:20px">
+                <input type="button" value="返回交班頁面" id="btn_med_back" class="btn" style="background-color: #99b2db; color:#194284" />
+            </div>
+        </div>
+        <div id="my_dataviz" style="height:72.2vh;background-color:yellow;"></div>
+    </div>
+</div>
+<!--下面-->
+<div id="history_grid" style="height:30vh;background-color:darkorange;"></div>
     <script>
 
         var medclassid = [0];
@@ -170,6 +165,7 @@
                 "MedEnd":med_end_date
             }
             //日期轉換陣列
+
             var excludeDates=[""];
             function getDates(startDate, stopDate, excludeDates) {
                 var dateArray = [];
@@ -226,8 +222,13 @@
             .append("g")
               .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
-
+            
             // Labels of row and columns
+            for(var i = 0;i<med_date.length/2;i++){
+                temp = med_date[med_date.length-1-i];
+                med_date[med_date.length-1-i]=med_date[i];
+                med_date[i] = temp;
+            }
             var myGroups = med_date
             var myVars = medname_search
 
@@ -252,10 +253,8 @@
             var myColor = d3.scaleLinear()
               .domain([0, 1, 2])
               .range(["#FFCCCC", "#CCEEFF", "#CCFF99"]);
-            debugger
             //Read the data
             d3.json("/Home/PushDataToHM", function (data) {
-                debugger
                 // create a tooltip
                 var tooltip = d3.select("#my_dataviz")
                   .append("div")
@@ -303,8 +302,37 @@
                 }
 
                 var mouseclick = function(d) {
-                    //here
-                    alert("grid")
+                    debugger
+                    $("#history_grid").kendoGrid({
+                        
+                        columns: [
+                                { field: "Item", title: "項", width: "5%" },
+                                { field: "MedName", title: "藥名", width: "10%" },
+                                { field: "MedClass", title: "藥品分類", width: "7%" },
+                                { field: "MAmount", title: "藥量", width: "7%" },
+                                { field: "MUnit", title: "單位", width: "7%" },
+                                { field: "MFrequency", title: "頻次", width: "7%" },
+                                { field: "MWay", title: "途徑", width: "7%" },
+                                { field: "MedDay", title: "天數", width: "7%" },
+                                { field: "MTotal", title: "總量", width: "7%" },
+                                { field: "MedStart", title: "開始", width: "7%" },
+                                { field: "MedEnd", title: "結束", width: "7%" },
+                                { field: "MedSource", title: "來源", width: "7%" },
+                                { field: "MedDivision", title: "開藥科別", width: "7%" },
+                                { field: "MDoctor", title: "開藥醫師", width: "7%" }
+
+
+                        ],dataSource: {
+                            transport: {
+                                read: {
+                                    url:"GetMedData",
+                                    type:"post",
+                                    dataType:"json",
+                                    data:med_sch_history
+                                }
+                            }
+                        }
+                    });
                 }
 
                 svg.selectAll()
@@ -347,27 +375,7 @@
 
         }
         //history grid
-        $("#history_grid").kendoGrid({
-            height: "200px",
-            columns: [
-                    { field: "Item", title: "項", width: "5%" },
-                    { field: "MName", title: "藥名", width: "10%" },
-                    { field: "MClass", title: "藥品分類", width: "7%" },
-                    { field: "MAmount", title: "藥量", width: "7%" },
-                    { field: "MUnit", title: "單位", width: "7%" },
-                    { field: "MFrequency", title: "頻次", width: "7%" },
-                    { field: "MWay", title: "途徑", width: "7%" },
-                    { field: "MDay", title: "天數", width: "7%" },
-                    { field: "MTotal", title: "總量", width: "7%" },
-                    { field: "MStart", title: "開始", width: "7%" },
-                    { field: "MEnd", title: "結束", width: "7%" },
-                    { field: "MO", title: "來源", width: "7%" },
-                    { field: "MBranch", title: "開藥科別", width: "7%" },
-                    { field: "MDoctor", title: "開藥醫師", width: "7%" }
-
-
-            ]
-        })
+       
     </script>
 
 

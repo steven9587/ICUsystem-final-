@@ -110,7 +110,7 @@ namespace HISMvcProject1.Models
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
                           inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
-                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.ITEM";
+                          where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) and patient_hisid = @PatientId order by mh.MED_STARTDATE desc";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -164,13 +164,14 @@ namespace HISMvcProject1.Models
 								  mh.MED_UNIT as MUnit,
 								  mh.MED_FREQUENCY as MFrequency,
 								  mh.MED_TOTAL as MTotal,
+								  mh.DIVISION_CNAME as MBranch,
 								  mh.DOCTOR_NAME as MDoctor
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
                           inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
                           where mc.MEDCLASS_ID  IN (SELECT Item FROM @MedClassId) 
 						  and mh.PATIENT_HISID = @PatientId
-						  and mh.MED_STARTDATE between @MedStart and @MedEnd order by mh.ITEM";
+						  and mh.MED_STARTDATE between @MedStart and @MedEnd order by mh.MED_STARTDATE desc";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -218,6 +219,7 @@ namespace HISMvcProject1.Models
                     MAmount = row["MAmount"].ToString(),
                     MFrequency = row["MFrequency"].ToString(),
                     MTotal = row["MTotal"].ToString(),
+                    MedDivision = row["MBranch"].ToString(),
                     MDoctor = row["MDoctor"].ToString(),
                     Item = (int)row["Item"]
                 });

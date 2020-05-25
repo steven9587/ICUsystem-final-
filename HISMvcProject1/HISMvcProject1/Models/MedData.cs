@@ -72,22 +72,22 @@ namespace HISMvcProject1.Models
         /// <summary>
         /// 藥物類別ID
         /// </summary>
-        [DisplayName("藥物單位ㄏ")]
+        [DisplayName("藥物單位")]
         public string MUnit { get; set; }
         /// <summary>
         /// 藥物類別ID
         /// </summary>
-        [DisplayName("藥物總量")]
+        [DisplayName("藥物劑量")]
         public string MAmount { get; set; }
         /// <summary>
         /// 藥物類別ID
         /// </summary>
-        [DisplayName("藥物總量")]
+        [DisplayName("藥物頻率")]
         public string MFrequency { get; set; }
         /// <summary>
         /// 藥物類別ID
         /// </summary>
-        [DisplayName("藥物類別ID")]
+        [DisplayName("藥物服用方式")]
         public string MWay { get; set; }
         /// <summary>
         /// 藥物類別ID
@@ -95,7 +95,11 @@ namespace HISMvcProject1.Models
         [DisplayName("藥物總量")]
         public string MTotal { get; set; }
 
-
+        /// <summary>
+        /// 藥物類別ID
+        /// </summary>
+        [DisplayName("藥物總量")]
+        public string MedDivision { get; set; }
         /// <summary>
         /// 藥物類別ID
         /// </summary>
