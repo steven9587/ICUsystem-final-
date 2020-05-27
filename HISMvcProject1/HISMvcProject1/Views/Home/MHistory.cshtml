@@ -9,13 +9,13 @@
 @section body
 {
 <!--上面-->
-<div style="height:80vh;background-color:mediumvioletred;">
+<div style="height:80vh;">
     <!--左邊-->
-    <div style="float:left;width:20%;height:80vh;background-color:blue;">
+    <div style="float:left;width:17%;height:80vh;border-style:solid;border-color: #99b2db;">
 
         <div style="height:70vh;">
-            <h4 style="margin-top:30px;margin-left:10px">曾經使用過的藥品</h4>
-            <div id="m_treeview" style="margin-top:10px;margin-left:10px;background-color:forestgreen;"></div>
+            <h4 style="margin-top:30px;margin-left:10px;font-size:30px;font-weight:bold;">曾經使用過的藥品</h4>
+            <div id="m_treeview" style="margin-top:10px;margin-left:10px;"></div>
         </div>
         <div style="height:30vh;">
             <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284; " />
@@ -23,9 +23,9 @@
 
     </div>
     <!--右邊-->
-    <div style="float:left;width:80%;height:80vh;">
+    <div style="float:left;width:83%;height:80vh;border-style:solid;border-color: #99b2db;">
         <!--mdatepicker-->
-        <div style="margin-top:20px;height:5vh;">
+        <div style="margin-top:20px;margin-left:20px;height:5vh;">
             <h4 style="float:left;">開始時間:</h4>
             <div style="margin-left: 10px;float:left;">
                 <input style=" float:left;" id="start_datepicker" title="datepicker" />
@@ -39,15 +39,15 @@
             <div style="margin-left: 20px;float:left;">
                 <input type="button" value="查詢" id="btn_med_search" class="btn" style="background-color: #99b2db; color:#194284" />
             </div>
-            <div style="margin-left: 20px;float:left;margin-left:20px">
-                <input type="button" value="返回交班頁面" id="btn_med_back" class="btn" style="background-color: #99b2db; color:#194284" />
+            <div style="float:right;margin-right:20px">
+                <input type="button" value="返回交班頁面" id="btn_med_back" class="btn" style="background-color: #99b2db; color:#194284;" />
             </div>
         </div>
-        <div id="my_dataviz" style="height:72.2vh;background-color:yellow;"></div>
+        <div id="my_dataviz" style="height:72.2vh;"></div>
     </div>
 </div>
 <!--下面-->
-<div id="history_grid" style="height:30vh;background-color:darkorange;"></div>
+<div id="history_grid" style="height:30vh;border-style:solid;border-color: #99b2db;"></div>
     <script>
 
         var medclassid = [0];
@@ -221,9 +221,9 @@
 
             function heatmap(){
                 // set the dimensions and margins of the graph
-                var margin = {top: 30, right: 30, bottom: 30, left: 30},
-                  width = (window.screen.width*0.78) - margin.left - margin.right,
-                  height = 450 - margin.top - margin.bottom;
+                var margin = {top: 30, right: 30, bottom: 30, left: 130},
+                  width = (window.screen.width*0.92) - margin.left - margin.right,
+                  height = 550 - margin.top - margin.bottom;
                 // append the svg object to the body of the page
                 $("#my_dataviz").empty();
                 var svg = d3.select("#my_dataviz")
@@ -249,6 +249,8 @@
                   .domain(myGroups)
                   .padding(0.01);
                 svg.append("g")
+                  .style("font", "17px times")
+                  .style("font-weight", "bold")
                   .attr("transform", "translate(0," + height + ")")
                   .call(d3.axisBottom(x))
 
@@ -258,6 +260,8 @@
                   .domain(myVars)
                   .padding(0.01);
                 svg.append("g")
+                  .style("font", "17px times")
+                  .style("font-weight", "bold")
                   .call(d3.axisLeft(y));
 
                 // Build color scale
@@ -308,8 +312,8 @@
                                   "天數：" + d.MedDay + "<br>" +
                                   "生效日期：" + d.MedStart + "<br>" +
                                   "結束日期：" + d.MedEnd)
-                          .style("left", (d3.mouse(this)[0]+220) + "px")
-                          .style("top", (d3.mouse(this)[1]+150) + "px")
+                          .style("left", (d3.mouse(this)[0]+420) + "px")
+                          .style("top", (d3.mouse(this)[1]+145) + "px")
                     }
 
                     var mouseclick = function(d) {
