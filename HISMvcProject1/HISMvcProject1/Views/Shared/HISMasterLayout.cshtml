@@ -20,7 +20,7 @@
 
     </style>
     <header>
-        <div class="content-wrapper" style="background-color: #99b2db ; border-color: #99b2db>
+        <div class="content-wrapper" style="background-color: #99b2db ; border-color:#99b2db;">
             <div class="float-left">          
                 <p class="site-title">@Html.ActionLink("ICU System", "search", "Home")</p>     
             </div>
@@ -38,12 +38,8 @@
     <div>
         @RenderSection("featured", required: false)
         @RenderSection("body", required: true)
-        <section class="content-wrapper main-content clear-fix">
-            @RenderBody()
+        <section>
+            @RenderBody();
         </section>
     </div>
-    @{
-//Html.RenderAction("Index", "Menu", routeValues: new { });
-    }
-
 }
