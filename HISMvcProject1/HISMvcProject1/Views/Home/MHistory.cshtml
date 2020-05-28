@@ -79,7 +79,7 @@
                 </div>
             </div>
             <!--藥物甘特圖-->
-            <div id="my_dataviz" style="height:72.2vh;"></div>
+            <div id="my_dataviz" style="height:72.2vh; "></div>
         </div>
     </div>
     <!--下面-->
@@ -294,7 +294,7 @@
               .style("font-weight", "bold")
               .attr("transform", "translate(0," + height + ")")
               .call(d3.axisBottom(x))
-
+          
             // Build X scales and axis:
             var y = d3.scaleBand()
               .range([ height, 0 ])
