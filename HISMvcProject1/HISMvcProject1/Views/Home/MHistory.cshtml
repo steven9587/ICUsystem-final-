@@ -79,7 +79,7 @@
                 </div>
             </div>
             <!--藥物甘特圖-->
-            <div id="my_dataviz" style="height:72.2vh;"></div>
+            <div id="my_dataviz" style="height:72.2vh;overflow:scroll;"></div>
         </div>
     </div>
     <!--下面-->
@@ -261,9 +261,11 @@
         })
 
         function heatmap(){
+            var myGroups = med_date
+            var myVars = medname_search
             // set the dimensions and margins of the graph
             var margin = {top: 30, right: 30, bottom: 30, left: 130},
-              width = (window.screen.width*0.82) - margin.left - margin.right,
+              width = (myGroup.length*30*0.82) - margin.left - margin.right,
               height = 450 - margin.top - margin.bottom;
             // append the svg object to the body of the page
             $("#my_dataviz").empty();
@@ -281,8 +283,7 @@
                 med_date[med_date.length-1-i]=med_date[i];
                 med_date[i] = temp;
             }
-            var myGroups = med_date
-            var myVars = medname_search
+            
 
             // Build X scales and axis:
             var x = d3.scaleBand()
