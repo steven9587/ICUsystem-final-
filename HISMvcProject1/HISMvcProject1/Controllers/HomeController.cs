@@ -67,8 +67,8 @@ namespace HISMvcProject1.Controllers
 
         public ActionResult Switch()
         {
-            //var search_id = TempData["id"] as string;
-            var search_id = "406570123";
+            var search_id = TempData["id"] as string;
+            //var search_id = "406570123";
             ViewBag.location_x = tubeservice.GetTubeLocationX(search_id);
             ViewBag.location_y = tubeservice.GetTubeLocationY(search_id);
             ViewBag.tube_caliber = tubeservice.GetTubeCaliber(search_id);
@@ -81,8 +81,8 @@ namespace HISMvcProject1.Controllers
 
         public ActionResult MHistory()
         {
-            //var search_id = TempData["id"] as string;
-            var search_id = "406570123";
+            var search_id = TempData["id"] as string;
+            //var search_id = "406570123";
             ViewBag.search_id = search_id;
             return View("MHistory");
 

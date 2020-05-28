@@ -59,6 +59,7 @@ namespace HISMvcProject1.Models
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
                           inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID
                           where mn.MED_NAME = @MedName
+                          and mh.PATIENT_HISID = @PatientId
 						  and  Convert(varchar(10),mh.MED_STARTDATE,20) = @MedStart
                           order by mh.ITEM";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
@@ -67,6 +68,7 @@ namespace HISMvcProject1.Models
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add(new SqlParameter("@MedName", data.MedName));
                 cmd.Parameters.Add(new SqlParameter("@MedStart", data.MedStart));
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
                 SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
                 sqlAdapter.Fill(dt);
                 conn.Close();
@@ -114,8 +116,8 @@ namespace HISMvcProject1.Models
                 MedclassIdInt[i] = Convert.ToInt16(MedclassIdString[i]);
             }
             DataTable dt = new DataTable();
-            string sql = @"select mh.MEDNAME_ID as MedNameId,
-	                              mn.MED_NAME as MedName
+            string sql = @"select Distinct mn.MED_NAME as MedName,
+                                           mh.MEDNAME_ID as MedNameId
                           from MEDNAME_INFO mn 
                           inner join MEDHISTORY_INFO mh on mn.MEDNAME_ID = mh.MEDNAME_ID
                           inner join MEDCLASS_INFO mc on mn.MEDCLASS_ID = mc.MEDCLASS_ID

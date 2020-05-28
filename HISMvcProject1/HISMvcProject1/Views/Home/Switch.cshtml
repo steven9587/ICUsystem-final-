@@ -65,25 +65,20 @@
         </div>
         <div class="middle">
             <div class="dr_order" id="doctor" style="border:none;">
-                <li style="resize:none; " cols="50" rows="50">
-                    test1
-                </li>
-                <li style="resize:none; " cols="50" rows="50">
-                    test2
-                </li>
+               
                 <button type="button" id="btn_mhistory" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Medicine History</button>
             </div>
             <div class="inspection" id="check" style="border:none;">
                 <div class="grid_box" id="check_grid"></div>
             </div>
-            <div class="tpr_io" id="io" style="position: relative;border:none;width:1100px; height:250px;">
+            <div class="tpr_io" id="io" style="position: relative;width:1130px;">
                 <div class="demo-section">
-                    <div id="chart" style="width:1150px; height:250px;"></div>
+                    <div id="chart" style="width:1150px; height:200px;"></div>
                 </div>
             </div>
         </div>
         <div id="andy_open">
-            <img src="https://i.imgur.com/lQx1bV0.jpg" style="width:380px; height:380px;">
+            <img src="https://i.imgur.com/lQx1bV0.jpg" style="width:398px; height:380px;">
         </div>
     </div>
     <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
@@ -157,9 +152,9 @@
                                             <textarea id="pipeline_Note" name="PipeLineNote" onkeyup="WordsDeal();" style="width: 95%;" cols="100" rows="2"></textarea>
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="button" id="insert" value="Insert" class="btn" style="background-color: #99b2db; color:#194284" />
+                                            <input type="button" id="insert" value="Insert" class="btn" style="background-color: #CCDDFF; color:#194284" />
                                             <input type="button" id="save" value="Save" class="btn btn_save" style="background-color: #CCDDFF; color:#194284" />
-                                            <input type="button" id="delete" value="Delete" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                                            <input type="button" id="delete" value="Delete" class="btn" style="background-color: #99b2db; color:#194284" />
                                             <!--<input type="button" id="io_btn" value="IO" class="btn" style="background-color: #CCDDFF; color:#194284" />-->
                                         </div>
                                     </form>
@@ -171,10 +166,10 @@
                                     <div class="Full_column">
                                         <label for="bought_datepicker" class="required">日期:</label>
                                         <input type="text" data-role='datepicker' id="io_datepicker" name="iodatepicker"
-                                               data-type="date" style="width: 40%;" required validationMessage="請輸入正確日期格式" />
+                                               data-type="date" style="width: 50%;" required validationMessage="請輸入正確日期格式" />
                                         <span data-for='iodatepicker' class='k-invalid-msg'></span>
 
-                                        <input type="button" id="btn_secIoSearch" value="Search" class="btn" style="background-color: #CCDDFF; color:#194284" />
+                                        <input type="button" id="btn_secIoSearch" value="search" class="btn" style="background-color: #CCDDFF; color:#194284" />
                                     </div>
                                 </div>
                                 <br>
@@ -203,7 +198,7 @@
                     <input type="text" data-role='datepicker' id="ioend_datepicker" name="ioenddatepicker"
                            data-type="date" style="width: 30%;" required validationMessage="請輸入正確日期格式" />
                     <span data-for='ioenddatepicker' class='k-invalid-msg'></span>
-                    <input type="button" value="查詢" class="btn btn_io_search" style="background-color: #99b2db; color:#194284" />
+                    <input type="button" value="search" class="btn btn_io_search" style="background-color: #CCDDFF; color:#194284" />
                 </div>
                 <div class="fulliorow">
                     <div class="fulliogrid_box" id="fullioin_grid" style="width:450px;height:500px"></div>
@@ -253,7 +248,8 @@
             //enable: false
         }).data("kendoButton");
 
-
+        //TPR
+       
         //交班頁面Window
         $("#patient_window").kendoWindow({
             title: "基本資料",
@@ -314,8 +310,8 @@
         $("#check").parent().find(".k-window-action").css("visibility","hidden");
 
         $("#io").kendoWindow({
-            title: "IO",
-            width:"1150px",
+            title: "TPR",
+            width:"1166px",
             height:"250px",
             Draggable: false,
             resizable:false,
@@ -344,7 +340,7 @@
 
         $("#andy_window").kendoWindow({
             title: "病人插管資料",
-            height:"600px",
+            height:screen.height*0.77,
             Draggable: false,
             resizable:false,
             visible:false,
@@ -547,7 +543,7 @@
 
             //insert tube
             lc.onclick = function () {
-               
+
                 if (intubation == 'insert') {
                     //draw tube from insert
                     x = event.clientX - 313 - 10;
@@ -561,8 +557,8 @@
                     lctx.stroke();
                 }else{
                     //select tube on canvas
-                    clickX = event.clientX - 313 - 10;
-                    clickY = event.clientY - 90 - 10;
+                    clickX = event.clientX - 313 + 4;
+                    clickY = event.clientY - 90 - 12;
                     for (var i = 0; i < locationLength; i++) {
                         if (clickX  > parseInt(locatoinX[i]) -10 && clickX < parseInt(locatoinX[i]) + 10 &&
                             clickY > parseInt(locatoinY[i]) -5 && clickY < parseInt(locatoinY[i]) + 5) {
@@ -628,87 +624,8 @@
                             }
                         });
 
-                       
-                        //第二io fullio_grid
-                        iopointlocation = {
-                            "LocationX":location_point_x,
-                            "LocationY":location_point_y,
-                            "PatientId":patient_id_search,
-                            //"IoDate":"2020-04-23",
-                            "IoDate": kendo.toString($("#io_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
-                            "IoDateAddOne": kendo.toString(kendo.date.nextDay($("#io_datepicker").data("kendoDatePicker").value()), "yyyy-MM-dd")
-                        }
-
-                
-                       //第二io fullio_grid 特定管路早班夜班小夜班全日資料
-                        $("#tubeiomorning_grid").kendoGrid({
-                            height: "30%",
-                            columns: [
-                                     { field: "IoIntake", title: "Intake", width: "20%" },
-                                     { field: "IoOutput", title: "Output", width: "20%" },
-                                     { field: "Difference", title: "差異", width: "20%" },
-                            ],dataSource: { 
-                                transport: {
-                                    read: {
-                                        url: "GetSecMorningIoGridData",
-                                        type: "post",
-                                        dataType: "json",
-                                        data:iopointlocation
-                                    }
-                                }
-                            }
-                        })
-                        $("#tubeionight_grid").kendoGrid({
-                            height: "30%",
-                            columns: [
-                                     { field: "IoIntake", title: "Intake", width: "20%" },
-                                     { field: "IoOutput", title: "Output", width: "20%" },
-                                     { field: "Difference", title: "差異", width: "20%" },
-                            ],dataSource: {
-                                transport: {
-                                    read: {
-                                        url: "GetSecNightIoGridData",
-                                        type: "post",
-                                        dataType: "json",
-                                        data:iopointlocation
-                                    }
-                                }
-                            }
-                        })
-                        $("#tubeiograveyard_grid").kendoGrid({
-                            height: "30%",
-                            columns: [
-                                     { field: "IoIntake", title: "Intake", width: "20%" },
-                                     { field: "IoOutput", title: "Output", width: "20%" },
-                                     { field: "Difference", title: "差異", width: "20%" },
-                            ],dataSource: {
-                                transport: {
-                                    read: {
-                                        url: "GetSecGraveyardIoGridData",
-                                        type: "post",
-                                        dataType: "json",
-                                        data:iopointlocation
-                                    }
-                                }
-                            }
-                        })
-                        $("#tubeioallday_grid").kendoGrid({
-                            height: "30%",
-                            columns: [
-                                     { field: "IoIntake", title: "Intake", width: "20%" },
-                                     { field: "IoOutput", title: "Output", width: "20%" },
-                                     { field: "Difference", title: "差異", width: "20%" },
-                            ],dataSource: {
-                                transport: {
-                                    read: {
-                                        url: "GetSecAllDayIoGridData",
-                                        type: "post",
-                                        dataType: "json",
-                                        data:iopointlocation
-                                    }
-                                }
-                            }
-                        })
+                        //here
+                        
 
                     }else{
                         //return to the default
@@ -747,7 +664,92 @@
                 }
             })
 
-            //按下搜尋鍵取得搜尋條件
+            //第二io按下搜尋鍵取得搜尋條件
+            $("#btn_secIoSearch").click(function () {
+                //第二io fullio_grid
+                iopointlocation = {
+                    "LocationX":location_point_x,
+                    "LocationY":location_point_y,
+                    "PatientId":patient_id_search,
+                    //"IoDate":"2020-04-23",
+                    "IoDate": kendo.toString($("#io_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd"),
+                    "IoDateAddOne": kendo.toString(kendo.date.nextDay($("#io_datepicker").data("kendoDatePicker").value()), "yyyy-MM-dd")
+                }
+
+
+                //第二io fullio_grid 特定管路早班夜班小夜班全日資料
+                $("#tubeiomorning_grid").kendoGrid({
+                    height: "30%",
+                    columns: [
+                             { field: "IoIntake", title: "Intake", width: "20%" },
+                             { field: "IoOutput", title: "Output", width: "20%" },
+                             { field: "Difference", title: "差異", width: "20%" },
+                    ],dataSource: {
+                        transport: {
+                            read: {
+                                url: "GetSecMorningIoGridData",
+                                type: "post",
+                                dataType: "json",
+                                data:iopointlocation
+                            }
+                        }
+                    }
+                })
+                $("#tubeionight_grid").kendoGrid({
+                    height: "30%",
+                    columns: [
+                             { field: "IoIntake", title: "Intake", width: "20%" },
+                             { field: "IoOutput", title: "Output", width: "20%" },
+                             { field: "Difference", title: "差異", width: "20%" },
+                    ],dataSource: {
+                        transport: {
+                            read: {
+                                url: "GetSecNightIoGridData",
+                                type: "post",
+                                dataType: "json",
+                                data:iopointlocation
+                            }
+                        }
+                    }
+                })
+                $("#tubeiograveyard_grid").kendoGrid({
+                    height: "30%",
+                    columns: [
+                             { field: "IoIntake", title: "Intake", width: "20%" },
+                             { field: "IoOutput", title: "Output", width: "20%" },
+                             { field: "Difference", title: "差異", width: "20%" },
+                    ],dataSource: {
+                        transport: {
+                            read: {
+                                url: "GetSecGraveyardIoGridData",
+                                type: "post",
+                                dataType: "json",
+                                data:iopointlocation
+                            }
+                        }
+                    }
+                })
+                $("#tubeioallday_grid").kendoGrid({
+                    height: "30%",
+                    columns: [
+                             { field: "IoIntake", title: "Intake", width: "20%" },
+                             { field: "IoOutput", title: "Output", width: "20%" },
+                             { field: "Difference", title: "差異", width: "20%" },
+                    ],dataSource: {
+                        transport: {
+                            read: {
+                                url: "GetSecAllDayIoGridData",
+                                type: "post",
+                                dataType: "json",
+                                data:iopointlocation
+                            }
+                        }
+                    }
+                })
+
+            });
+
+            //第三io按下搜尋鍵取得搜尋條件
             $(".btn_io_search").click(function () {
                 var io_search_data = {
                     "PatientID": patient_id_search,
@@ -941,7 +943,7 @@
         });
     })
 
-   
+
 
     // 轉藥歷圖
     $("#btn_mhistory").click(function(){
@@ -991,15 +993,69 @@
             }
         });
     });
+    function createChart() {
+        $("#chart").kendoChart({
 
+            title: {
+                text: ""
+            },
+            legend: {
+                position: "bottom"
+            },
+            seriesDefaults: {
+                type: "area",
+                area: {
+                    line: {
+                        style: "smooth"
+                    }
+                }
+            },
+            series: [{
+                name: "Urine",
+                data: [3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.890, 8.238, 9.552, 6.855]
+            }, {
+                name: "N/G Aspirate",
+                data: [1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727]
+            }, {
+                name: "Drains Stoma etc.",
+                data: [-0.253, 0.362, -3.519, 1.799, 2.252, 3.343, 0.843, 2.877, -5.416, 5.590]
+            }],
+            valueAxis: {
+                labels: {
+                    format: "{0}%"
+                },
+                line: {
+                    visible: false
+                },
+                axisCrossingValue: -10
+            },
+            categoryAxis: {
+                categories: ["4/19", "4/20", "4/21", "4/22", "4/23", "4/24", "4/25", "4/26", "4/27", "4/28"],
+                majorGridLines: {
+                    visible: false
+                },
+                labels: {
+                    rotation: "auto"
+                }
+            },
+            tooltip: {
+                visible: true,
+                format: "{0}%",
+                template: "#= series.name #: #= value #"
+            }
+        });
+    }
+
+    $(document).ready(createChart);
+    $(document).bind("kendo:skinChange", createChart);
 </script>
 
 <!--I/O圖 CSS-->
 <style type="text/css">
     #chart {
         background: center no-repeat url('../content/shared/styles/world-map.png');
-        width: 1150px;
-        height: 250px;
+        width: 1145px;
+        height: 230px;
     }
 
     .andy_tag, .fullio_tag {
@@ -1009,16 +1065,16 @@
     }
 
     .tubeiogrid_box {
-     background-color: rgba(76, 115, 178, 0.52 );
-     height: 100px;
-     width: 100%;
-}
+        background-color: rgba(76, 115, 178, 0.52 );
+        height: 100px;
+        width: 100%;
+    }
 
-.fulliogrid_box{
-     background-color: rgba(76, 115, 178, 0.52 );
-     height: 100%;
-     width: 100%;
-}
+    .fulliogrid_box {
+        background-color: rgba(76, 115, 178, 0.52 );
+        height: 100%;
+        width: 100%;
+    }
 
     #tabstrip_andyfullio h2 {
         font-weight: lighter;
@@ -1045,17 +1101,18 @@
         width: 0px;
         height: 0px;
     }
-    .tubeiogrid_box {
-     background-color: rgba(76, 115, 178, 0.52 );
-     height: 100px;
-     width: 100%;
-}
 
-.fulliogrid_box{
-     background-color: rgba(76, 115, 178, 0.52 );
-     height: 100%;
-     width: 100%;
-}
+    .tubeiogrid_box {
+        background-color: rgba(76, 115, 178, 0.52 );
+        height: 100px;
+        width: 100%;
+    }
+
+    .fulliogrid_box {
+        background-color: rgba(76, 115, 178, 0.52 );
+        height: 100%;
+        width: 100%;
+    }
 
 
     #tabstrip_tubeio h2 {

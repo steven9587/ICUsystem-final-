@@ -17,7 +17,7 @@
                 <div id="m_treeview" style="margin-top:10px;margin-left:10px;"></div>
             </div>
             <div style="height:30vh;">
-                <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #CCDDFF; color:#194284;margin-left:20px; margin-bottom:30px " />
+                <input type="button" id="delete" value="Delete" onclick="location.href = '/Home/MHistory'" class="btn" style="background-color: #99b2db; color:#194284;margin-left:20px; margin-bottom:30px " />
             </div>
 
         </div>
@@ -36,7 +36,7 @@
                     <input id="end_datepicker" title="datepicker" />
                 </div>
                 <div style="margin-left: 20px;float:left;">
-                    <input type="button" value="查詢" id="btn_med_search" class="btn" style="background-color: #99b2db; color:#194284" />
+                    <input type="button" value="search" id="btn_med_search" class="btn" style="background-color: #CCDDFF; color:#194284" />
                 </div>
                 <div style="float:right;margin-right:20px">
                     <input type="button" value="返回交班頁面" id="btn_med_back" class="btn" style="background-color: #99b2db; color:#194284;" />
@@ -48,7 +48,7 @@
                 <div style="margin-left:0px;float:left;">
                     <div style="margin-top:17px;float:left;">
                         <svg width="30" height="30">
-                            <rect width="30" height="30" style="fill:#FFCCCC;stroke-width:3;stroke:rgb(0,0,0)" />
+                            <rect width="30" height="30" style="fill:#CCEEFF ;stroke-width:3;stroke:rgb(0,0,0)" />
                         </svg>
                     </div>
                     <div style="float:left;margin-left:2px;">
@@ -59,7 +59,7 @@
                 <div style="margin-left:20px;float:left;">
                     <div style="margin-top:17px;float:left;">
                         <svg width="30" height="30">
-                            <rect width="30" height="30" style="fill:#CCFF99;stroke-width:3;stroke:rgb(0,0,0)" />
+                            <rect width="30" height="30" style="fill:#FFCCCC ;stroke-width:3;stroke:rgb(0,0,0)" />
                         </svg>
                     </div>
                     <div style="float:left;margin-left:2px;">
@@ -70,7 +70,7 @@
                 <div style="margin-left:20px;float:left;">
                     <div style="margin-top:17px;float:left;">
                         <svg width="30" height="30">
-                            <rect width="30" height="30" style="fill:#CCEEFF;stroke-width:3;stroke:rgb(0,0,0)" />
+                            <rect width="30" height="30" style="fill:#CCFF99 ;stroke-width:3;stroke:rgb(0,0,0)" />
                         </svg>
                     </div>
                     <div style="float:left;margin-left:2px;">
@@ -190,69 +190,74 @@
                 message;
 
             checkedNodeIds(treeView.dataSource.view(), checkedNodes);
-            if (checkedNodes.length > 0 && checkedNodes[0]!= 1) {
+            if (checkedNodes.length > 0 && checkedNodes[0]!= 1 && checkedNodes.length != 0) {
                 message = checkedNodes;
                 medclassid = message.join();
             } else {
                 message = "2,3,4,5,6,7,8,9,10,11";
                 medclassid = message;
             }
-
         }
 
         debugger
         $("#btn_med_search").click(function () {
-            $("#lable_color").show();
-            med_start_date = kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
-            med_end_date = kendo.toString($("#end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+            console.log(medclassid)
+            if (medclassid[0] == 0) {
+                alert("Please check at least one medicine!")
+            }else{
+                //$("#lable_color").show();
+                med_start_date = kendo.toString($("#start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+                med_end_date = kendo.toString($("#end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
 
-            med_sch_history = {
-                "PatientId":patient_id_search,
-                "MedClassId":medclassid,
-                "MedStart":med_start_date,
-                "MedEnd":med_end_date
-            }
+                med_sch_history = {
+                    "PatientId":patient_id_search,
+                    "MedClassId":medclassid,
+                    "MedStart":med_start_date,
+                    "MedEnd":med_end_date
+                }
 
-            //日期轉換陣列
+                //日期轉換陣列
 
-            var excludeDates=[""];
-            function getDates(startDate, stopDate, excludeDates) {
-                var dateArray = [];
-                var currentDate = moment(startDate);
-                var stopDate = moment(stopDate);
-                while (currentDate <= stopDate) {
-                    let currentDateString=moment(currentDate).format('YYYY-MM-DD');
-                    if(!excludeDates.includes(currentDateString)){
-                        dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
+                var excludeDates=[""];
+                function getDates(startDate, stopDate, excludeDates) {
+                    var dateArray = [];
+                    var currentDate = moment(startDate);
+                    var stopDate = moment(stopDate);
+                    while (currentDate <= stopDate) {
+                        let currentDateString=moment(currentDate).format('YYYY-MM-DD');
+                        if(!excludeDates.includes(currentDateString)){
+                            dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
+                        }
+                        currentDate = moment(currentDate).add(1, 'days');
                     }
-                    currentDate = moment(currentDate).add(1, 'days');
+                    return dateArray;
                 }
-                return dateArray;
+                med_date=getDates(new Date(med_start_date),new Date(med_end_date), excludeDates);
+
+                $.ajax({
+                    type: "Post",
+                    url: "GetMedData",
+                    data: med_sch_history,
+                    dataType: "json",
+
+
+                });
+                $.ajax({
+                    type: "GET",
+                    url: "GetMedMedName",
+                    data: med_sch_history,
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (result) {
+                        medname_search = result.medname;
+                        heatmap();
+                    },
+                    error: function (response) {
+                        alert('eror');
+                    }
+                });
             }
-            med_date=getDates(new Date(med_start_date),new Date(med_end_date), excludeDates);
 
-            $.ajax({
-                type: "Post",
-                url: "GetMedData",
-                data: med_sch_history,
-                dataType: "json",
-
-
-            });
-            $.ajax({
-                type: "GET",
-                url: "GetMedMedName",
-                data: med_sch_history,
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    medname_search = result.medname;
-                    heatmap();
-                },
-                error: function (response) {
-                    alert('eror');
-                }
-            });
         })
 
         function heatmap(){
@@ -303,7 +308,7 @@
             // Build color scale
             var myColor = d3.scaleLinear()
               .domain([0, 1, 2])
-              .range(["#FFCCCC", "#CCEEFF", "#CCFF99"]);
+              .range(["#CCEEFF", "#FFCCCC", "#CCFF99"]);
             //Read the data
             d3.json("/Home/PushDataToHM", function (data) {
                 // create a tooltip
@@ -355,7 +360,8 @@
                 var mouseclick = function(d) {
                     mednamedata = {
                         "MedStart":d.MedStart,
-                        "MedName":d.MedName
+                        "MedName":d.MedName,
+                        "PatientId":patient_id_search
                     }
                     $("#history_grid").kendoGrid({
                         columns: [
@@ -427,7 +433,7 @@
                 });
                 */
             })
-
+            $("#lable_color").show();
         }
     </script>
 
