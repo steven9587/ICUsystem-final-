@@ -81,8 +81,7 @@ namespace HISMvcProject1.Controllers
 
         public ActionResult MHistory()
         {
-            //var search_id = TempData["id"] as string;
-            var search_id = "406570123";
+            var search_id = TempData["id"] as string;
             ViewBag.search_id = search_id;
             return View("MHistory");
 

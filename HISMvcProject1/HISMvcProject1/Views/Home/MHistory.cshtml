@@ -79,7 +79,7 @@
                 </div>
             </div>
             <!--藥物甘特圖-->
-            <div id="container" style="height:72.2vh; "></div>
+            <div id="my_dataviz" style="height:72.2vh; "></div>
         </div>
     </div>
     <!--下面-->
@@ -261,62 +261,182 @@
         })
 
         function heatmap(){
-            anychart.onDocumentReady(function () {
-                anychart.data.loadJsonFile(
-                  'https://cdn.anychart.com/samples/heat-map-charts/heat-map-with-scroll/data.json',
-                  function (data) {
-                      // Creates Heat Map
-                      var chart = anychart.heatMap(data);
+            // set the dimensions and margins of the graph
+            var margin = {top: 30, right: 30, bottom: 30, left: 130},
+              width = (window.screen.width*0.82) - margin.left - margin.right,
+              height = 450 - margin.top - margin.bottom;
+            // append the svg object to the body of the page
+            $("#my_dataviz").empty();
+            var svg = d3.select("#my_dataviz")
+            .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
 
-                      // Sets colorScale
-                      var colorScale = anychart.scales.ordinalColor();
-                      // Sets colors for all points
-                      colorScale.ranges([
-                        { less: 25000, color: '#fff9c4' },
-                        { from: 25000, to: 45000, color: '#ffe082' },
-                        { from: 45000, to: 65000, color: '#ffca28' },
-                        { from: 65000, to: 80000, color: '#ffa000' },
-                        { greater: 80000, color: '#ff6f00' }
-                      ]);
-                      chart.colorScale(colorScale);
+            // Labels of row and columns
+            for(var i = 0;i<med_date.length/2;i++){
+                temp = med_date[med_date.length-1-i];
+                med_date[med_date.length-1-i]=med_date[i];
+                med_date[i] = temp;
+            }
+            var myGroups = med_date
+            var myVars = medname_search
 
-                      
-                      // Sets chart labels
-                      chart.labels().enabled(true).format('${%Heat}');
+            // Build X scales and axis:
+            var x = d3.scaleBand()
+              .range([ 0, width ])
+              .domain(myGroups)
+              .padding(0.01);
+            svg.append("g")
+              .style("font", "17px times")
+              .style("font-weight", "bold")
+              .attr("transform", "translate(0," + height + ")")
+              .call(d3.axisBottom(x))
 
-                      // Sets Scrolls for Axes
-                      chart.xScroller(true);
+            // Build X scales and axis:
+            var y = d3.scaleBand()
+              .range([ height, 0 ])
+              .domain(myVars)
+              .padding(0.01);
+            svg.append("g")
+              .style("font", "17px times")
+              .style("font-weight", "bold")
+              .call(d3.axisLeft(y));
 
-                      // Sets starting zoom for Axes
-                      chart.xZoom().setToPointsCount(8);
+            // Build color scale
+            var myColor = d3.scaleLinear()
+              .domain([0, 1, 2])
+              .range(["#CCEEFF", "#FFCCCC", "#CCFF99"]);
+            //Read the data
+            d3.json("/Home/PushDataToHM", function (data) {
+                // create a tooltip
+                var tooltip = d3.select("#my_dataviz")
+                  .append("div")
+                  .style("opacity", 0)
+                  .attr("class", "tooltip")
+                  .style("background-color", "white")
+                  .style("border", "solid")
+                  .style("border-width", "2px")
+                  .style("border-radius", "5px")
+                  .style("padding", "5px")
 
-                      // Sets chart and hover chart settings
-                      chart.stroke('#fff');
-                      chart
-                        .hovered()
-                        .stroke('6 #fff')
-                        .fill('#545f69')
-                        .labels({ fontColor: '#fff' });
+                // Three function that change the tooltip when user hover / move / leave a cell
+                var mouseover = function(d) {
+                    tooltip.style("opacity", 1)
+                    d3.select(this)
+                        .style("stroke", "black")
+                        .style("stroke-width", 3)
+                        .style("opacity", 1)
+                }
 
-                      // Sets legend
-                      chart
-                        .legend()
-                        .enabled(true)
-                        .align('center')
-                        .position('center-bottom')
-                        .itemsLayout('horizontal')
-                        .padding([20, 0, 0, 0]);
+                var mouseleave = function(d) {
+                    tooltip.style("opacity", 0)
+                    d3.select(this)
+                        .style("stroke", "none")
+                }
+                // add the squares
 
-                      // set container id for the chart
-                      chart.container('container');
-                      // initiate chart drawing
-                      chart.draw();
-                  }
-                );
-            });
-            //$("#lable_color").show();
+                var mousemove = function(d) {
+                    var source;
+                    if (d.MedSource == "1"){
+                        source = "門診"
+                    }else if(d.MedSource == "3"){
+                        source = "急診"
+                    }else{
+                        source = "住院"
+                    }
+                    tooltip
+                        .html("來源：" + source + "<br>" +
+                              "藥名：" + d.MedName + "<br>" +
+                              "天數：" + d.MedDay + "<br>" +
+                              "生效日期：" + d.MedStart + "<br>" +
+                              "結束日期：" + d.MedEnd)
+                      .style("left", (d3.mouse(this)[0]+420) + "px")
+                      .style("top", (d3.mouse(this)[1]+145) + "px")
+                }
+
+                var mouseclick = function(d) {
+                    mednamedata = {
+                        "MedStart":d.MedStart,
+                        "MedName":d.MedName,
+                        "PatientId":patient_id_search
+                    }
+                    $("#history_grid").kendoGrid({
+                        columns: [
+                                { field: "Item", title: "項", width: "5%" },
+                                { field: "MedName", title: "藥名", width: "10%" },
+                                { field: "MedClass", title: "藥品分類", width: "7%" },
+                                { field: "MAmount", title: "藥量", width: "7%" },
+                                { field: "MUnit", title: "單位", width: "7%" },
+                                { field: "MFrequency", title: "頻次", width: "7%" },
+                                { field: "MedWay", title: "途徑", width: "7%" },
+                                { field: "MedDay", title: "天數", width: "7%" },
+                                { field: "MTotal", title: "總量", width: "7%" },
+                                { field: "MedStart", title: "開始", width: "7%" },
+                                { field: "MedEnd", title: "結束", width: "7%" },
+                                { field: "MedSource", title: "來源", width: "7%" },
+                                { field: "MedDivision", title: "開藥科別", width: "7%" },
+                                { field: "MDoctor", title: "開藥醫師", width: "7%" }
+
+
+                        ],dataSource: {
+                            transport: {
+                                read: {
+                                    url:"GetMedDayData",
+                                    type:"post",
+                                    dataType:"json",
+                                    data:mednamedata
+                                }
+                            }
+                        }
+                    });
+                }
+
+                svg.selectAll()
+                    .data(data, function(d) {return d.MedStart+':'+d.MedSource;})
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) { return x(d.MedStart) })
+                    .attr("y", function(d) { return y(d.MedName) })
+                    .attr("width", x.bandwidth() )
+                    .attr("height", y.bandwidth() )
+                    .style("fill", function (d) {
+                        if(d.MedSource == 1){
+                            return myColor(0);
+                        }else if(d.MedSource == 3){
+                            return myColor(1);
+                        }else{
+                            return myColor(2);
+                        }
+                    })
+                    .on("mouseover", mouseover)
+                    .on("mousemove", mousemove)
+                    .on("mouseleave", mouseleave)
+                    .on("click", mouseclick)
+                svg.selectAll()
+                .data(data)
+                .enter().append("text")
+                .attr("x", function(d) { return x(d.MedStart)+x.bandwidth()/2-10 })
+                .attr("y", function(d) { return y(d.MedName)+y.bandwidth()/2+10 })
+                .style("font-size",20)
+                /*
+                .text(function(d) {
+                    if(d.MedSource == 1){
+                        return "門診";
+                    }else if(d.MedSource == 3){
+                        return "急診";
+                    }else{
+                        return "住院";
+                    }
+                });
+                */
+            })
+            $("#lable_color").show();
         }
-    </script>
+</script>
+
 
 
     <!--treeView style-->
