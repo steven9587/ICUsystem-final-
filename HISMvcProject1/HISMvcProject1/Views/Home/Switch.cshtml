@@ -546,8 +546,8 @@
 
                 if (intubation == 'insert') {
                     //draw tube from insert
-                    x = event.clientX - 313 + 4;
-                    y = event.clientY - 90 - 12;
+                    x = event.clientX - 313 - 1;
+                    y = event.clientY - 90 - 17;
                     lctx.beginPath();
                     lctx.fillStyle = "rgb(180,209,255)";
                     lctx.lineWidth = "2";
@@ -557,8 +557,8 @@
                     lctx.stroke();
                 }else{
                     //select tube on canvas
-                    clickX = event.clientX - 313 + 4;
-                    clickY = event.clientY - 90 - 12;
+                    clickX = event.clientX - 313 - 1;
+                    clickY = event.clientY - 90 - 17;
                     for (var i = 0; i < locationLength; i++) {
                         if (clickX  > parseInt(locatoinX[i]) -10 && clickX < parseInt(locatoinX[i]) + 10 &&
                             clickY > parseInt(locatoinY[i]) -5 && clickY < parseInt(locatoinY[i]) + 5) {
