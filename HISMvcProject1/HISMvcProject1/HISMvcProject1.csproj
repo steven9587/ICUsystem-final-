@@ -255,6 +255,8 @@
     </Compile>
     <Compile Include="Models\MedData.cs" />
     <Compile Include="Models\MedService.cs" />
+    <Compile Include="Models\TPRData.cs" />
+    <Compile Include="Models\TPRService.cs" />
     <Compile Include="Models\TubeIoService.cs" />
     <Compile Include="Models\InfoData.cs" />
     <Compile Include="Models\InfoService.cs" />

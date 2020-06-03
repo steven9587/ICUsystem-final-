@@ -14,49 +14,86 @@
     <div>
         <div class="left">
             <div class="patient_info" id="patient_window" style="resize:none; border:none;  overflow-y: scroll;" cols="45" rows="80">
-                <div class="form-group">
+                <!--病人姓名-->
+                <div style="float:left;margin-top:6px">
                     <label for="patient_name">病人姓名 : </label>
-                    <input type="text" class="form-control" id="patient_name">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:240px" type="text" class="form-control" id="patient_name">
+                </div>
+
+                <!--身分證字號-->
+                <div style="float:left;margin-top:6px">
                     <label for="patient_id_no">身分證字號 : </label>
-                    <input type="text" class="form-control" id="patient_id_no">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:224px" type="text" class="form-control" id="patient_id_no">
+                </div>
+                <!--出生年月日 -->
+                <div style="float:left;margin-top:6px">
                     <label for="patient_birthday">出生年月日 : </label>
-                    <input type="text" class="form-control" id="patient_birthday">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:224px" type="text" class="form-control" id="patient_birthday">
+                </div>
+                <!--病歷號 -->
+                <div style="float:left;margin-top:6px;">
                     <label for="his_no">病歷號 : </label>
-                    <input type="text" class="form-control" id="his_no">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:255px" type="text" class="form-control" id="his_no">
+                </div>
+                <!--入ICU日 -->
+                <div style="float:left;margin-top:6px;">
                     <label for="in_ICU_date">入ICU日 : </label>
-                    <input type="text" class="form-control" id="in_ICU_date">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:243px" type="text" class="form-control" id="in_ICU_date">
+                </div>
+                <!--入院日 -->
+                <div style="float:left;margin-top:6px;">
                     <label for="in_adm_date">入院日 : </label>
-                    <input type="text" class="form-control" id="in_adm_date">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:255px" type="text" class="form-control" id="in_adm_date">
+                </div>
+                <!--身高 -->
+                <div style="float:left;margin-top:6px;">
                     <label for="patient_height">身高 : </label>
-                    <input type="text" class="form-control" id="patient_height">
+                </div>
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:270px" type="text" class="form-control" id="patient_height">
+                </div>
+                <!--體重 -->
+                <div style="float:left;margin-top:6px;">
                     <label for="patient_weight">體重 : </label>
-                    <input type="text" class="form-control" id="patient_weight">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:270px" type="text" class="form-control" id="patient_weight">
+                </div>
+                <!--床號 -->
+                <div style="float:left;margin-top:6px;">
                     <label for="bed_no">床號 : </label>
-                    <input type="text" class="form-control" id="bed_no">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:270px" type="text" class="form-control" id="bed_no">
+                </div>
+                <!--科別 -->
+                <div style="float:left;margin-top:6px;">
                     <label for="patient_division">科別 : </label>
-                    <input type="text" class="form-control" id="patient_division">
                 </div>
-                <div class="form-group">
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:270px" type="text" class="form-control" id="patient_division">
+                </div>
+                <!--主治醫師 -->
+                <div style="float:left;margin-top:6px;">
                     <label for="dr_no">主治醫師 : </label>
-                    <input type="text" class="form-control" id="dr_no">
+                </div>
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:240px" type="text" class="form-control" id="dr_no">
                 </div>
             </div>
+
             <div class="shift" id="shift_window" style="border:none;">
                 <li cols="35" rows="10">Leave your message here...</li><br><br>
                 <textarea id="Note" style="width: 95%;" cols="100" rows="2"></textarea>
@@ -65,20 +102,18 @@
         </div>
         <div class="middle">
             <div class="dr_order" id="doctor" style="border:none;">
-               
+
                 <button type="button" id="btn_mhistory" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Medicine History</button>
             </div>
             <div class="inspection" id="check" style="border:none;">
                 <div class="grid_box" id="check_grid"></div>
             </div>
-            <div class="tpr_io" id="io" style="position: relative;width:1130px;">
-                <div class="demo-section">
-                    <div id="chart" style="width:1150px; height:200px;"></div>
-                </div>
+            <div class="tpr" id="tpr_open" style="position: relative;width:1130px;">
+
             </div>
         </div>
         <div id="andy_open">
-            <img src="https://i.imgur.com/lQx1bV0.jpg" style="width:398px; height:380px;">
+            <img src="https://imgur.com/zbthKQd.jpg" style="width:398px; height:380px;">
         </div>
     </div>
     <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
@@ -208,7 +243,26 @@
         </div>
 
     </div>
-
+    <div class="uk-card  uk-text-left" id="tpr_window" style="display:none">
+        <div style="margin-top:20px;margin-left:20px;height:5vh;margin-bottom:3px;">
+            <h4 style="float:left;">開始時間:</h4>
+            <div style="margin-left: 10px;float:left;">
+                <input style=" float:left;" id="tpr_start_datepicker" title="datepicker" />
+            </div>
+            <div style="margin-left: 20px;float:left;">
+                <h4 style="float:left;">結束時間:</h4>
+            </div>
+            <div style="margin-left: 10px;float:left;">
+                <input id="tpr_end_datepicker" title="datepicker" />
+            </div>
+            <div style="margin-left: 20px;float:left;">
+                <input type="button" value="search" id="btn_tpr_search" class="btn" style="background-color: #CCDDFF; color:#194284" />
+            </div>
+        </div>
+        <div class="demo-section">
+            <div id="tpr_chart" style="width:1150px; height:580px;"></div>
+        </div>
+    </div>
 
 }
 <script type="text/javascript">
@@ -229,9 +283,15 @@
     var clickX;
     var clickY;
     var tubepart;
+    var tpr_date = "";
+    var tpr_sch;
+    var breath;
+    var pulse;
+    var temp;
     //canvas
     var img = new Image();
-    img.src = "https://i.imgur.com/lQx1bV0.jpg";
+    img.src = "https://imgur.com/zbthKQd.jpg";
+
     var patient_id_search ="";
 
 
@@ -249,7 +309,7 @@
         }).data("kendoButton");
 
         //TPR
-       
+
         //交班頁面Window
         $("#patient_window").kendoWindow({
             title: "基本資料",
@@ -263,6 +323,7 @@
                 top: 50
             }
         })
+
         $("#patient_window").parent().find(".k-window-action").css("visibility","hidden");
 
         $("#shift_window").kendoWindow({
@@ -309,7 +370,7 @@
         })
         $("#check").parent().find(".k-window-action").css("visibility","hidden");
 
-        $("#io").kendoWindow({
+        $("#tpr_open").kendoWindow({
             title: "TPR",
             width:"1166px",
             height:"250px",
@@ -322,6 +383,18 @@
                 left: 365
             }
         })
+        $("#tpr_window").kendoWindow({
+            title: "TPR",
+            height:screen.height*0.77,
+            Draggable: false,
+            resizable:false,
+            visible:false,
+            pinned:true,
+            modal: true,
+            action: ["Minimize",
+                     "Maximize",
+                     "Close"],
+        });
         $("#io").parent().find(".k-window-action").css("visibility","hidden");
 
         $("#andy_open").kendoWindow({
@@ -412,6 +485,19 @@
             format: "yyyy-MM-dd"
         });
 
+        $("#tpr_start_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
+
+        $("#tpr_end_datepicker").kendoDatePicker({
+            value: new Date(),
+            min: "1900-01-01",
+            dateInput: true,
+            format: "yyyy-MM-dd"
+        });
         //kendropdownList
         $("#pipeline_Location").change(function(){
             tubepart = $(this).val();
@@ -625,7 +711,7 @@
                         });
 
                         //here
-                        
+
 
                     }else{
                         //return to the default
@@ -993,71 +1079,125 @@
             }
         });
     });
-    function createChart() {
-        $("#chart").kendoChart({
-
-            title: {
-                text: ""
-            },
-            legend: {
-                position: "bottom"
-            },
-            seriesDefaults: {
-                type: "area",
-                area: {
-                    line: {
-                        style: "smooth"
+    //tpr
+    $("#tpr_open").click(function(e){
+        $("#tpr_window").data("kendoWindow").center().open();
+        $("#btn_tpr_search").click(function () {
+            //read datapicker
+            tpr_start_date = kendo.toString($("#tpr_start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+            tpr_end_date = kendo.toString($("#tpr_end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+            tpr_sch = {
+                "PatientId":patient_id_search,
+                "TPRStart":tpr_start_date,
+                "TPREnd":tpr_end_date
+            }
+            //日期轉換陣列
+            var excludeDates=[""];
+            function getDates(startDate, stopDate, excludeDates) {
+                var dateArray = [];
+                var currentDate = moment(startDate);
+                var stopDate = moment(stopDate);
+                while (currentDate <= stopDate) {
+                    let currentDateString=moment(currentDate).format('DD');
+                    if(!excludeDates.includes(currentDateString)){
+                        dateArray.push( moment(currentDate).format('DD') )
                     }
+                    currentDate = moment(currentDate).add(1, 'days');
                 }
+                return dateArray;
+            }
+            tpr_date=getDates(new Date(tpr_start_date),new Date(tpr_end_date), excludeDates);
+           
+            $.ajax({
+                type: "Post",
+                url: "GetTPRPluse",
+                data: tpr_sch,
+                dataType: "json",
+                success: function (result) {
+                    pulse = result.TPRPulse;
+                }
+            });
+            $.ajax({
+                type: "Post",
+                url: "GetTPRTemp",
+                data: tpr_sch,
+                dataType: "json",
+                success: function (result) {
+                    temp = result.TPRTemp;
+                    
+                }
+            });
+            $.ajax({
+                type: "Post",
+                url: "GetTPRBreath",
+                data: tpr_sch,
+                dataType: "json",
+                success: function (result) {
+                    breath = result.TPRBreath;
+                    createChart()
+                }
+            });
+            $(document).bind("kendo:skinChange", createChart);
+        })
+
+    })
+    function createChart() {
+        $("#tpr_chart").kendoChart({
+            legend: {
+                position: "top"
             },
             series: [{
-                name: "Urine",
-                data: [3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.890, 8.238, 9.552, 6.855]
+                type: "line",
+                data: temp,
+                name: "體溫 [&deg;C]",
+                color: "#ff1c1c",
+                axis: "temp"
             }, {
-                name: "N/G Aspirate",
-                data: [1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727]
+                type: "line",
+                data: pulse,
+                name: "脈搏 [次]",
+                color: "#ffae00",
+                axis: "pulse"
             }, {
-                name: "Drains Stoma etc.",
-                data: [-0.253, 0.362, -3.519, 1.799, 2.252, 3.343, 0.843, 2.877, -5.416, 5.590]
+                type: "area",
+                data: breath,
+                name: "呼吸 [次]",
+                color: "#73c100",
+                axis: "breath"
+            }, ],
+            valueAxes: [{
+                name: "breath",
+                color: "#73c100",
+                min: 10,
+                max: 80
+            }, {
+                name: "pulse",
+                color: "#ffae00",
+                min: 40,
+                max: 180
+            }, {
+                name: "temp",
+                color: "#ff1c1c",
+                min: 35,
+                max: 42
             }],
-            valueAxis: {
-                labels: {
-                    format: "{0}%"
-                },
-                line: {
-                    visible: false
-                },
-                axisCrossingValue: -10
-            },
             categoryAxis: {
-                categories: ["4/19", "4/20", "4/21", "4/22", "4/23", "4/24", "4/25", "4/26", "4/27", "4/28"],
-                majorGridLines: {
-                    visible: false
-                },
-                labels: {
-                    rotation: "auto"
-                }
+                categories: tpr_date,
+                axisCrossingValues: [0, 0, 0],
+                justified: true
             },
             tooltip: {
                 visible: true,
-                format: "{0}%",
+                format: "{0}",
                 template: "#= series.name #: #= value #"
             }
         });
     }
 
-    $(document).ready(createChart);
-    $(document).bind("kendo:skinChange", createChart);
 </script>
 
 <!--I/O圖 CSS-->
 <style type="text/css">
-    #chart {
-        background: center no-repeat url('../content/shared/styles/world-map.png');
-        width: 1145px;
-        height: 230px;
-    }
-
     .andy_tag, .fullio_tag {
         display: block;
         width: 0px;

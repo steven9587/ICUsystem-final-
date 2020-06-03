@@ -111,23 +111,16 @@ namespace HISMvcProject1.Models
         /// </summary>
         [DisplayName("開藥醫師")]
         public string MDoctor { get; set; }
+        /// <summary>
+        /// TPR開始日期
+        /// </summary>
+        [DisplayName("TPR開始日期")]
+        public string TPRStart { get; set; }
+        /// <summary>
+        /// TPR結束日期
+        /// </summary>
+        [DisplayName("TPR結束日期")]
+        public string TPREnd { get; set; }
 
-        public String[] ToArray()
-        {
-            List<string> arr = new List<string>();
-
-            foreach (var prop in typeof(MedData).GetProperties())
-            {
-                string value = "";
-                if (prop.GetValue(this, null) != null)
-                {
-                    value = prop.GetValue(this, null).ToString();
-                }
-
-                arr.Add(value);
-            }
-
-            return arr.ToArray();
-        }
     }
 }

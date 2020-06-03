@@ -24,11 +24,15 @@ namespace HISMvcProject1.Controllers
         readonly Models.InfoService infoservice = new Models.InfoService();
         readonly Models.TubeIoService tubeioservice = new Models.TubeIoService();
         readonly Models.MedService medservice = new Models.MedService();
+        readonly Models.TPRService TPRservice = new Models.TPRService();
         String patientId = "";
         List<string> medname = new List<string>();
         List<string> medstart = new List<string>();
         List<string> mednamehm = new List<string>();
         List<string> medsourse = new List<string>();
+        List<string> TPRBreath = new List<string>();
+        List<string> TPRTemp = new List<string>();
+        List<string> TPRPulse = new List<string>();
         public ActionResult Index()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
@@ -67,8 +71,8 @@ namespace HISMvcProject1.Controllers
 
         public ActionResult Switch()
         {
-            var search_id = TempData["id"] as string;
-            //var search_id = "406570123";
+            //var search_id = TempData["id"] as string;
+            var search_id = "406570123";
             ViewBag.location_x = tubeservice.GetTubeLocationX(search_id);
             ViewBag.location_y = tubeservice.GetTubeLocationY(search_id);
             ViewBag.tube_caliber = tubeservice.GetTubeCaliber(search_id);
@@ -357,6 +361,51 @@ namespace HISMvcProject1.Controllers
         {
             var test = TempData["meddata"];
             return Json(test, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// GetFirstIoGridData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetTPRBreath(Models.TPRData data)
+        {
+            foreach (string item in TPRservice.GetTPRBreath(data))
+            {
+                TPRBreath.Add(item);
+
+            }
+            return Json(new { TPRBreath = TPRBreath }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// GetFirstIoGridData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetTPRPluse(Models.TPRData data)
+        {
+            foreach (string item in TPRservice.GetTPRPluse(data))
+            {
+                TPRPulse.Add(item);
+
+            }
+            return Json(new { TPRPulse = TPRPulse }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// GetFirstIoGridData
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetTPRTemp(Models.TPRData data)
+        {
+            foreach (string item in TPRservice.GetTPRTemp(data))
+            {
+                TPRTemp.Add(item);
+
+            }
+            return Json(new { TPRTemp = TPRTemp }, JsonRequestBehavior.AllowGet);
         }
     }
 }

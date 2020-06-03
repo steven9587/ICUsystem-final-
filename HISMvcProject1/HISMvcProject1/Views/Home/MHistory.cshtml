@@ -217,7 +217,6 @@
                 }
 
                 //日期轉換陣列
-
                 var excludeDates=[""];
                 function getDates(startDate, stopDate, excludeDates) {
                     var dateArray = [];
@@ -239,8 +238,6 @@
                     url: "GetMedData",
                     data: med_sch_history,
                     dataType: "json",
-
-
                 });
                 $.ajax({
                     type: "GET",
