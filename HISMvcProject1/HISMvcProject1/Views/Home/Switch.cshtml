@@ -13,21 +13,13 @@
 
     <div>
         <div class="left">
-            <div class="patient_info" id="patient_window" style="resize:none; border:none;  overflow-y: scroll;" cols="45" rows="80">
+            <div class="patient_info" id="patient_window" style="resize:none; border:none;" cols="45" rows="80">
                 <!--病人姓名-->
                 <div style="float:left;margin-top:6px">
                     <label for="patient_name">病人姓名 : </label>
                 </div>
                 <div style="float:left;margin-left:10px">
                     <input style="padding:0px;width:240px" type="text" class="form-control" id="patient_name">
-                </div>
-
-                <!--身分證字號-->
-                <div style="float:left;margin-top:6px">
-                    <label for="patient_id_no">身分證字號 : </label>
-                </div>
-                <div style="float:left;margin-left:10px">
-                    <input style="padding:0px;width:224px" type="text" class="form-control" id="patient_id_no">
                 </div>
                 <!--出生年月日 -->
                 <div style="float:left;margin-top:6px">
@@ -41,8 +33,25 @@
                     <label for="his_no">病歷號 : </label>
                 </div>
                 <div style="float:left;margin-left:10px">
-                    <input style="padding:0px;width:255px" type="text" class="form-control" id="his_no">
+                     <input style="padding:0px;width:255px" type="text" class="form-control" id="his_no">
                 </div>
+                <!--床號 -->
+                <div style="float:left;margin-top:6px;">
+                    <label for="bed_no">床號 : </label>
+                </div>
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:270px" type="text" class="form-control" id="bed_no">
+                </div>
+                
+                <!--身分證字號-->
+                <div style="float:left;margin-top:6px">
+                    <label for="patient_id_no">身分證字號 : </label>
+                </div>
+                <div style="float:left;margin-left:10px">
+                    <input style="padding:0px;width:224px" type="text" class="form-control" id="patient_id_no">
+                </div>
+                
+                
                 <!--入ICU日 -->
                 <div style="float:left;margin-top:6px;">
                     <label for="in_ICU_date">入ICU日 : </label>
@@ -71,13 +80,7 @@
                 <div style="float:left;margin-left:10px">
                     <input style="padding:0px;width:270px" type="text" class="form-control" id="patient_weight">
                 </div>
-                <!--床號 -->
-                <div style="float:left;margin-top:6px;">
-                    <label for="bed_no">床號 : </label>
-                </div>
-                <div style="float:left;margin-left:10px">
-                    <input style="padding:0px;width:270px" type="text" class="form-control" id="bed_no">
-                </div>
+                
                 <!--科別 -->
                 <div style="float:left;margin-top:6px;">
                     <label for="patient_division">科別 : </label>
@@ -101,19 +104,19 @@
             </div>
         </div>
         <div class="middle">
+            <div class="inspection" id="check" style="border:none;">
+                <div class="grid_box" id="check_grid"></div>
+            </div>
             <div class="dr_order" id="doctor" style="border:none;">
 
                 <button type="button" id="btn_mhistory" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Medicine History</button>
-            </div>
-            <div class="inspection" id="check" style="border:none;">
-                <div class="grid_box" id="check_grid"></div>
             </div>
             <div class="tpr" id="tpr_open" style="position: relative;width:1130px;">
 
             </div>
         </div>
         <div id="andy_open">
-            <img src="https://imgur.com/zbthKQd.jpg" style="width:398px; height:380px;">
+            <img src="https://imgur.com/zbthKQd.jpg" style="width:398px; height:395px;">
         </div>
     </div>
     <div class="uk-card  uk-text-left" id="andy_window" style="display:none">
@@ -314,7 +317,7 @@
         $("#patient_window").kendoWindow({
             title: "基本資料",
             width:"360px",
-            height:"400px",
+            height:"415px",
             Draggable: false,
             resizable:false,
             visible:true,
@@ -335,22 +338,22 @@
             visible:true,
             pinned:true,
             position: {
-                top: 490
+                top: 505
             }
         })
         $("#shift_window").parent().find(".k-window-action").css("visibility","hidden");
 
         $("#doctor").kendoWindow({
             title: "醫囑",
-            width:"745px",
-            height:"120px",
+            width:"417px",
+            height:"420px",
             Draggable: false,
             resizable:false,
             visible:true,
             pinned:true,
             position: {
-                top: 50,
-                left: 365
+                top: 505,
+                left: 1115
             }
         })
         $("#doctor").parent().find(".k-window-action").css("visibility","hidden");
@@ -364,7 +367,7 @@
             visible:true,
             pinned:true,
             position: {
-                top: 210,
+                top: 50,
                 left: 365
             }
         })
@@ -372,14 +375,14 @@
 
         $("#tpr_open").kendoWindow({
             title: "TPR",
-            width:"1166px",
-            height:"250px",
+            width:"745px",
+            height:"500px",
             Draggable: false,
             resizable:false,
             visible:true,
             pinned:true,
             position: {
-                top: 490,
+                top: 330,
                 left: 365
             }
         })
