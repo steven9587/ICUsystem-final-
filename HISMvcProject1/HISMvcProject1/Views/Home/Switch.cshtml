@@ -99,8 +99,9 @@
 
             <div class="shift" id="shift_window" style="border:none;">
                 <li cols="35" rows="10">Leave your message here...</li><br><br>
-                <textarea id="Note" style="width: 95%;" cols="100" rows="2"></textarea>
-                <button type="button" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Send</button>
+                <textarea id="patinetNote" name="PatinetNote" cols="130" rows="2" required validationMessage="請輸入內容簡介"></textarea>
+                <button type="button" class="btn btn_note" id="note_history" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">備註單</button>
+                <button type="button" class="btn btn_search" id="note_insert" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Send</button>
             </div>
         </div>
         <div class="middle">
@@ -111,7 +112,7 @@
                 <button type="button" id="btn_mhistory" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Medicine History</button>
             </div>
             <div class="tpr" id="tpr_open" style="position: relative;width:745px;">
-                <div id="tpr_chart_week" style="width:740px; height:500px;"></div>
+                <div id="tpr_chart_week" style="width:735px; height:345px;"></div>
             </div>
         </div>
         <div id="andy_open">
@@ -245,6 +246,9 @@
         </div>
 
     </div>
+    <div class="uk-card  uk-text-left" id="note_window" style="display:none">
+        <div id="note_grid"></div>
+    </div>
     <div class="uk-card  uk-text-left" id="tpr_window" style="display:none">
         <div style="margin-top:20px;margin-left:20px;height:5vh;margin-bottom:3px;">
             <h4 style="float:left;">開始時間:</h4>
@@ -329,6 +333,13 @@
 
         $("#patient_window").parent().find(".k-window-action").css("visibility","hidden");
 
+        $("#note_window").kendoWindow({
+            title: "備註清單",
+            height:screen.height*0.77,
+            visible: false,
+            modal: true,
+            action: ["Close"]
+        });
         $("#shift_window").kendoWindow({
             title: "交班、接班",
             width:"360px",
@@ -1093,6 +1104,15 @@
             alert("超過字數限制(1000字)，多出的字將被移除！");
         }
     }
+    function WordsDealNote() {
+        debugger
+        var curLength = $("#PatinetNote").val().length;
+        if (curLength > 1000) {
+            var num = $("#PatinetNote").val().substr(0, 1000);
+            $("#PatinetNote").val(num);
+            alert("超過字數限制(1000字)，多出的字將被移除！");
+        }
+    }
 
     //小人圖總io標籤
     $(document).ready(function () {
@@ -1219,18 +1239,18 @@
     var year = today.getFullYear();
     var month = (today.getMonth()+1);
     var day = today.getDate();
-   
+
     tpr_sch_week = {
         "PatientId":@Html.Raw(Json.Encode(ViewBag.search_id)),
         "TPRStart":year + "-"+month+"-"+day,
     }
 
-    var myDate = new Date("2020-06-17"); 
-    myDate.setDate(myDate.getDate() - 6); 
+    var myDate = new Date("2020-06-17");
+    myDate.setDate(myDate.getDate() - 6);
     var dateArray = [];
     var dateTemp;
     var flag = 1;
-    for (var i = 0; i < 7; i++) { 
+    for (var i = 0; i < 7; i++) {
         dateTemp = (myDate.getMonth() + 1) + "/" + myDate.getDate();
         dateArray.push(dateTemp);
         myDate.setDate(myDate.getDate() + flag);
@@ -1248,9 +1268,7 @@
         }
     });
     function createChartweeks(){
-        console.log(pulse_week)
-        console.log(temp_week)
-        console.log(breath_week)
+        
         $("#tpr_chart_week").kendoChart({
             legend: {
                 position: "top"
@@ -1303,6 +1321,53 @@
         });
     }
 
+   
+    $("#note_history").click(function(e){
+        $("#note_window").data("kendoWindow").center().open();
+        $("#note_grid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: {
+                        method: "post",
+                        url: "GetPatientNote",
+                        dataType: "json",
+                        data: { "PatientId": patient_id_search }
+                    }
+                },
+                pageSize: 20,
+            },
+            height: 350,
+            columns: [
+                { field: "Username", title: "輸入人員", width: "20%" },
+                { field: "NoteDate", title: "日期", width: "20%" },
+                { field: "Note", title: "內容", width: "60%" },
+            ]
+        });
+    })
+
+    $("#note_insert").click(function(e){
+        var insert = {
+            "UserName":"test",
+            "NoteDate":"2020-06-17",
+            "Note":$("#patinetNote").val()
+        }
+        console.log(insert)
+        $.ajax({
+            type: "POST",
+            url: "InsertNote",
+            data: insert,
+            dataType: "json",
+            success: function (response) {
+                if (response == true) {
+                    alert("備註已新增");
+                }
+            },
+            error: function (error) {
+                alert("系統發生錯誤");
+            }
+        });
+    
+    })
 </script>
 
 <!--I/O圖 CSS-->

@@ -195,5 +195,85 @@ namespace HISMvcProject1.Models
             }
             return result;
         }
+        public List<Models.InfoData> GetPatientNote(Models.InfoData data)
+        {
+            DataTable dt = new DataTable();
+            string sql = @"SELECT r.PATIENT_ID as PatientId,u.USER_Name as UserName,Convert(varchar(10),r.REMARK_DATE,20)as NoteDate,r.NOTE as Note
+                            FROM REMARK_INFO r
+                            INNER JOIN USER_LOGIN u
+                            ON r.USER_ID=u.USER_ID
+                            Where patient_id = @PatientId;";
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientId", data.PatientId));
+
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+            return MapDataNote(dt);
+        }
+        private List<Models.InfoData> MapDataNote(DataTable dt)
+        {
+            List<Models.InfoData> result = new List<Models.InfoData>();
+            foreach (DataRow row in dt.Rows)
+            {
+                result.Add(new Models.InfoData()
+                {
+                    PatientId = row["PatientId"].ToString(),
+                    Username = row["UserName"].ToString(),
+                    NoteDate = row["NoteDate"].ToString(),
+                    Note = row["Note"].ToString()
+                });
+            }
+            return result;
+        }
+
+        /*conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+        cmd.Parameters.Add(new SqlParameter("@Patientid", data.PatientId));
+                cmd.Parameters.Add(new SqlParameter("@UserName", data.Username));
+                cmd.Parameters.Add(new SqlParameter("@NoteDate", data.NoteDate));
+                cmd.Parameters.Add(new SqlParameter("@Note", data.Note));
+
+
+         insert into REMARK_INFO(PATIENT_ID, USER_ID, REMARK_DATE, NOTE)values(@Patientid,'@UserName', GETDATE(),@Note)*/
+
+        public bool InsertNote(Models.InfoData data)
+        {
+            string sql = @" insert into REMARK_INFO(PATIENT_ID, USER_ID, REMARK_DATE, NOTE)values(@Patientid,'@UserName', GETDATE(),@Note); 
+                           ";
+
+           
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@UserName", data.Username));
+                cmd.Parameters.Add(new SqlParameter("@NoteDate", data.NoteDate));
+                cmd.Parameters.Add(new SqlParameter("@Note", data.Note));
+                
+                SqlTransaction Tran = conn.BeginTransaction();
+                cmd.Transaction = Tran;
+                try
+                {
+                
+                    Tran.Commit();
+                }
+                catch (Exception)
+                {
+                    Tran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+            return true;
+        }
     }
 }

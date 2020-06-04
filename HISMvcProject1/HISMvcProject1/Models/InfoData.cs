@@ -49,5 +49,12 @@ namespace HISMvcProject1.Models
         [DisplayName("病人體重")]
         public string PatientWeight { get; set; }
         public static IEnumerable<DataRow> Rows { get; internal set; }
+        [Required(ErrorMessage = "Please enter your Username.")]
+        [DisplayName("使用者帳號")]
+        public string Username { get; set; }
+        [DisplayName("備註內容")]
+        public string Note { get; set; }
+        [DisplayName("備註內容")]
+        public string NoteDate { get; set; }
     }
 }
