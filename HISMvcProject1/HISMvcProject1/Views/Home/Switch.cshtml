@@ -98,21 +98,21 @@
             </div>
 
             <div class="shift" id="shift_window" style="border:none;">
-                <li cols="35" rows="10">Leave your message here...</li><br><br>
-                <textarea id="patinetNote" name="PatinetNote" cols="130" rows="2" required validationMessage="請輸入內容簡介"></textarea>
+                <p>Leave your message here：</p>
+                <textarea id="patinetNote" style="resize:none;width:320px;height:80px;" name="PatinetNote" cols="130" rows="2" required validationMessage="請輸入內容簡介"></textarea>
                 <button type="button" class="btn btn_note" id="note_history" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">備註單</button>
                 <button type="button" class="btn btn_search" id="note_insert" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Send</button>
             </div>
         </div>
         <div class="middle">
             <div class="inspection" id="check" style="border:none;">
-                <div class="grid_box" id="check_grid"></div>
+                <div class="grid_box" id="check_grid" style="overflow-y:hidden"></div>
             </div>
             <div class="dr_order" id="doctor" style="border:none;">
                 <button type="button" id="btn_mhistory" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Medicine History</button>
             </div>
             <div class="tpr" id="tpr_open" style="position: relative;width:745px;">
-                <div id="tpr_chart_week" style="width:735px; height:345px;"></div>
+                <div id="tpr_chart_week" style="width:710px; height:320px;"></div>
             </div>
         </div>
         <div id="andy_open">
@@ -335,15 +335,21 @@
 
         $("#note_window").kendoWindow({
             title: "備註清單",
+            width:screen.height*1.12,
             height:screen.height*0.77,
-            visible: false,
+            Draggable: false,
+            resizable:false,
+            visible:false,
+            pinned:true,
             modal: true,
-            action: ["Close"]
+            action: ["Minimize",
+                     "Maximize",
+                     "Close"]
         });
         $("#shift_window").kendoWindow({
             title: "交班、接班",
             width:"360px",
-            height:"250px",
+            height:"175px",
             Draggable: false,
             resizable:false,
             visible:true,
@@ -357,7 +363,7 @@
         $("#doctor").kendoWindow({
             title: "醫囑",
             width:"417px",
-            height:"420px",
+            height:"175px",
             Draggable: false,
             resizable:false,
             visible:true,
@@ -387,7 +393,7 @@
         $("#tpr_open").kendoWindow({
             title: "TPR",
             width:"745px",
-            height:"500px",
+            height:"350px",
             Draggable: false,
             resizable:false,
             visible:true,
@@ -397,6 +403,7 @@
                 left: 365
             }
         })
+        $("#tpr_open").parent().find(".k-window-action").css("visibility","hidden");
         $("#tpr_window").kendoWindow({
             title: "TPR",
             height:screen.height*0.77,
@@ -412,11 +419,13 @@
         $("#io").parent().find(".k-window-action").css("visibility","hidden");
 
         $("#andy_open").kendoWindow({
-            title: "小人圖",
+            title: "人型化管路顯示圖",
             Draggable: false,
             resizable:false,
             visible:true,
             pinned:true,
+            width:"418px",
+            height:"415px",
             position: {
                 top: 50,
                 left: 1115,
@@ -435,7 +444,7 @@
             modal: true,
             action: ["Minimize",
                      "Maximize",
-                     "Close"],
+                     "Close"]
         });
 
         //  $("#andy_window").data("kendoWindow").center();
@@ -1074,279 +1083,319 @@
             });
 
         });
-        
 
 
 
-    // 轉藥歷圖
-    $("#btn_mhistory").click(function(){
-        var PatientId = patient_id_search
-        $.ajax({
-            type: "post",
-            url: "Getifo",
-            data: { "PatientId": PatientId },
-            success: function (response) {
-                if (response == true) {
-                    window.location.href = "MHistory"
-                }
-            }
-        });
-    });
 
-
-
-    //管路備註字數限制
-    function WordsDeal() {
-        var curLength = $("#pipelineNote").val().length;
-        if (curLength > 1000) {
-            var num = $("#pipelineNote").val().substr(0, 1000);
-            $("#pipelineNote").val(num);
-            alert("超過字數限制(1000字)，多出的字將被移除！");
-        }
-    }
-    function WordsDealNote() {
-        debugger
-        var curLength = $("#PatinetNote").val().length;
-        if (curLength > 1000) {
-            var num = $("#PatinetNote").val().substr(0, 1000);
-            $("#PatinetNote").val(num);
-            alert("超過字數限制(1000字)，多出的字將被移除！");
-        }
-    }
-
-    //小人圖總io標籤
-    $(document).ready(function () {
-        $("#tabstrip_andyfullio").kendoTabStrip({
-            animation: {
-                open: {
-                    effects: "fadeIn"
-                }
-            }
-        });
-    });
-
-    //管路資料管路io標籤
-    $(document).ready(function () {
-        $("#tabstrip_tubeio").kendoTabStrip({
-            animation: {
-                open: {
-                    effects: "fadeIn"
-                }
-            }
-        });
-    });
-    //tpr in window
-    $("#tpr_open").click(function(e){
-        $("#tpr_window").data("kendoWindow").center().open();
-        $("#btn_tpr_search").click(function () {
-            //read datapicker
-            debugger;
-            tpr_start_date = kendo.toString($("#tpr_start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
-            tpr_end_date = kendo.toString($("#tpr_end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
-            tpr_sch = {
-                "PatientId":patient_id_search,
-                "TPRStart":tpr_start_date,
-                "TPREnd":tpr_end_date
-            }
-            //日期轉換陣列
-            var excludeDates=[""];
-            function getDates(startDate, stopDate, excludeDates) {
-                var dateArray = [];
-                var currentDate = moment(startDate);
-                var stopDate = moment(stopDate);
-                while (currentDate <= stopDate) {
-                    let currentDateString=moment(currentDate).format('DD');
-                    if(!excludeDates.includes(currentDateString)){
-                        dateArray.push( moment(currentDate).format('DD') )
-                    }
-                    currentDate = moment(currentDate).add(1, 'days');
-                }
-                return dateArray;
-            }
-            tpr_date=getDates(new Date(tpr_start_date),new Date(tpr_end_date), excludeDates);
-
+        // 轉藥歷圖
+        $("#btn_mhistory").click(function(){
+            var PatientId = patient_id_search
             $.ajax({
-                type: "Post",
-                url: "GetTPRData",
-                data: tpr_sch,
-                dataType: "json",
-                success: function (result) {
-                    pulse = result.TPRPulse;
-                    temp = result.TPRTemp;
-                    breath = result.TPRBreath;
-                    createChart();
+                type: "post",
+                url: "Getifo",
+                data: { "PatientId": PatientId },
+                success: function (response) {
+                    if (response == true) {
+                        window.location.href = "MHistory"
+                    }
                 }
             });
-
-            $(document).bind("kendo:skinChange", createChart);
-        })
-
-    })
-    function createChart() {
-        $("#tpr_chart").kendoChart({
-            legend: {
-                position: "top"
-            },
-            series: [{
-                type: "line",
-                data: temp,
-                name: "體溫 [&deg;C]",
-                color: "#ff1c1c",
-                axis: "temp"
-            }, {
-                type: "line",
-                data: pulse,
-                name: "脈搏 [次]",
-                color: "#ffae00",
-                axis: "pulse"
-            }, {
-                type: "line",
-                data: breath,
-                name: "呼吸 [次]",
-                color: "#73c100",
-                axis: "breath"
-            }, ],
-            valueAxes: [{
-                name: "breath",
-                color: "#73c100",
-                min: 10,
-                max: 80
-            }, {
-                name: "pulse",
-                color: "#ffae00",
-                min: 40,
-                max: 180
-            }, {
-                name: "temp",
-                color: "#ff1c1c",
-                min: 35,
-                max: 42
-            }],
-            categoryAxis: {
-                categories: tpr_date,
-                axisCrossingValues: [0, 0, 0],
-                justified: true
-            },
-            tooltip: {
-                visible: true,
-                format: "{0}",
-                template: "#= series.name #: #= value #"
-            }
         });
-    }
 
-    var today = new Date("2020-06-17");
-    var year = today.getFullYear();
-    var month = (today.getMonth()+1);
-    var day = today.getDate();
 
-    tpr_sch_week = {
-        "PatientId":@Html.Raw(Json.Encode(ViewBag.search_id)),
-        "TPRStart":year + "-"+month+"-"+day,
-    }
 
-    var myDate = new Date("2020-06-17");
-    myDate.setDate(myDate.getDate() - 13);
-    var dateArray = [];
-    var dateTemp;
-    var flag = 1;
-    for (var i = 0; i < 13; i++) {
-        dateTemp = (myDate.getMonth() + 1) + "/" + myDate.getDate();
-        dateArray.push(dateTemp);
-        myDate.setDate(myDate.getDate() + flag);
-    }
-    $.ajax({
-        type: "Post",
-        url: "GetTPRDataWeek",
-        data: tpr_sch_week,
-        dataType: "json",
-        success: function (result) {
-            pulse_week = result.TPRPulse;
-            temp_week = result.TPRTemp;
-            breath_week = result.TPRBreath;
-            createChartweeks();
+        //管路備註字數限制
+        function WordsDeal() {
+            var curLength = $("#pipelineNote").val().length;
+            if (curLength > 1000) {
+                var num = $("#pipelineNote").val().substr(0, 1000);
+                $("#pipelineNote").val(num);
+                alert("超過字數限制(1000字)，多出的字將被移除！");
+            }
         }
-    });
-    function createChartweeks(){
-        
-        $("#tpr_chart_week").kendoChart({
-            legend: {
-                position: "top"
-            },
-            series: [{
-                type: "line",
-                data: temp_week,
-                name: "體溫 [&deg;C]",
-                color: "#ff1c1c",
-                axis: "temp"
-            }, {
-                type: "line",
-                data: pulse_week,
-                name: "脈搏 [次]",
-                color: "#ffae00",
-                axis: "pulse"
-            }, {
-                type: "line",
-                data: breath_week,
-                name: "呼吸 [次]",
-                color: "#73c100",
-                axis: "breath"
-            }, ],
-            valueAxes: [{
-                name: "breath",
-                color: "#73c100",
-                min: 10,
-                max: 80
-            }, {
-                name: "pulse",
-                color: "#ffae00",
-                min: 40,
-                max: 180
-            }, {
-                name: "temp",
-                color: "#ff1c1c",
-                min: 35,
-                max: 42
-            }],
-            categoryAxis: {
-                categories: dateArray,
-                axisCrossingValues: [0, 0, 0],
-                justified: true
-            },
-            tooltip: {
-                visible: true,
-                format: "{0}",
-                template: "#= series.name #: #= value #"
+        function WordsDealNote() {
+            debugger
+            var curLength = $("#PatinetNote").val().length;
+            if (curLength > 1000) {
+                var num = $("#PatinetNote").val().substr(0, 1000);
+                $("#PatinetNote").val(num);
+                alert("超過字數限制(1000字)，多出的字將被移除！");
+            }
+        }
+
+        //小人圖總io標籤
+        $(document).ready(function () {
+            $("#tabstrip_andyfullio").kendoTabStrip({
+                animation: {
+                    open: {
+                        effects: "fadeIn"
+                    }
+                }
+            });
+        });
+
+        //管路資料管路io標籤
+        $(document).ready(function () {
+            $("#tabstrip_tubeio").kendoTabStrip({
+                animation: {
+                    open: {
+                        effects: "fadeIn"
+                    }
+                }
+            });
+        });
+        //tpr in window
+        $("#tpr_open").click(function(e){
+            $("#tpr_window").data("kendoWindow").center().open();
+            $("#btn_tpr_search").click(function () {
+                //read datapicker
+                debugger;
+                tpr_start_date = kendo.toString($("#tpr_start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+                tpr_end_date = kendo.toString($("#tpr_end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
+                tpr_sch = {
+                    "PatientId":patient_id_search,
+                    "TPRStart":tpr_start_date,
+                    "TPREnd":tpr_end_date
+                }
+                //日期轉換陣列
+                var excludeDates=[""];
+                function getDates(startDate, stopDate, excludeDates) {
+                    var dateArray = [];
+                    var currentDate = moment(startDate);
+                    var stopDate = moment(stopDate);
+                    while (currentDate <= stopDate) {
+                        let currentDateString=moment(currentDate).format('DD');
+                        if(!excludeDates.includes(currentDateString)){
+                            dateArray.push( moment(currentDate).format('DD') )
+                        }
+                        currentDate = moment(currentDate).add(1, 'days');
+                    }
+                    return dateArray;
+                }
+                tpr_date=getDates(new Date(tpr_start_date),new Date(tpr_end_date), excludeDates);
+
+                $.ajax({
+                    type: "Post",
+                    url: "GetTPRData",
+                    data: tpr_sch,
+                    dataType: "json",
+                    success: function (result) {
+                        pulse = result.TPRPulse;
+                        temp = result.TPRTemp;
+                        breath = result.TPRBreath;
+                        createChart();
+                    }
+                });
+
+                $(document).bind("kendo:skinChange", createChart);
+            })
+
+        })
+        function createChart() {
+            $("#tpr_chart").kendoChart({
+                legend: {
+                    position: "top"
+                },
+                series: [{
+                    type: "line",
+                    data: temp,
+                    name: "體溫 [&deg;C]",
+                    color: "#ff1c1c",
+                    axis: "temp"
+                }, {
+                    type: "line",
+                    data: pulse,
+                    name: "脈搏 [次]",
+                    color: "#ffae00",
+                    axis: "pulse"
+                }, {
+                    type: "line",
+                    data: breath,
+                    name: "呼吸 [次]",
+                    color: "#73c100",
+                    axis: "breath"
+                }, ],
+                valueAxes: [{
+                    name: "breath",
+                    color: "#73c100",
+                    min: 10,
+                    max: 80
+                }, {
+                    name: "pulse",
+                    color: "#ffae00",
+                    min: 40,
+                    max: 180
+                }, {
+                    name: "temp",
+                    color: "#ff1c1c",
+                    min: 35,
+                    max: 42
+                }],
+                categoryAxis: {
+                    categories: tpr_date,
+                    axisCrossingValues: [0, 0, 0],
+                    justified: true
+                },
+                tooltip: {
+                    visible: true,
+                    format: "{0}",
+                    template: "#= series.name #: #= value #"
+                }
+            });
+        }
+
+        var today = new Date("2020-06-17");
+        var year = today.getFullYear();
+        var month = (today.getMonth()+1);
+        var day = today.getDate();
+
+        tpr_sch_week = {
+            "PatientId":@Html.Raw(Json.Encode(ViewBag.search_id)),
+            "TPRStart":year + "-"+month+"-"+day,
+        }
+
+        var myDate = new Date("2020-06-17");
+        myDate.setDate(myDate.getDate() - 13);
+        var dateArray = [];
+        var dateTemp;
+        var flag = 1;
+        for (var i = 0; i < 14; i++) {
+            dateTemp = (myDate.getMonth() + 1) + "/" + myDate.getDate();
+            dateArray.push(dateTemp);
+            myDate.setDate(myDate.getDate() + flag);
+        }
+        $.ajax({
+            type: "Post",
+            url: "GetTPRDataWeek",
+            data: tpr_sch_week,
+            dataType: "json",
+            success: function (result) {
+                pulse_week = result.TPRPulse;
+                temp_week = result.TPRTemp;
+                breath_week = result.TPRBreath;
+                createChartweeks();
             }
         });
-    }
+        function createChartweeks(){
 
-   
-    $("#note_history").click(function(e){
-        $("#note_window").data("kendoWindow").center().open();
-        $("#note_grid").kendoGrid({
-            dataSource: {
-                transport: {
-                    read: {
-                        method: "post",
-                        url: "GetPatientNote",
-                        dataType: "json",
-                        data: { "PatientId": patient_id_search }
+            $("#tpr_chart_week").kendoChart({
+                legend: {
+                    position: "top"
+                },
+                series: [{
+                    type: "line",
+                    data: temp_week,
+                    name: "體溫 [&deg;C]",
+                    color: "#ff1c1c",
+                    axis: "temp"
+                }, {
+                    type: "line",
+                    data: pulse_week,
+                    name: "脈搏 [次]",
+                    color: "#ffae00",
+                    axis: "pulse"
+                }, {
+                    type: "line",
+                    data: breath_week,
+                    name: "呼吸 [次]",
+                    color: "#73c100",
+                    axis: "breath"
+                }, ],
+                valueAxes: [{
+                    name: "breath",
+                    color: "#73c100",
+                    min: 10,
+                    max: 80
+                }, {
+                    name: "pulse",
+                    color: "#ffae00",
+                    min: 40,
+                    max: 180
+                }, {
+                    name: "temp",
+                    color: "#ff1c1c",
+                    min: 35,
+                    max: 42
+                }],
+                categoryAxis: {
+                    categories: dateArray,
+                    axisCrossingValues: [0, 0, 0],
+                    justified: true
+                },
+                tooltip: {
+                    visible: true,
+                    format: "{0}",
+                    template: "#= series.name #: #= value #"
+                }
+            });
+        }
+
+
+        $("#note_history").click(function(e){
+            $("#note_grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: {
+                            method: "post",
+                            url: "GetPatientNote",
+                            dataType: "json",
+                            data: { "PatientId": patient_id_search }
+                        }
+                    },
+                    pageSize: 20,
+                },
+                width:screen.height*0.5,
+                height:screen.height*0.7,
+                columns: [
+                    { field: "UserName", title: "輸入人員", width: "20%" },
+                    { field: "NoteDate", title: "日期", width: "20%" },
+                    { field: "Note", title: "內容", width: "60%" },
+                ]
+            });
+            $("#note_window").data("kendoWindow").center().open();
+        })
+        $("#note_insert").click(function(){
+            var insert={
+                "PatientId":patient_id_search,
+                "UserName":"test",
+                "NoteDate":getTodayDate(),
+                "Note":$("#patinetNote").val()
+            }
+            console.log(insert)
+            $.ajax({
+                type: "post",
+                url: "InsertNote",
+                data: insert,
+                success: function (response) {
+                    if (response == true) {
+                        alert("資料已新增");
+                        var PatientId = patient_id_search
+                        $.ajax({
+                            type: "post",
+                            url: "Getifo",
+                            data: { "PatientId": PatientId },
+                            success: function (response) {
+                                if (response == true) {
+                                    window.location.href = "Switch"
+                                }
+                            }
+                        });
                     }
                 },
-                pageSize: 20,
-            },
-            height: 350,
-            columns: [
-                { field: "Username", title: "輸入人員", width: "20%" },
-                { field: "NoteDate", title: "日期", width: "20%" },
-                { field: "Note", title: "內容", width: "60%" },
-            ]
-        });
-    })
+                error: function (error) {
+                    alert("系統發生錯誤");
+                }
+            });
+        })
+        function getTodayDate() {
+            var fullDate = new Date();
+            var yyyy = fullDate.getFullYear();
+            var MM = (fullDate.getMonth() + 1) >= 10 ? (fullDate.getMonth() + 1) : ("0" + (fullDate.getMonth() + 1));
+            var dd = fullDate.getDate() < 10 ? ("0"+fullDate.getDate()) : fullDate.getDate();
+            var today = yyyy + "-" + MM + "-" + dd;
+            return today;
+        }
 
-    
-    
     })
 </script>
 

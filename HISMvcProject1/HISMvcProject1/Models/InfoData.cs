@@ -51,10 +51,11 @@ namespace HISMvcProject1.Models
         public static IEnumerable<DataRow> Rows { get; internal set; }
         [Required(ErrorMessage = "Please enter your Username.")]
         [DisplayName("使用者帳號")]
-        public string Username { get; set; }
+        public string UserName { get; set; }
         [DisplayName("備註內容")]
         public string Note { get; set; }
         [DisplayName("備註內容")]
         public string NoteDate { get; set; }
+
     }
 }

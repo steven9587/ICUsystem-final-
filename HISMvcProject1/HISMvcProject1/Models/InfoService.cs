@@ -198,11 +198,11 @@ namespace HISMvcProject1.Models
         public List<Models.InfoData> GetPatientNote(Models.InfoData data)
         {
             DataTable dt = new DataTable();
-            string sql = @"SELECT r.PATIENT_ID as PatientId,u.USER_Name as UserName,Convert(varchar(10),r.REMARK_DATE,20)as NoteDate,r.NOTE as Note
-                            FROM REMARK_INFO r
-                            INNER JOIN USER_LOGIN u
-                            ON r.USER_ID=u.USER_ID
-                            Where patient_id = @PatientId;";
+            string sql = @"SELECT [USER_Name] as Username
+                                  ,Convert(varchar(10),[NOTE_DATE],20)as NoteDate
+                                 ,[NOTE] as Note
+                           FROM [dbo].[NOTE_INFO]
+                           Where patient_id = @PatientId;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -222,8 +222,7 @@ namespace HISMvcProject1.Models
             {
                 result.Add(new Models.InfoData()
                 {
-                    PatientId = row["PatientId"].ToString(),
-                    Username = row["UserName"].ToString(),
+                    UserName = row["Username"].ToString(),
                     NoteDate = row["NoteDate"].ToString(),
                     Note = row["Note"].ToString()
                 });
@@ -231,7 +230,52 @@ namespace HISMvcProject1.Models
             return result;
         }
 
+        public int InsertNote(Models.InfoData tube)
+        {
+            string sql = @"INSERT INTO [dbo].[NOTE_INFO]
+                           ([PATIENT_ID]
+                           ,[USER_Name]
+                           ,[NOTE_DATE]
+                           ,[NOTE])
+                           VALUES
+                           (@PatientID
+                           ,@UserName
+                           ,@NoteDate
+                           ,@Note)
+                           SELECT SCOPE_IDENTITY(); 
+                           ";
 
-       
+            int NoteID;
+            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add(new SqlParameter("@PatientID", tube.PatientId));
+                cmd.Parameters.Add(new SqlParameter("@UserName", tube.UserName));
+                cmd.Parameters.Add(new SqlParameter("@NoteDate", tube.NoteDate));
+                cmd.Parameters.Add(new SqlParameter("@Note", tube.Note));
+                
+                SqlTransaction Tran = conn.BeginTransaction();
+                cmd.Transaction = Tran;
+                try
+                {
+                    NoteID = Convert.ToInt32(cmd.ExecuteScalar());
+                    Tran.Commit();
+                }
+                catch (Exception)
+                {
+                    Tran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+            return NoteID;
+        }
+
+
     }
 }
