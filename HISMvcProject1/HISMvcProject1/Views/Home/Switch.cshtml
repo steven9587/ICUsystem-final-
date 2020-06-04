@@ -1074,7 +1074,7 @@
             });
 
         });
-    })
+        
 
 
 
@@ -1200,7 +1200,7 @@
                 color: "#ffae00",
                 axis: "pulse"
             }, {
-                type: "area",
+                type: "line",
                 data: breath,
                 name: "呼吸 [次]",
                 color: "#73c100",
@@ -1246,11 +1246,11 @@
     }
 
     var myDate = new Date("2020-06-17");
-    myDate.setDate(myDate.getDate() - 6);
+    myDate.setDate(myDate.getDate() - 13);
     var dateArray = [];
     var dateTemp;
     var flag = 1;
-    for (var i = 0; i < 7; i++) {
+    for (var i = 0; i < 13; i++) {
         dateTemp = (myDate.getMonth() + 1) + "/" + myDate.getDate();
         dateArray.push(dateTemp);
         myDate.setDate(myDate.getDate() + flag);
@@ -1286,7 +1286,7 @@
                 color: "#ffae00",
                 axis: "pulse"
             }, {
-                type: "area",
+                type: "line",
                 data: breath_week,
                 name: "呼吸 [次]",
                 color: "#73c100",
@@ -1345,27 +1345,7 @@
         });
     })
 
-    $("#note_insert").click(function(e){
-        var insert = {
-            "UserName":"test",
-            "NoteDate":"2020-06-17",
-            "Note":$("#patinetNote").val()
-        }
-        console.log(insert)
-        $.ajax({
-            type: "POST",
-            url: "InsertNote",
-            data: insert,
-            dataType: "json",
-            success: function (response) {
-                if (response == true) {
-                    alert("備註已新增");
-                }
-            },
-            error: function (error) {
-                alert("系統發生錯誤");
-            }
-        });
+    
     
     })
 </script>

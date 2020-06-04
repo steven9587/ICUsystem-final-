@@ -93,6 +93,7 @@ namespace HISMvcProject1.Models
             }
             return TubeID;
         }
+    
 
 
         /// <summary>
@@ -138,10 +139,10 @@ namespace HISMvcProject1.Models
                 cmd.Parameters.Add(new SqlParameter("@LocationY", tube.LocationY));
                 SqlTransaction Tran = conn.BeginTransaction();
                 cmd.Transaction = Tran;
-               try
+                try
                 {
                     Tran.Commit();
-                    
+
                 }
                 catch (Exception)
                 {

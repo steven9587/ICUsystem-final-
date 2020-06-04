@@ -419,20 +419,7 @@ namespace HISMvcProject1.Controllers
         {
             return Json(this.infoservice.GetPatientNote(data));
         }
-        [HttpPost]
-        public JsonResult InsertNote(Models.InfoData data)
-        {
-            try
-            {
-                infoservice.InsertNote(data);
-                return this.Json(true);
-            }
-            catch (Exception ex)
-            {
-                return this.Json(false);
-            }
-
-        }
+    
 
     }
 }

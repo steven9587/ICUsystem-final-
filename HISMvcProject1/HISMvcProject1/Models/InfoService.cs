@@ -231,49 +231,7 @@ namespace HISMvcProject1.Models
             return result;
         }
 
-        /*conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-        cmd.Parameters.Add(new SqlParameter("@Patientid", data.PatientId));
-                cmd.Parameters.Add(new SqlParameter("@UserName", data.Username));
-                cmd.Parameters.Add(new SqlParameter("@NoteDate", data.NoteDate));
-                cmd.Parameters.Add(new SqlParameter("@Note", data.Note));
 
-
-         insert into REMARK_INFO(PATIENT_ID, USER_ID, REMARK_DATE, NOTE)values(@Patientid,'@UserName', GETDATE(),@Note)*/
-
-        public bool InsertNote(Models.InfoData data)
-        {
-            string sql = @" insert into REMARK_INFO(PATIENT_ID, USER_ID, REMARK_DATE, NOTE)values(@Patientid,'@UserName', GETDATE(),@Note); 
-                           ";
-
-           
-            using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
-            {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add(new SqlParameter("@UserName", data.Username));
-                cmd.Parameters.Add(new SqlParameter("@NoteDate", data.NoteDate));
-                cmd.Parameters.Add(new SqlParameter("@Note", data.Note));
-                
-                SqlTransaction Tran = conn.BeginTransaction();
-                cmd.Transaction = Tran;
-                try
-                {
-                
-                    Tran.Commit();
-                }
-                catch (Exception)
-                {
-                    Tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-
-            }
-            return true;
-        }
+       
     }
 }

@@ -102,7 +102,7 @@ namespace HISMvcProject1.Models
             string sql = @" SELECT TPR_BREA AS TPR_BREA
 	                       FROM TPR_INFO
                            Where Patient_ID = @PatientId  
-                           and TPR_DATE between DATEADD(day,-6, @TPRStart) and @TPRStart;";
+                           and TPR_DATE between DATEADD(day,-13, @TPRStart) and @TPRStart;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -128,7 +128,7 @@ namespace HISMvcProject1.Models
             string sql = @" SELECT TPR_TEMP AS TPR_TEMP
 	                       FROM TPR_INFO
                            Where Patient_ID = @PatientId  
-                           and TPR_DATE between DATEADD(day,-6, @TPRStart) and @TPRStart;";
+                           and TPR_DATE between DATEADD(day,-13, @TPRStart) and @TPRStart;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
@@ -154,7 +154,7 @@ namespace HISMvcProject1.Models
             string sql = @" SELECT TPR_PLUSE AS TPR_PLUSE
 	                       FROM TPR_INFO
                            Where Patient_ID = @PatientId  
-                           and  TPR_DATE between DATEADD(day,-6, @TPRStart) and @TPRStart;";
+                           and  TPR_DATE between DATEADD(day,-13, @TPRStart) and @TPRStart;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
