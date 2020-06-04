@@ -363,50 +363,57 @@ namespace HISMvcProject1.Controllers
             return Json(test, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// GetFirstIoGridData
+        /// GetTPRData
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetTPRBreath(Models.TPRData data)
+        public JsonResult GetTPRData(Models.TPRData data)
         {
             foreach (string item in TPRservice.GetTPRBreath(data))
             {
                 TPRBreath.Add(item);
 
             }
-            return Json(new { TPRBreath = TPRBreath }, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// GetFirstIoGridData
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult GetTPRPluse(Models.TPRData data)
-        {
-            foreach (string item in TPRservice.GetTPRPluse(data))
-            {
-                TPRPulse.Add(item);
-
-            }
-            return Json(new { TPRPulse = TPRPulse }, JsonRequestBehavior.AllowGet);
-        }
-        /// <summary>
-        /// GetFirstIoGridData
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public JsonResult GetTPRTemp(Models.TPRData data)
-        {
             foreach (string item in TPRservice.GetTPRTemp(data))
             {
                 TPRTemp.Add(item);
 
             }
-            return Json(new { TPRTemp = TPRTemp }, JsonRequestBehavior.AllowGet);
+            foreach (string item in TPRservice.GetTPRPluse(data))
+            {
+                TPRPulse.Add(item);
+
+            }
+            return Json(new { TPRBreath = TPRBreath, TPRPulse = TPRPulse , TPRTemp = TPRTemp }, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// GetTPRDataWeek
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetTPRDataWeek(Models.TPRData data)
+        {
+            foreach (string item in TPRservice.GetTPRBreathWeek(data))
+            {
+                TPRBreath.Add(item);
+
+            }
+            foreach (string item in TPRservice.GetTPRTempWeek(data))
+            {
+                TPRTemp.Add(item);
+
+            }
+            foreach (string item in TPRservice.GetTPRPluseWeek(data))
+            {
+                TPRPulse.Add(item);
+
+            }
+            return Json(new { TPRBreath = TPRBreath, TPRPulse = TPRPulse, TPRTemp = TPRTemp }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
 

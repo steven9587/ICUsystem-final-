@@ -33,7 +33,7 @@
                     <label for="his_no">病歷號 : </label>
                 </div>
                 <div style="float:left;margin-left:10px">
-                     <input style="padding:0px;width:255px" type="text" class="form-control" id="his_no">
+                    <input style="padding:0px;width:255px" type="text" class="form-control" id="his_no">
                 </div>
                 <!--床號 -->
                 <div style="float:left;margin-top:6px;">
@@ -42,7 +42,7 @@
                 <div style="float:left;margin-left:10px">
                     <input style="padding:0px;width:270px" type="text" class="form-control" id="bed_no">
                 </div>
-                
+
                 <!--身分證字號-->
                 <div style="float:left;margin-top:6px">
                     <label for="patient_id_no">身分證字號 : </label>
@@ -50,8 +50,8 @@
                 <div style="float:left;margin-left:10px">
                     <input style="padding:0px;width:224px" type="text" class="form-control" id="patient_id_no">
                 </div>
-                
-                
+
+
                 <!--入ICU日 -->
                 <div style="float:left;margin-top:6px;">
                     <label for="in_ICU_date">入ICU日 : </label>
@@ -80,7 +80,7 @@
                 <div style="float:left;margin-left:10px">
                     <input style="padding:0px;width:270px" type="text" class="form-control" id="patient_weight">
                 </div>
-                
+
                 <!--科別 -->
                 <div style="float:left;margin-top:6px;">
                     <label for="patient_division">科別 : </label>
@@ -108,11 +108,10 @@
                 <div class="grid_box" id="check_grid"></div>
             </div>
             <div class="dr_order" id="doctor" style="border:none;">
-
                 <button type="button" id="btn_mhistory" class="btn btn_search" style="background-color: #CCDDFF; color:#194284; float:right; margin-right:10px">Medicine History</button>
             </div>
-            <div class="tpr" id="tpr_open" style="position: relative;width:1130px;">
-
+            <div class="tpr" id="tpr_open" style="position: relative;width:745px;">
+                <div id="tpr_chart_week" style="width:740px; height:500px;"></div>
             </div>
         </div>
         <div id="andy_open">
@@ -291,9 +290,10 @@
     var breath;
     var pulse;
     var temp;
+    var breath_week,pulse_week,temp_week;
     //canvas
     var img = new Image();
-    img.src = "https://imgur.com/zbthKQd.jpg";
+    img.src = "https://i.imgur.com/lQx1bV0.jpg";
 
     var patient_id_search ="";
 
@@ -603,7 +603,40 @@
             var rect = lc.getBoundingClientRect();
             var lctx = lc.getContext("2d");
             lctx.drawImage(img, 0, 0, 600, 600);
-
+            //draw the color sample
+            //red
+            lctx.beginPath();
+            lctx.rect(12, 10, 22, 22);
+            lctx.fillStyle = "rgb(255,0,0)";
+            lctx.fill();
+            lctx.lineWidth = 2;
+            lctx.strokeStyle = "black";
+            lctx.stroke();
+            lctx.font = "19px Arial";
+            lctx.fillStyle = "rgb(0,0,0)";
+            lctx.fillText(": 已過期", 40, 26);
+            //yellow
+            lctx.beginPath();
+            lctx.rect(230, 10, 22, 22);
+            lctx.fillStyle = "rgb(242,202,0)";
+            lctx.fill();
+            lctx.lineWidth = 2;
+            lctx.strokeStyle = "black";
+            lctx.stroke();
+            lctx.font = "18px Arial";
+            lctx.fillStyle = "rgb(0,0,0)";
+            lctx.fillText(": 將過期(≦24hr)", 258, 26);
+            //green
+            lctx.beginPath();
+            lctx.rect(480, 10, 22, 22);
+            lctx.fillStyle = "rgb(2,198,0)";
+            lctx.fill();
+            lctx.lineWidth = 2;
+            lctx.strokeStyle = "black";
+            lctx.stroke();
+            lctx.font = "18px Arial";
+            lctx.fillStyle = "rgb(0,0,0)";
+            lctx.fillText(": 未過期", 508, 26);
             //draw tube drom DB
             for (var i = 0; i < locationLength; i++) {
                 lctx.beginPath();
@@ -1082,11 +1115,12 @@
             }
         });
     });
-    //tpr
+    //tpr in window
     $("#tpr_open").click(function(e){
         $("#tpr_window").data("kendoWindow").center().open();
         $("#btn_tpr_search").click(function () {
             //read datapicker
+            debugger;
             tpr_start_date = kendo.toString($("#tpr_start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
             tpr_end_date = kendo.toString($("#tpr_end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
             tpr_sch = {
@@ -1110,36 +1144,20 @@
                 return dateArray;
             }
             tpr_date=getDates(new Date(tpr_start_date),new Date(tpr_end_date), excludeDates);
-           
+
             $.ajax({
                 type: "Post",
-                url: "GetTPRPluse",
+                url: "GetTPRData",
                 data: tpr_sch,
                 dataType: "json",
                 success: function (result) {
                     pulse = result.TPRPulse;
-                }
-            });
-            $.ajax({
-                type: "Post",
-                url: "GetTPRTemp",
-                data: tpr_sch,
-                dataType: "json",
-                success: function (result) {
                     temp = result.TPRTemp;
-                    
-                }
-            });
-            $.ajax({
-                type: "Post",
-                url: "GetTPRBreath",
-                data: tpr_sch,
-                dataType: "json",
-                success: function (result) {
                     breath = result.TPRBreath;
-                    createChart()
+                    createChart();
                 }
             });
+
             $(document).bind("kendo:skinChange", createChart);
         })
 
@@ -1186,6 +1204,94 @@
             }],
             categoryAxis: {
                 categories: tpr_date,
+                axisCrossingValues: [0, 0, 0],
+                justified: true
+            },
+            tooltip: {
+                visible: true,
+                format: "{0}",
+                template: "#= series.name #: #= value #"
+            }
+        });
+    }
+
+    var today = new Date("2020-06-17");
+    var year = today.getFullYear();
+    var month = (today.getMonth()+1);
+    var day = today.getDate();
+   
+    tpr_sch_week = {
+        "PatientId":@Html.Raw(Json.Encode(ViewBag.search_id)),
+        "TPRStart":year + "-"+month+"-"+day,
+    }
+
+    var myDate = new Date("2020-06-17"); 
+    myDate.setDate(myDate.getDate() - 6); 
+    var dateArray = [];
+    var dateTemp;
+    var flag = 1;
+    for (var i = 0; i < 7; i++) { 
+        dateTemp = (myDate.getMonth() + 1) + "/" + myDate.getDate();
+        dateArray.push(dateTemp);
+        myDate.setDate(myDate.getDate() + flag);
+    }
+    $.ajax({
+        type: "Post",
+        url: "GetTPRDataWeek",
+        data: tpr_sch_week,
+        dataType: "json",
+        success: function (result) {
+            pulse_week = result.TPRPulse;
+            temp_week = result.TPRTemp;
+            breath_week = result.TPRBreath;
+            createChartweeks();
+        }
+    });
+    function createChartweeks(){
+        console.log(pulse_week)
+        console.log(temp_week)
+        console.log(breath_week)
+        $("#tpr_chart_week").kendoChart({
+            legend: {
+                position: "top"
+            },
+            series: [{
+                type: "line",
+                data: temp_week,
+                name: "體溫 [&deg;C]",
+                color: "#ff1c1c",
+                axis: "temp"
+            }, {
+                type: "line",
+                data: pulse_week,
+                name: "脈搏 [次]",
+                color: "#ffae00",
+                axis: "pulse"
+            }, {
+                type: "area",
+                data: breath_week,
+                name: "呼吸 [次]",
+                color: "#73c100",
+                axis: "breath"
+            }, ],
+            valueAxes: [{
+                name: "breath",
+                color: "#73c100",
+                min: 10,
+                max: 80
+            }, {
+                name: "pulse",
+                color: "#ffae00",
+                min: 40,
+                max: 180
+            }, {
+                name: "temp",
+                color: "#ff1c1c",
+                min: 35,
+                max: 42
+            }],
+            categoryAxis: {
+                categories: dateArray,
                 axisCrossingValues: [0, 0, 0],
                 justified: true
             },
