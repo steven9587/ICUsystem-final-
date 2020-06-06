@@ -1265,7 +1265,7 @@
             "TPRStart":year + "-"+month+"-"+day,
         }
 
-        var myDate = new Date("2020-06-17");
+        var myDate = new Date(getTodayDate());
         myDate.setDate(myDate.getDate() - 13);
         var dateArray = [];
         var dateTemp;
@@ -1402,16 +1402,17 @@
                 }
             });
         })
-        function getTodayDate() {
-            var fullDate = new Date();
-            var yyyy = fullDate.getFullYear();
-            var MM = (fullDate.getMonth() + 1) >= 10 ? (fullDate.getMonth() + 1) : ("0" + (fullDate.getMonth() + 1));
-            var dd = fullDate.getDate() < 10 ? ("0"+fullDate.getDate()) : fullDate.getDate();
-            var today = yyyy + "-" + MM + "-" + dd;
-            return today;
-        }
+      
 
     })
+    function getTodayDate() {
+        var fullDate = new Date();
+        var yyyy = fullDate.getFullYear();
+        var MM = (fullDate.getMonth() + 1) >= 10 ? (fullDate.getMonth() + 1) : ("0" + (fullDate.getMonth() + 1));
+        var dd = fullDate.getDate() < 10 ? ("0"+fullDate.getDate()) : fullDate.getDate();
+        var today = yyyy + "-" + MM + "-" + dd;
+        return today;
+    }
 </script>
 
 <!--I/O圖 CSS-->
