@@ -65,7 +65,7 @@ namespace HISMvcProject1.Controllers
         public ActionResult Search()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
-            ViewBag.username = TempData["UserName"];
+            ViewBag.username = TempData["usernamelogin"];
             return View();
         }
 
@@ -269,7 +269,7 @@ namespace HISMvcProject1.Controllers
         {
 
             var UserName = loginservice.UserLogin(login);
-            TempData["UserName"] = UserName;
+            TempData["usernamelogin"] = UserName;
             if (loginservice.UserLogin(login) != null)
             {
                 return this.Json(true);

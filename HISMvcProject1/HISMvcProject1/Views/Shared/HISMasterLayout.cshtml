@@ -17,20 +17,24 @@
 @section body
 {
     <style type="text/css">
-
     </style>
     <header>
         <div class="content-wrapper" style="background-color: #99b2db ; border-color:#99b2db;">
-            <div class="float-left">          
-                <p class="site-title">@Html.ActionLink("ICU NIS", "search", "Home")</p>
-            </div> 
-            
+            <div class="float-left">
+                <p class="site-title" id="icunis" style="cursor: pointer;">ICU NIS</p>
+            </div>
             <div class="float-right">
-                <a style="cursor: pointer;float:left;margin-left:10px;" class="navbar-brand" onclick="location.href = '/Home/Index'">Sign out</a>
+                <a style="cursor: pointer;float:left;margin-left:10px; text-decoration:none;" class="navbar-brand" onclick="location.href = '/Home/Index'">Sign out</a>
             </div>
-            <div class="float-right"style="margin-left:800px;margin-top:15px">
-                <p>User : @ViewBag.username</p>
+            <div class="float-right" style="margin-left:1px;">
+                <div style="float:left" >
+                    <img id="login_img" src="" width="50" height="50">
+                </div>
+                <div style="float:left; margin-top:12px;margin-left:5px;font-size:20px;font-family:DFKai-SB;">
+                    <p id="username">@ViewBag.username</p>
+                </div>
             </div>
+
         </div>
     </header>
     <br />
@@ -42,4 +46,47 @@
             @RenderBody();
         </section>
     </div>
+    <script>
+        var myValue = document.getElementById("username").textContent;
+        $(function () {
+
+            if (myValue == "家琦") {
+                document.getElementById("login_img").src = "https://i.ibb.co/t29DkvM/71360.jpg";
+            }
+            if (myValue == "昭勤") {
+                document.getElementById("login_img").src = "https://i.ibb.co/dMcWFHF/S-46653523.jpg";
+            }
+            if (myValue == "鴻勳") {
+                document.getElementById("login_img").src = "https://i.ibb.co/j5XMV7T/603317.jpg";
+            }
+            if (myValue == "士軒") {
+                document.getElementById("login_img").src = "https://imgur.com/D8y1Nl0.jpg";
+            }
+        })
+        $("#icunis").click(function () {
+            var change_data = {
+                "UserName": myValue
+            }
+            $.ajax({
+                type: "post",
+                url: "Getifo",
+                data: change_data,
+                success: function (response) {
+                    if (response == true) {
+                        window.location.href = "Search"
+                    }
+                }
+            });
+
+        })
+
+    </script>
+    <style>
+        #login_img {
+            border-radius: 50%;
+            max-height: 100%;
+            max-width: 100%;
+            object-fit:cover;
+        }
+    </style>
 }
