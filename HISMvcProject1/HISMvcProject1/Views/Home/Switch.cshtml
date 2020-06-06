@@ -971,10 +971,15 @@
                             if (response == true) {
                                 alert("資料已新增");
                                 var PatientId = patient_id_search
+                                var username = @Html.Raw(Json.Encode(ViewBag.username));
+                                var change_data = {
+                                    "PatientId": PatientId,
+                                    "UserName":username
+                                }
                                 $.ajax({
                                     type: "post",
                                     url: "Getifo",
-                                    data: { "PatientId": PatientId },
+                                    data: change_data,
                                     success: function (response) {
                                         if (response == true) {
                                             window.location.href = "Switch"
@@ -1014,10 +1019,15 @@
                             if (response == true) {
                                 alert("資料已修改");
                                 var PatientId = patient_id_search
+                                var username = @Html.Raw(Json.Encode(ViewBag.username));
+                                var change_data = {
+                                    "PatientId": PatientId,
+                                    "UserName":username
+                                }
                                 $.ajax({
                                     type: "post",
                                     url: "Getifo",
-                                    data: { "PatientId": PatientId },
+                                    data: change_data,
                                     success: function (response) {
                                         if (response == true) {
                                             window.location.href = "Switch"
@@ -1065,10 +1075,15 @@
                     if (response == true) {
                         alert("已刪除");
                         var PatientId = patient_id_search
+                        var username = @Html.Raw(Json.Encode(ViewBag.username));
+                        var change_data = {
+                            "PatientId": PatientId,
+                            "UserName":username
+                        }
                         $.ajax({
                             type: "post",
                             url: "Getifo",
-                            data: { "PatientId": PatientId },
+                            data: change_data,
                             success: function (response) {
                                 if (response == true) {
                                     window.location.href = "Switch"
@@ -1090,10 +1105,15 @@
         // 轉藥歷圖
         $("#btn_mhistory").click(function(){
             var PatientId = patient_id_search
+            var username = @Html.Raw(Json.Encode(ViewBag.username));
+            var change_data = {
+                "PatientId": PatientId,
+                "UserName":username
+            }
             $.ajax({
                 type: "post",
                 url: "Getifo",
-                data: { "PatientId": PatientId },
+                data: change_data,
                 success: function (response) {
                     if (response == true) {
                         window.location.href = "MHistory"
@@ -1113,15 +1133,7 @@
                 alert("超過字數限制(1000字)，多出的字將被移除！");
             }
         }
-        function WordsDealNote() {
-            debugger
-            var curLength = $("#PatinetNote").val().length;
-            if (curLength > 1000) {
-                var num = $("#PatinetNote").val().substr(0, 1000);
-                $("#PatinetNote").val(num);
-                alert("超過字數限制(1000字)，多出的字將被移除！");
-            }
-        }
+       
 
         //小人圖總io標籤
         $(document).ready(function () {
@@ -1149,7 +1161,6 @@
             $("#tpr_window").data("kendoWindow").center().open();
             $("#btn_tpr_search").click(function () {
                 //read datapicker
-                debugger;
                 tpr_start_date = kendo.toString($("#tpr_start_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
                 tpr_end_date = kendo.toString($("#tpr_end_datepicker").data("kendoDatePicker").value(), "yyyy-MM-dd");
                 tpr_sch = {
@@ -1357,11 +1368,10 @@
         $("#note_insert").click(function(){
             var insert={
                 "PatientId":patient_id_search,
-                "UserName":"test",
+                "UserName": @Html.Raw(Json.Encode(ViewBag.username)),
                 "NoteDate":getTodayDate(),
                 "Note":$("#patinetNote").val()
             }
-            console.log(insert)
             $.ajax({
                 type: "post",
                 url: "InsertNote",
@@ -1370,10 +1380,15 @@
                     if (response == true) {
                         alert("資料已新增");
                         var PatientId = patient_id_search
+                        var username = @Html.Raw(Json.Encode(ViewBag.username));
+                        var change_data = {
+                            "PatientId": PatientId,
+                            "UserName":username
+                        }
                         $.ajax({
                             type: "post",
                             url: "Getifo",
-                            data: { "PatientId": PatientId },
+                            data: change_data,
                             success: function (response) {
                                 if (response == true) {
                                     window.location.href = "Switch"

@@ -112,10 +112,16 @@
                 format: "yyyy-MM-dd"
             });
             $("#btn_med_back").click(function(){
+                var PatientId =patient_id_search;
+                var username = @Html.Raw(Json.Encode(ViewBag.username));
+                var change_data = {
+                    "PatientId": PatientId,
+                    "UserName":username
+                }
                 $.ajax({
                     type: "post",
                     url: "Getifo",
-                    data: { "PatientId": patient_id_search },
+                    data: change_data,
                     success: function (response) {
                         if (response == true) {
                             window.location.href = "Switch"
@@ -184,7 +190,6 @@
 
         // show checked node IDs on datasource change
         function onCheck(e) {
-            //console.log(this.text(e.node));
             var checkedNodes = [],
                 treeView = $("#m_treeview").data("kendoTreeView"),
                 message;
@@ -199,9 +204,7 @@
             }
         }
 
-        debugger
         $("#btn_med_search").click(function () {
-            console.log(medclassid)
             if (medclassid[0] == 0) {
                 alert("Please check at least one medicine!")
             }else{

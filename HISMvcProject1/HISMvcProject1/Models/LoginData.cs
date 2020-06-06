@@ -21,7 +21,7 @@ namespace HISMvcProject1.Models
         /// </summary>
         [Required(ErrorMessage = "Please enter your Username.")]
         [DisplayName("使用者帳號")]
-        public string Username { get; set; }
+        public string UserAccount { get; set; }
 
         /// <summary>
         /// 使用者密碼
@@ -30,7 +30,14 @@ namespace HISMvcProject1.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-
+        /// <summary>
+        /// 使用者帳號
+        /// </summary>
+        [Required(ErrorMessage = "Please enter your Username.")]
+        [DisplayName("使用者名稱")]
+        public string UserName { get; set; }
+        [DisplayName("病人編號")]
+        public string PatientId { get; set; }
     }
 
 

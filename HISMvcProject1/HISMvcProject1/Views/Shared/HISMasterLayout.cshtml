@@ -22,14 +22,14 @@
     <header>
         <div class="content-wrapper" style="background-color: #99b2db ; border-color:#99b2db;">
             <div class="float-left">          
-                <p class="site-title">@Html.ActionLink("ICU NIS", "search", "Home")</p>     
-            </div>
+                <p class="site-title">@Html.ActionLink("ICU NIS", "search", "Home")</p>
+            </div> 
+            
             <div class="float-right">
+                <a style="cursor: pointer;float:left;margin-left:10px;" class="navbar-brand" onclick="location.href = '/Home/Index'">Sign out</a>
             </div>
-            <div class="float-right">
-                <nav>
-
-                </nav>
+            <div class="float-right"style="margin-left:800px;margin-top:15px">
+                <p>User : @ViewBag.username</p>
             </div>
         </div>
     </header>

@@ -65,14 +65,16 @@ namespace HISMvcProject1.Controllers
         public ActionResult Search()
         {
             ViewBag.Message = "Welcome to ASP.NET MVC!";
+            ViewBag.username = TempData["UserName"];
             return View();
         }
 
 
         public ActionResult Switch()
         {
-            //var search_id = TempData["id"] as string;
-            var search_id = "406570123";
+            var search_id = TempData["id"] as string;
+            //var search_id = "406570123";
+            ViewBag.username = TempData["usernamelogin"];
             ViewBag.location_x = tubeservice.GetTubeLocationX(search_id);
             ViewBag.location_y = tubeservice.GetTubeLocationY(search_id);
             ViewBag.tube_caliber = tubeservice.GetTubeCaliber(search_id);
@@ -87,6 +89,7 @@ namespace HISMvcProject1.Controllers
         {
             var search_id = TempData["id"] as string;
             ViewBag.search_id = search_id;
+            ViewBag.username = TempData["usernamelogin"];
             return View("MHistory");
 
         }
@@ -97,10 +100,11 @@ namespace HISMvcProject1.Controllers
         /// <param name="PatientId"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Getifo(String PatientId)
+        public ActionResult Getifo(Models.LoginData data)
         {
-            patientId = PatientId;
-            TempData["id"] = patientId;
+            
+            TempData["id"] = data.PatientId;
+            TempData["usernamelogin"] = data.UserName;
             return this.Json(true);
         }
 
@@ -264,8 +268,9 @@ namespace HISMvcProject1.Controllers
         public JsonResult UserLogin(Models.LoginData login)
         {
 
-            loginservice.UserLogin(login);
-            if (loginservice.UserLogin(login) != 0)
+            var UserName = loginservice.UserLogin(login);
+            TempData["UserName"] = UserName;
+            if (loginservice.UserLogin(login) != null)
             {
                 return this.Json(true);
             }

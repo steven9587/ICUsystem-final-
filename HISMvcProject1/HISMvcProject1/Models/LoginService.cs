@@ -10,6 +10,7 @@ namespace HISMvcProject1.Models
 {
     public class LoginService
     {
+        string result;
         /// <summary>
         /// 取得DB連線字串
         /// </summary>
@@ -18,49 +19,38 @@ namespace HISMvcProject1.Models
         {
             return System.Configuration.ConfigurationManager.ConnectionStrings["DBConn"].ConnectionString.ToString();
         }
-
+        
         /// <summary>
         /// UserLogin
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        public int UserLogin(Models.LoginData login) 
+        public String UserLogin(Models.LoginData data)
         {
-            string sql = @"SELECT USER_ID, USER_NAME, USER_PASSWORD 
+            
+            DataTable dt = new DataTable();
+            string sql = @" SELECT USER_ID, USER_ACCOUNT, USER_PASSWORD,USER_NAME as UserName
                            FROM USER_LOGIN
-                           WHERE USER_NAME=@Username AND 
-                                 User_Password=@Password;";
-
-            int UserID;
+                           WHERE USER_ACCOUNT = @UserAccount AND
+                                   User_Password = @Password;";
             using (SqlConnection conn = new SqlConnection(this.GetDBConnectionString()))
             {
                 conn.Open();
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add(new SqlParameter("@Username", login.Username));
-                cmd.Parameters.Add(new SqlParameter("@Password", login.Password));
-                SqlTransaction Tran = conn.BeginTransaction();
-                cmd.Transaction = Tran;
-                
-                try
-                {
-                    UserID = Convert.ToInt32(cmd.ExecuteScalar());
-                    if (UserID != 0)
-                    {
-                        Tran.Commit();
-                    }
-                }
-                catch (Exception)
-                {
-                    Tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    conn.Close();
-                }
+                cmd.Parameters.Add(new SqlParameter("@UserAccount", data.UserAccount));
+                cmd.Parameters.Add(new SqlParameter("@Password", data.Password));
+                SqlDataAdapter sqlAdapter = new SqlDataAdapter(cmd);
+                sqlAdapter.Fill(dt);
+                conn.Close();
+            }
+
+            
+            foreach (DataRow row in dt.Rows)
+            {
+                result = (row["UserName"].ToString());
 
             }
-            return UserID;
+            return result;
         }
     }
 }
